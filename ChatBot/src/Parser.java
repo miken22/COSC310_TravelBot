@@ -2,7 +2,7 @@ import java.util.*;
 
 public final class Parser {
     private static final int MAX_SUPPORTED_MESSAGE_SIZE = 500;
-
+    
     public static ParsedInput parseUserMessage(String userMessage) {
         ParsedInput parsedInput = new ParsedInput();
 
@@ -14,10 +14,6 @@ public final class Parser {
             parsedInput.type = ParsedInputType.TooLong;
         } else if (userMsgLower.compareTo("stats") == 0) {
             parsedInput.type = ParsedInputType.Debug_ShowStats;
-        } else if (userMsgLower.compareTo("reset") == 0) {
-            parsedInput.type = ParsedInputType.Debug_Reset;
-        } else if (userMsgLower.compareTo("debugon") == 0) {
-            parsedInput.type = ParsedInputType.Debug_Enable;
         } else {
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);

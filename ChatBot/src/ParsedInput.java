@@ -41,7 +41,6 @@ public final class ParsedInput {
             FuzzySubstringResults result = FuzzyMatching.Substring(userInputPadded, phrasePadded);
 
             if (result.levenshteinDistance <= allowedDistance) { // Input contains a close-enough recognized phrase
-                IORW.debug("DEBUG -- a match found with: " + phrase);
                 matches.add(phrase);
             }
         }
@@ -80,7 +79,6 @@ public final class ParsedInput {
         }
 
         if (bestSimilarity > 0) {
-            IORW.debug("DEBUG -- match found with: " + bestPhrase);
             return bestPhrase;
         } else {
             return bestPhrase;

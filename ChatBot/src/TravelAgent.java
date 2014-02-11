@@ -14,10 +14,6 @@ public class TravelAgent {
         return responseMaker;
     }
 
-    public void resetState() {
-        // TODO reset state, delete memory etc
-    }
-
     public String getResponse(ParsedInput parsedInput) {
         String response = "";
 
@@ -122,16 +118,6 @@ public class TravelAgent {
             case None:
             default:
                 response = "...";
-                break;
-
-            case Debug_Enable:
-                response = "Debug enabled.";
-                IORW.debugOn = true;
-                break;
-
-            case Debug_Reset:
-                resetState();
-                response = "State reset.";
                 break;
 
             case Debug_ShowStats:

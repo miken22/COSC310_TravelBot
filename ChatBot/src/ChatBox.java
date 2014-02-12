@@ -31,8 +31,11 @@ public class ChatBox{
 	private JMenuItem exit;
 	
 	private ChatAgent chat;
+	private static String[] args;
 	
-	public ChatBox(){
+	public ChatBox(String[] args){
+		
+		this.args = args;
 		
 		chat = new ChatAgent();
 		
@@ -127,7 +130,7 @@ public class ChatBox{
 		public void actionPerformed(ActionEvent e) {				
 			if(id==1){
 				frame.dispose();
-				new ChatBox();
+				new ChatBox(args);
 			} else if(id==2){
 				System.exit(0);
 			}
@@ -155,7 +158,7 @@ public class ChatBox{
 //			}
 			
 			// Testing for StanfordNLP methods
-			mt = new MaxentTagger(MaxentTagger.BASE_TAGGER_HOME);
+			mt = new MaxentTagger(args[0]);
 			in = input.getText();
 			tagged = mt.tagString(in);
 			convo.setText(tagged);
@@ -164,6 +167,6 @@ public class ChatBox{
 		}
 	}
 	public static void main(String[] args){
-		new ChatBox();
+		new ChatBox(args);
 	}	
 }

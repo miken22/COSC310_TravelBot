@@ -14,7 +14,15 @@ public final class ParsedInput {
     public String setField(String fieldName, String value) {
         return inputs.put(fieldName, value);
     }
-
+    
+    public String getField(String fieldName){
+    	try{
+    		return inputs.get(fieldName);
+    	} catch (NullPointerException e){
+    		return null;
+    	}
+    }
+    
     private int getAllowedDistance(String source, String match) {
         int smallerLength = Math.min(source.length(), match.length());
         return (int) Math.round(FUZZY_ERROR_RATE * (double) smallerLength);

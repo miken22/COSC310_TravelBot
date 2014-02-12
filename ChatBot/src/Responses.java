@@ -3,7 +3,7 @@ import java.util.*;
 public final class Responses {
     private static java.util.Random rand = new java.util.Random();
 
-    public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help?", "Hi, how can I help?", "Hello. Can I help you plan a trip?", "Hey", "Greetings", "Welcome to our travel center. How can I help?");
+    public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help?", "Hi, how can I help?", "Hello. Can I help you plan a trip?", "Hey there, I'm TravelBot!", "Greetings, welcome to my Travel Agency.", "Welcome to our travel center. How can I help?", "Hi there, how can I help you this <TimeOfDay>.");
 
     public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "Farewell", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by.");
 
@@ -45,6 +45,8 @@ public final class Responses {
 
     public static List<String> youreWelcome = Arrays.asList("No problem.", "You're welcome.", "Of course, anytime.", "My pleasure.");
 
+    public static List<String> unknownLocation = Arrays.asList("Sorry, you need to tell me where you'd like to go!", "Sorry, I can't answer that unless you tell me where you want to go.", "Sorry, where would you like to go?");
+    
     public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);
     }

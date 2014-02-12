@@ -9,9 +9,24 @@ public class TravelAgent {
     public HashMap<String, String> savedInputs = new HashMap<>();
     private boolean userHasGreeted = false;
     private boolean userHasSaidFarewell = false;
+    
+    private String botName = "Travel Bot";
+    private String user = "User";
+        
+    // Gets user input and sends it to the parser.
+    public String buildResponse(String input) {
+        
+    	String message = getResponse(Parser.parseUserMessage(input));
 
-    public ResponseMaker getResponseMaker() {
-        return responseMaker;
+        // Write out our response with header & footer
+        String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
+    
+        return response;
+
+    }
+    
+    public String getGreeting(){
+    	return greeting();
     }
 
     public String getResponse(ParsedInput parsedInput) {
@@ -37,7 +52,7 @@ public class TravelAgent {
                 break;
 
             case Greeting:
-                response = greeting(parsedInput);
+                response = getGreeting();
                 break;
 
             case Food:
@@ -142,12 +157,11 @@ public class TravelAgent {
         return stats;
     }
 
-    private String greeting(ParsedInput parsedInput) {
+    private String greeting() {
         if (userHasGreeted) {
             return responseMaker.getGreetingRepeat();
         } else {
-            userHasGreeted = true;
-            return responseMaker.getGreeting(savedInputs.get("username"));
+            return responseMaker.getGreeting();
         }
     }
 

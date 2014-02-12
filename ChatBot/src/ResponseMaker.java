@@ -4,16 +4,8 @@ public final class ResponseMaker {
     List<Location> locationSet = new ArrayList<>();
     Location l;
 
-    public ResponseMaker() {
-    }
-
-    public String getGreeting(String username) {
-        if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(Responses.getRandomResponse(Responses.greetings));
-
-        } else {
-            return substituteParameters(Responses.getRandomResponse(Responses.greetings)) + " " + username;
-        }
+    public String getGreeting() {
+    	return substituteParameters(Responses.getRandomResponse(Responses.greetings));
     }
 
     public String getGreetingRepeat() {
@@ -190,12 +182,11 @@ public final class ResponseMaker {
 
     public String getTimeOfDay() {
         Calendar now = Calendar.getInstance();
-
         if ((now.get(Calendar.HOUR_OF_DAY) <= 5) || (now.get(Calendar.HOUR_OF_DAY) > 22)) {
             return "night";     // 10pm - 5am
-        } else if ((now.get(Calendar.HOUR_OF_DAY) >= 5) || (now.get(Calendar.HOUR_OF_DAY) < 12)) {
+        } else if ((now.get(Calendar.HOUR_OF_DAY) >= 5) && (now.get(Calendar.HOUR_OF_DAY) < 12)) {
             return "morning";   // 5am  - 12pm
-        } else if ((now.get(Calendar.HOUR_OF_DAY) >= 12) || (now.get(Calendar.HOUR_OF_DAY) < 17)) {
+        } else if ((now.get(Calendar.HOUR_OF_DAY) >= 12) && (now.get(Calendar.HOUR_OF_DAY) < 17)) {
             return "afternoon"; // 12pm - 5pm
         } else { //if ((now.get(Calendar.HOUR_OF_DAY) >= 17) || (now.get(Calendar.HOUR_OF_DAY) < 22)) {
             return "evening";   // 5pm  - 10pm

@@ -33,3 +33,17 @@ After it has been downloaded do the following:
 2. Type: java -jar ChatBot.jar
 
 ========================================================================================================
+Assignment 3 Additions
+
+Continuing with the work started by the group in assignment 2 (above), the program will begin to be improved by including a simple GUI and increasing the parsers ability by using the OpenNLP parsers (http://opennlp.apache.org/) . This will also allow for better handling of misspelled words, especially proper nouns that are not explicitly defined in the ParserDictionary class. This will allow the agent to handle conversations more dynamically, creating responses based on user input even when the agent has no knowledge of what the user has said.
+
+========================================================================================================
+To Do:
+
+Improve GUI
+Incorporate OpenNLP for more dynamic conversations
+Level 0 DFD of system
+Level 1 DFD of system
+Explanations of features added
+30 turn sample dialogue
+Video explaining project work so far.

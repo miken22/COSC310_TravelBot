@@ -5,6 +5,8 @@ import javax.swing.plaf.basic.BasicBorders;
 
 /**
  * This class will create the GUI for the chat agent
+ * and will send and recieve the I/O for the
+ * conversation to the necessary classes.
  * 
  * @author Mike-Laptop
  *
@@ -157,7 +159,7 @@ public class ChatBox{
 		}
 	}
 	public static void main(String[] args){
-		new Parser(); // Initialize Stanford NLP parser
+		new Parser(); // Initialize OpenNLP parser
 		new ChatBox();
 	}	
 }

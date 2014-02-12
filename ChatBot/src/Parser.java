@@ -1,19 +1,21 @@
+import java.io.IOException;
 import java.util.*;
 
-import edu.stanford.nlp.ie.AbstractSequenceClassifier;
-import edu.stanford.nlp.ie.crf.CRFClassifier;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import opennlp.tools.util.InvalidFormatException;
 
 public final class Parser {
     private static final int MAX_SUPPORTED_MESSAGE_SIZE = 500;
-    private static MaxentTagger tagger;
-    private static AbstractSequenceClassifier<CoreLabel> classifier;
-    private static final String serializedClassifier = "classifiers/english.all.3class.distsim.crf.ser.gz";
+    
+    private openNLPparser parser;
     
     public Parser(){
-    	tagger = new MaxentTagger("taggers/english-left3words-distsim.tagger");
-    	classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
+    	 try {
+			parser = new openNLPparser();
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     // TODO: Add methods making use of StanfordNLP
@@ -23,9 +25,7 @@ public final class Parser {
         
         String userMsgLower = userMessage.toLowerCase().trim();
         
-        String parsedTokens = tagger.tagString(userMessage);
-        System.out.println(parsedTokens);
-        System.out.println(classifier.classify(userMessage));
+        
         
         if (userMsgLower.compareTo("exit") == 0) System.exit(0);
         if (userMsgLower.isEmpty()) {

@@ -3,7 +3,7 @@ import java.util.*;
 public class TravelAgent {
     private ResponseMaker responseMaker = new ResponseMaker();
     private Location l;
-
+    
     // Agent state
     private ArrayList<ParsedInput> previousInputs = new ArrayList<>();
     public HashMap<String, String> savedInputs = new HashMap<>();
@@ -11,7 +11,6 @@ public class TravelAgent {
     private boolean userHasSaidFarewell = false;
     
     private String botName = "Travel Bot";
-    private String user = "User";
         
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
@@ -22,7 +21,7 @@ public class TravelAgent {
         String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
     
         return response;
-
+    	
     }
     
     public String getGreeting(){
@@ -46,6 +45,11 @@ public class TravelAgent {
                 response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
                 l = new Location(savedInputs.get("destination"));
                 break;
+            
+            // If OpenNLP parser flags location not known to the agent this will handle to right response.
+            case BadDestination:
+            	response = responseMaker.getBadLocations(savedInputs.get("bad destination"));
+            	break;
 
             case TooLong:
                 response = "Sorry, your message is too long. I don't have time to read that.";
@@ -158,10 +162,11 @@ public class TravelAgent {
     }
 
     private String greeting() {
+    	
         if (userHasGreeted) {
             return responseMaker.getGreetingRepeat();
         } else {
-            return responseMaker.getGreeting();
+            return responseMaker.getGreeting(savedInputs.get("username"));
         }
     }
 

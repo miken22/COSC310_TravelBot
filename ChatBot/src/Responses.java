@@ -5,7 +5,7 @@ public final class Responses {
 
     public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help?", "Hi, how can I help?", "Hello. Can I help you plan a trip?", "Hey there, I'm TravelBot!", "Greetings, welcome to my Travel Agency.", "Welcome to our travel center. How can I help?", "Hi there, how can I help you this <TimeOfDay>.");
 
-    public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "Farewell", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by.");
+    public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "Farewell", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by");
 
     public static List<String> sorrybusys = Arrays.asList("I've moved on to helping someone else.", "Sorry, I'm busy now.", "I'm busy, try again later");
 
@@ -45,7 +45,7 @@ public final class Responses {
 
     public static List<String> youreWelcome = Arrays.asList("No problem.", "You're welcome.", "Of course, anytime.", "My pleasure.");
 
-    public static List<String> unknownLocation = Arrays.asList("Sorry, you need to tell me where you'd like to go!", "Sorry, I can't answer that unless you tell me where you want to go.", "Sorry, where would you like to go?");
+    public static List<String> badDestination = Arrays.asList("Sorry, I don't know how to get to <Dest>", "Sorry, I do not think that we arrange trips to <Dest>.", "Sorry, <Dest> is not a place we travel go to.", "Our guide stopped going to <Dest> a while ago, sorry.");
     
     public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);

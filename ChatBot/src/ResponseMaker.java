@@ -4,8 +4,12 @@ public final class ResponseMaker {
     List<Location> locationSet = new ArrayList<>();
     Location l;
 
-    public String getGreeting() {
-    	return substituteParameters(Responses.getRandomResponse(Responses.greetings));
+    public String getGreeting(String username) {
+    	if (StringUtils.isNullOrEmpty(username)) {
+            return substituteParameters(Responses.getRandomResponse(Responses.greetings));
+        } else {
+            return substituteParameters(Responses.getRandomResponse(Responses.greetings)) + " " + username + ".";
+        }
     }
 
     public String getGreetingRepeat() {
@@ -16,8 +20,12 @@ public final class ResponseMaker {
         if (StringUtils.isNullOrEmpty(username)) {
             return substituteParameters(Responses.getRandomResponse(Responses.farewells));
         } else {
-            return substituteParameters(Responses.getRandomResponse(Responses.farewells)) + " " + username;
+            return substituteParameters(Responses.getRandomResponse(Responses.farewells)) + " " + username + ".";
         }
+    }
+    
+    public String getBadLocations(String location){
+    	return Responses.getRandomResponse(Responses.badDestination, "<Dest>", location);
     }
 
     public String getImBack() {
@@ -43,7 +51,7 @@ public final class ResponseMaker {
     }
 
     public String getAround(String location) {
-        return Responses.getRandomResponse(Responses.transport, "Dest", location);
+        return Responses.getRandomResponse(Responses.transport, "<Dest>", location);
     }
 
     public String getTravelMethod(String travelMethod, String location) {

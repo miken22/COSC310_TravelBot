@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
+
+import opennlp.tools.util.InvalidFormatException;
 
 /**
  * This class will create the GUI for the chat agent
@@ -150,7 +154,7 @@ public class ChatBox{
 				conversation = convo.getText();
 				input.setText("");
 				convo.setText(conversation + "\n\r" + "User: " + in);	// Prints user message
-				out = agent.buildResponse(in);	// Use user input to determine response to display.
+				out = agent.buildResponse(in);	// Use user input to determine response to display
 				conversation = convo.getText();							
 				convo.setText(conversation + out);						
 			}
@@ -159,7 +163,14 @@ public class ChatBox{
 		}
 	}
 	public static void main(String[] args){
-		new Parser(); // Initialize OpenNLP parser
+		// Initialize parser for conversation
+		try {
+			new Parser();
+		} catch (InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		new ChatBox();
 	}	
 }

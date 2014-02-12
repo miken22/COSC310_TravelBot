@@ -40,10 +40,10 @@ Continuing with the work started by the group in assignment 2 (above), the progr
 ========================================================================================================
 To Do:
 
-Improve GUI
-Incorporate OpenNLP for more dynamic conversations
-Level 0 DFD of system
-Level 1 DFD of system
-Explanations of features added
-30 turn sample dialogue
-Video explaining project work so far.
+- Improve GUI
+- Incorporate OpenNLP for more dynamic conversations
+- Level 0 DFD of system
+- Level 1 DFD of system
+- Explanations of features added
+- 30 turn sample dialogue
+- Video explaining project work so far.

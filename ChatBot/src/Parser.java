@@ -38,16 +38,13 @@ public final class Parser {
 		trainLF();
 		// Add currency finder;
 	}
-      
-    // TODO: Add methods making use of OpenNLP parser
-       
+    
     public static ParsedInput parseUserMessage(String userMessage) {
         ParsedInput parsedInput = new ParsedInput();
         
         String userMsgLower = userMessage.toLowerCase().trim();
         
-        // OpenNLP tokenization of sentence. To catch pos and
-        // named entities that have not been explicitly coded
+        // OpenNLP tokenization of sentence. To catch pos and named entities that have not been explicitly coded
         // in the parser dictionary.
         tokens = t.tokenize(userMessage);
         String[] taggedString = tagger.tag(tokens);
@@ -59,7 +56,7 @@ public final class Parser {
         	System.out.print(taggedString[i] + " ");
         	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")){
         		tokens[i] = StringUtils.toTitleCase(tokens[i]);
-        		System.out.println(tokens[i]);
+        		System.out.println(tokens[i]); // to see what is happening
         	}
         }
         
@@ -84,7 +81,11 @@ public final class Parser {
             if(!org.isEmpty()){
             	parsedInput.setField("organization",org);
             }
-
+            
+            // Sometimes lower cased locations with potential other English meanings
+            // will not get tagged. IE "cuba" is a modal verb, is very hard to find a non-hard coded
+            // solution to always catch instances of cuba that imply it is the destination.
+            
             // In order, check for
             parseGreetingOrFarewell(parsedInput);
             parsePleaseComeBack(parsedInput);
@@ -103,6 +104,14 @@ public final class Parser {
         return parsedInput;
     }
 
+    public static String getUserMessage(){
+    	StringBuilder sb = new StringBuilder();
+    	for(String s:tokens){
+    		sb.append(s);
+    	}
+    	return sb.toString();
+    }
+    
     private static void parseGreetingOrFarewell(ParsedInput parsedInput) {
         // Check for greetings and farewells
         if (parsedInput.containsAnyPhrase(ParserDictionary.greet)) {
@@ -202,8 +211,12 @@ public final class Parser {
     private static void parseBudget(ParsedInput parsedInput) {
         if (parsedInput.containsAnyPhrase(ParserDictionary.budget)) {
             parsedInput.type = ParsedInputType.Budget;
+            try{
             String budget = parsedInput.tokenCollection.getNumbers().get(0);
             parsedInput.setField("budget", budget);
+            } catch(IndexOutOfBoundsException e){
+            	parsedInput.type = ParsedInputType.NotEnoughInfo;
+            }
         }
     }
 

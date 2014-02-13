@@ -20,34 +20,27 @@ public class ChatBox{
 	// Main frame components
 	private JFrame frame;
 	private Container c;
-	private JScrollPane scroll;
+	private JScrollPane scroll1;
+	private JScrollPane scroll2;
 	private JTextArea convo;
 	private JTextArea input;
 
 	private JButton send;
+	private JButton clear;
 	
-	// Menu items
-	private JMenuBar menuPanel;
-	private JMenu file;
-//	private JMenu settings;
-	private JMenuItem newChat;
-	private JMenuItem exit;
-
 	private TravelAgent agent;
 	
 	public ChatBox(){
 		
 		convo = new JTextArea();
 		input = new JTextArea();
-		scroll = new JScrollPane(convo);
-		
-		menuPanel = new JMenuBar();
-		file = new JMenu("File");
-		newChat = new JMenuItem("New Chat");
-		exit = new JMenuItem("Exit");
-		
+		scroll1 = new JScrollPane(convo);
+		scroll2 = new JScrollPane(input);
+			
 		send = new JButton("Send");
+		clear = new JButton("Clear");
 		send.addActionListener(new ButtonListener());
+		clear.addActionListener(new ButtonListener());
 		
 		input.addKeyListener(new TextListener());
 		
@@ -59,36 +52,33 @@ public class ChatBox{
 		agent = new TravelAgent();
 		
 		frame = new JFrame("TravelBot Chat Agency");
-		frame.setPreferredSize(new Dimension(700,520));
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
-		frame.setSize(760, 550);
+		frame.setSize(550, 450);
 		c = frame.getContentPane();
 		
 		convo.setEditable(false);
 		convo.setLineWrap(true);
 		convo.setBorder(BasicBorders.getTextFieldBorder());
-		convo.setBounds(2,2,frame.getWidth()-23,400);
-		scroll.setBounds(2,2,frame.getWidth()-23,400);
-		scroll.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
-		c.add(scroll);
+		convo.setBounds(2,2,frame.getWidth()-23,300);
+		scroll1.setBounds(2,2,frame.getWidth()-23,300);
+		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
+		c.add(scroll1);
 		
 		input.setLineWrap(true);
 		input.setBorder(BasicBorders.getTextFieldBorder());	
-		input.setBounds(4, 405, frame.getWidth()-115, 80);
-		c.add(input);
+		input.setBounds(4, 305, frame.getWidth()-115, 80);
+		scroll2.setBounds(4, 305, frame.getWidth()-115, 95);
+		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Talk to TravelBot:"));
+		c.add(scroll2);
 		
-		send.setBounds(frame.getWidth()-105,405,80,80);
+		send.setBounds(frame.getWidth()-105,312,80,40);
+		clear.setBounds(frame.getWidth()-105,355,80,40);
 		c.add(send);
+		c.add(clear);
 		
-		file.add(newChat);
-		file.add(exit);	
-		menuPanel.add(file);
-		frame.setJMenuBar(menuPanel);
-		newChat.addActionListener(new MenuListener(1));
-		exit.addActionListener(new MenuListener(2));
 		frame.repaint();
 		convo.setText("TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google" + "\r\n\r\n" +
 		 "Travel Bot: " + agent.getGreeting()+ "\r\n");
@@ -119,24 +109,6 @@ public class ChatBox{
 		}
 		
 	}
-
-	// Performs different actions based on which menu item is clicked
-	private class MenuListener implements ActionListener{
-		private int id;
-		public MenuListener(int a){
-			this.id = a;
-		}
-			
-		@Override
-		public void actionPerformed(ActionEvent e) {				
-			if(id==1){
-				frame.dispose();
-				buildFrame();
-			} else if(id==2){
-				System.exit(0);
-			}
-		}
-	}
 	
 	public class ButtonListener implements ActionListener{
 		String in = "";
@@ -158,6 +130,11 @@ public class ChatBox{
 				conversation = convo.getText();							
 				convo.setText(conversation + out);						
 			}	
+			
+			if(e.getSource() == clear){
+				input.setText("");
+			}
+			
 		}
 	}
 	

@@ -31,6 +31,10 @@ public final class ResponseMaker {
     public String getImBack() {
         return "Okay, I'm back. What can I help with?";
     }
+    
+    public String getMissingInfo(String userinput){
+    	return Responses.getRandomResponse(Responses.notEnoughInfo,"<userinput>",userinput);
+    }
 
     public String getYoureWelcome() {
         return Responses.getRandomResponse(Responses.youreWelcome);

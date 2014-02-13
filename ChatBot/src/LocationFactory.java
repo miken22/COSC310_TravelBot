@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+@SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {
         setWeather(loc);
@@ -33,12 +34,18 @@ public class LocationFactory {
     }
 
     private static boolean setDistance(Location loc) {
-		/*
+		String url = "";
+    	/*
 		 * Base URL for distance query. Takes an origin and destination parameter to constructing the String 'url'.
 		 * URLEncoder is used to deal with spaces and such.
 		 */
-        String url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=" + URLEncoder.encode(loc.origin) + "&destinations=" + URLEncoder.encode(loc.destination) + "&mode=driving&sensor=false&language=en-EN";
-		
+    	try{
+    	System.out.println("dest " + loc.destination);
+    	System.out.println("origin: " + loc.origin);
+        url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=" + URLEncoder.encode(loc.origin) + "&destinations=" + URLEncoder.encode(loc.destination) + "&mode=driving&sensor=false&language=en-EN";
+    	} catch (NullPointerException e){
+    		return false;
+    	}
 		/*
 		 *  We call the openStream() method from the URL class, and read the input line by line with the Scanner class.
 		 *  On error return 0
@@ -49,16 +56,18 @@ public class LocationFactory {
             while (scan.hasNext()) {
                 str += scan.nextLine() + "\n";
             }
+            scan.close();
 		 /*
 		  *  org.Json library. A JSON object is created from the above String.
 		  *  
 		  *  Example of the JSON object return can be seen by navigating to the following URL.
 		  *  http://maps.googleapis.com/maps/api/distancematrix/json?origins=Kelowna%2C+BC&destinations=Vernon%2C+BC&mode=driving&sensor=false&language=en-EN
 		  */
+           
             JSONObject json = new JSONObject(str);
             if (json.getString("status").equalsIgnoreCase("ok")) {
                 if (json.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getString("status").equalsIgnoreCase("ZERO_RESULTS")) {
-                    return false;
+                	return false;
                 }
                 JSONObject j1 = json.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0);
                 JSONObject distance = j1.getJSONObject("distance");
@@ -71,8 +80,9 @@ public class LocationFactory {
             }
         } catch (MalformedURLException e) {
         } catch (IOException e) {
-            return false;
+        	return false;
         }
+        
         return false;
     }
 
@@ -88,7 +98,7 @@ public class LocationFactory {
 		 * Construct URL from paramters, open the stream, read it, and create a JSON object from it.
 		 */
         if (loc.destination == null) return false;
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(loc.destination);
+		String url = "http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(loc.destination);
 
         try {
             Scanner scan = new Scanner(new URL(url).openStream());
@@ -96,6 +106,7 @@ public class LocationFactory {
             while (scan.hasNext()) {
                 str += scan.nextLine() + "\n";
             }
+            scan.close();
 		 /* Navigate JSON to find temperature and description.
 		  * 
 		  * Sample URL
@@ -120,13 +131,14 @@ public class LocationFactory {
 
     private static double[] geocode(String s) throws IOException {
         String geocodeUrl = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-        geocodeUrl += URLEncoder.encode(s) + "&sensor=true";
+        geocodeUrl += URLEncoder.encode(s,s) + "&sensor=true";
         Scanner scan = new Scanner(new URL(geocodeUrl).openStream());
         String str = new String();
         while (scan.hasNext()) {
             str += scan.nextLine() + "\n";
 
         }
+        scan.close();
         JSONObject jsonObject = new JSONObject(str);
         if (jsonObject.getString("status").equals("OK")) {
             //geocode address.
@@ -142,7 +154,7 @@ public class LocationFactory {
     }
 
     public static boolean getPlaces(Location loc, String keyword) {
-        ArrayList toReturn = new ArrayList();
+        ArrayList<String> toReturn = new ArrayList<>();
 
         try {
             double[] geo = geocode(loc.destination);
@@ -155,6 +167,7 @@ public class LocationFactory {
                 str += scan.nextLine() + "\n";
 
             }
+            scan.close();
             JSONObject json = new JSONObject(str);
             if (json.getString("status").equalsIgnoreCase("ok")) {
                 JSONArray j = json.getJSONArray("results");
@@ -170,6 +183,8 @@ public class LocationFactory {
             }
         } catch (IOException e) {
             return false;
+        } catch (NullPointerException e){
+        	return false;
         }
         return false;
     }

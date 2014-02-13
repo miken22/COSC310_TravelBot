@@ -20,16 +20,17 @@ public class Location {
         this.destination = destination;
         lf.build(this);
     }
-
+    @SuppressWarnings("static-access")
     public String estimateTravelCost() {
         return "Driving to " + this.destination + ", from " + this.origin + " would cost approximately $" + lf.round(this.distanceFromOrigin / 2.02, 2);
     }
-
+    @SuppressWarnings("static-access")
     public String estimateFlightCost() {
         return "Flying to " + this.destination + ", from " + this.origin + " would cost approximately $" + lf.round(this.distanceFromOrigin / 2.02, 2);
     }
 
-    public String getPlaces(String keyword) {
+    @SuppressWarnings("static-access")
+	public String getPlaces(String keyword) {
         if (!places.containsKey(keyword)) {
             if (!lf.getPlaces(this, keyword))
                 return null;

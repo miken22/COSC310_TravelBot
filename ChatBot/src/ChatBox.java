@@ -157,11 +157,10 @@ public class ChatBox{
 				out = agent.buildResponse(in);	// Use user input to determine response to display
 				conversation = convo.getText();							
 				convo.setText(conversation + out);						
-			}
-			
-			
+			}	
 		}
 	}
+	
 	public static void main(String[] args){
 		// Initialize parser for conversation
 		try {

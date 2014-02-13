@@ -43,7 +43,7 @@ public class TravelAgent {
 
             case SetDestination:
                 response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
-                l = new Location(savedInputs.get("destination"));
+//                l = new Location(savedInputs.get("destination"));
                 break;
             
             // If OpenNLP parser flags location not known to the agent this will handle to right response.

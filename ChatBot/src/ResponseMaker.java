@@ -94,7 +94,7 @@ public final class ResponseMaker {
     public String getLocalFood() {
         String response = Responses.getRandomResponse(Responses.searching) + "\n";
 
-        if (l.getPlaces("food") == null) {
+        if (l.getPlaces("food").isEmpty()) {
             response += Responses.getRandomResponse(Responses.noRestaurants);
         } else {
             response += l.getPlaces("food") + ".";
@@ -115,7 +115,6 @@ public final class ResponseMaker {
         } else {
             destination = city + ", " + location;
         }
-        l = new Location(destination);
         return Responses.getRandomResponse(Responses.niceDest, "<Dest>", destination);
     }
 

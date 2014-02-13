@@ -32,14 +32,13 @@ public final class Parser {
 	
 		trainTokenizer();
 		trainTagger();
-		// Initilize NER's
+		// Initialize NER's
 		trainNF();
 		trainOF();
 		trainLF();
+		// Add currency finder;
 	}
-    
-  
-    
+      
     // TODO: Add methods making use of OpenNLP parser
        
     public static ParsedInput parseUserMessage(String userMessage) {
@@ -55,7 +54,7 @@ public final class Parser {
         
         // This checks all parts of speech. If something appears like it could be a person, place, organization
         // name then it forces the formatting to be first letter upper cased so the NE finders can try to match
-        // the object
+        // the object.
         for(int i = 0; i < taggedString.length; i++){
         	System.out.print(taggedString[i] + " ");
         	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")){
@@ -75,30 +74,32 @@ public final class Parser {
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);
             
-            // Use name parser from NER to identify user name
+            // Use name parser from openNLP to identify user name
             String name = findNames();
             if(!name.isEmpty()){
             	parsedInput.setField("username", name);
             }
-            // Add way to parse whole sentence, find proper nouns and set to TitleCase
-            // before being passed to any of the other parsers.
+            // Identify organizations in used sentence.
+            String org = findOrgs();
+            if(!org.isEmpty()){
+            	parsedInput.setField("organization",org);
+            }
 
             // In order, check for
             parseGreetingOrFarewell(parsedInput);
             parsePleaseComeBack(parsedInput);
             parseThanks(parsedInput);
+            parseBookHotel(parsedInput);
             parseDestination(parsedInput);
             parseWeather(parsedInput);
             parseTravelMethod(parsedInput);
             parseHowFar(parsedInput);
             parseCities(parsedInput);
-            parseBookHotel(parsedInput);
             parseBudget(parsedInput);
             parseActivities(parsedInput);
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
         }
-
         return parsedInput;
     }
 
@@ -131,33 +132,27 @@ public final class Parser {
         if (!match.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("destination", StringUtils.toTitleCase(match));
-        } else {
+        }
+        
+        String city = parsedInput.getMatchingPhrase(ParserDictionary.cities);
+        
+        if (!city.isEmpty()) {
+            parsedInput.type = ParsedInputType.SetDestination;
+            parsedInput.setField("city", StringUtils.toTitleCase(city));
+        }
+        if(match.isEmpty() && city.isEmpty()){
         	// If the sentence does not contain a destination in our list, try finding
         	// one using the OpenNLP parser. That way a response can be created using
         	// the users input even though the agent does not know what it is.
         	places = findDest();
         }
-        if(!places.isEmpty()){
-        	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
-        	parsedInput.type = ParsedInputType.BadDestination;
-        	return;
+        if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
+        	if(!places.isEmpty()){
+            	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
+            	parsedInput.type = ParsedInputType.BadDestination;
+            	return;
+            }
         }
-        
-
-        String city = parsedInput.getMatchingPhrase(ParserDictionary.cities);
-        if (!city.isEmpty()) {
-            parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("city", StringUtils.toTitleCase(city));
-        }else {
-        	// Same idea, but for cities now, if it reaches this point.
-        	places = findDest();
-        }
-        if(places.length() != 0){
-        	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
-        	parsedInput.type = ParsedInputType.BadDestination;
-        	return;
-        }
-        
     }
 
     private static void parseWeather(ParsedInput parsedInput) {
@@ -243,7 +238,6 @@ public final class Parser {
     }
     
     private static String findNames(){
-    	
     	Span d[] = nf.find(tokens);
     	String[] holder = Span.spansToStrings(d, tokens);
     	StringBuilder fs = new StringBuilder();
@@ -268,25 +262,25 @@ public final class Parser {
 	private void trainNF() throws InvalidFormatException, IOException {
 		InputStream is = new FileInputStream("OpenNLP/en-ner-person.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        Parser.nf = new NameFinderME(tnf);
+        nf = new NameFinderME(tnf);
     }
     
     private void trainOF() throws InvalidFormatException, IOException{
 		InputStream is = new FileInputStream("OpenNLP/en-ner-organization.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        Parser.of = new NameFinderME(tnf);
+        of = new NameFinderME(tnf);
     }
     
     private void trainLF() throws InvalidFormatException, IOException{
 		InputStream is = new FileInputStream("OpenNLP/en-ner-location.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        Parser.lf = new NameFinderME(tnf);
+        lf = new NameFinderME(tnf);
     }
     
     private void trainTokenizer() throws InvalidFormatException, IOException{
 		InputStream is = new FileInputStream("OpenNLP/en-token.bin");
         TokenizerModel tm = new TokenizerModel(is);
-        Parser.t = new TokenizerME(tm);
+        t = new TokenizerME(tm);
     }
     
     private void trainTagger(){

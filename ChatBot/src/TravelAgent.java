@@ -50,6 +50,10 @@ public class TravelAgent {
             case BadDestination:
             	response = responseMaker.getBadLocations(savedInputs.get("bad destination"));
             	break;
+            	
+            case NotEnoughInfo:
+            	response = responseMaker.getMissingInfo(Parser.getUserMessage());
+            	break;
 
             case TooLong:
                 response = "Sorry, your message is too long. I don't have time to read that.";

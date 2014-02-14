@@ -144,6 +144,7 @@ public final class Parser {
         if (!city.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("city", StringUtils.toTitleCase(city));
+            parsedInput.setField("destination", "Mexico");
         }
         if(match.isEmpty() && city.isEmpty()){
         	// If the sentence does not contain a destination in our list, try finding

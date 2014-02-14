@@ -128,6 +128,8 @@ public final class ResponseMaker {
         } else {
             destination = city + ", " + location;
         }
+        l = new Location(destination);
+        locationSet.add(l);
         return Responses.getRandomResponse(Responses.niceDest, "<Dest>", destination);
     }
 
@@ -156,12 +158,7 @@ public final class ResponseMaker {
     }
 
     public String getWeather(String destination) {
-<<<<<<< HEAD
 
-=======
-        assert destination != null;
-        
->>>>>>> rebuild_parsing
         if (StringUtils.isNullOrEmpty(destination)) {
             int i = 0;
             String str = "";
@@ -174,7 +171,7 @@ public final class ResponseMaker {
                 return str;
             }
         }
-        return "It is currently " + locationSet.get(locationSet.size() - 1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination;
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination;
     }
 
     public String getActivities() {

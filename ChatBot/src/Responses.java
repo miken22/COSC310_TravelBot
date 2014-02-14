@@ -51,6 +51,9 @@ public final class Responses {
 
 	public static List<String> NoDestinationSet = Arrays.asList("Sorry, you have to decide where you want to go before we can talk about <userinput>.", "I need to know a place before I can help you with <userinput>.");
     
+	public static List<String> PUSH;
+	
+	
     public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);
     }

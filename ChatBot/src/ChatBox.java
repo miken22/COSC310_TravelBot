@@ -1,10 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
-
 import opennlp.tools.util.InvalidFormatException;
 
 /**
@@ -82,8 +80,6 @@ public class ChatBox{
 		frame.repaint();
 		convo.setText("TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google" + "\r\n\r\n" +
 		 "Travel Bot: " + agent.getGreeting()+ "\r\n");
-		
-		
 	}
 	
 	public class TextListener implements KeyListener{
@@ -100,14 +96,11 @@ public class ChatBox{
 		// Unused methods
 		@Override
 		public void keyReleased(KeyEvent arg0) {
-			
 		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {
-			
+		public void keyTyped(KeyEvent arg0) {	
 		}
-		
 	}
 	
 	public class ButtonListener implements ActionListener{
@@ -115,12 +108,13 @@ public class ChatBox{
 		String conversation = "";
 		String out = "";
 		
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			in = input.getText();
 			// If user does not enter anything the chatbot will not do anything.
-			if(in.length() == 0){
+			if(e.getSource() == clear){
+				input.setText("");
+			} else if(in.length() == 0){
 				return;
 			} else {
 				conversation = convo.getText();
@@ -129,12 +123,7 @@ public class ChatBox{
 				out = agent.buildResponse(in);	// Use user input to determine response to display
 				conversation = convo.getText();							
 				convo.setText(conversation + out);						
-			}	
-			
-			if(e.getSource() == clear){
-				input.setText("");
 			}
-			
 		}
 	}
 	

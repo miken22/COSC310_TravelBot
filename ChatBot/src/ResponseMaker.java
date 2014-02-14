@@ -59,8 +59,9 @@ public final class ResponseMaker {
     }
 
     public String getTravelMethod(String travelMethod, String location) {
-        if (travelMethod == "car" || travelMethod == "drive") {
-            String response = "You can if you want to." + "\r\n";
+    	
+    	if (travelMethod == "car" || travelMethod == "drive") {
+		    String response = "You can if you want to." + "\r\n";
             response += getTravelCost(travelMethod) + ".";
             return response;
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
@@ -73,8 +74,12 @@ public final class ResponseMaker {
             response += getTravelCost(travelMethod) + ".";
             return response;
         }
-
+	
         return "Sorry, we don't book trips by " + travelMethod;
+    }
+    
+    public String getNoDestinationSet(String input){
+    	return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>",input);
     }
 
     public String getGenAccommodation() {
@@ -148,12 +153,12 @@ public final class ResponseMaker {
 
     public String getWeather(String destination) {
         assert destination != null;
-
+        
         if (StringUtils.isNullOrEmpty(destination)) {
             int i = 0;
             String str = "";
             if (locationSet.size() == 0) {
-                return "I need to know a place to help you with that.";
+                return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>", "weather");
             } else {
                 while (locationSet.get(i) != null) {
                     str += locationSet.get(i).destination + ": " + locationSet.get(i).tempInCelcius + " degrees C with " + locationSet.get(i++).weatherDescription;

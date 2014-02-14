@@ -15,14 +15,24 @@ public class TravelAgent {
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
         
-    	String message = getResponse(Parser.parseUserMessage(input));
-
-        // Write out our response with header & footer
-        String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
-    
-        return response;
-    	
+    	if(!DestinationSet()){
+    		return responseMaker.getNoDestinationSet(input);
+    	} else {
+    		String message = getResponse(Parser.parseUserMessage(input));
+        	// Write out our response with header & footer
+    		String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
+        	return response;
+    	}
     }
+    
+    private boolean DestinationSet() {
+    	try{
+    		savedInputs.get("destination");
+    		return true;
+    	} catch (NullPointerException e){
+    		return false;
+    	}
+	}
     
     public String getGreeting(){
     	return greeting();

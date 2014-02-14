@@ -47,10 +47,18 @@ public final class Responses {
 
     public static List<String> badDestination = Arrays.asList("Sorry, we don't go to <Dest>.", "Sorry, I do not think that we arrange trips to <Dest>.", "Sorry, <Dest> is not a place we travel go to.", "Our guide stopped going to <Dest> a while ago, sorry.");
     
-    public static List<String> notEnoughInfo = Arrays.asList("Sorry, you need to tell me more about what you mean by <userinput>");
+    public static List<String> notEnoughInfo = Arrays.asList("Sorry, you need to tell me more about what you mean by '<userinput>'");
+
+	public static List<String> NoDestinationSet = Arrays.asList("Sorry, you have to decide where you want to go before we can talk about <userinput>.", "I need to know a place before I can help you with <userinput>.");
     
+<<<<<<< HEAD
     public static List<String> NoDestinationSet = Arrays.asList("Sorry, you need to tell me where you want to go before we can talk about <userinput>");
     
+=======
+	public static List<String> PUSH;
+	
+	
+>>>>>>> rebuild_parsing
     public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);
     }

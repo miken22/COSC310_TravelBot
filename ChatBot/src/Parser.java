@@ -63,6 +63,7 @@ public final class Parser {
         if (userMsgLower.compareTo("stats") == 0) {
             parsedInput.type = ParsedInputType.Debug_ShowStats;
         } else {
+        	
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);
             
@@ -99,10 +100,10 @@ public final class Parser {
         return parsedInput;
     }
 
-    public static String getUserMessage(){
+	public static String getUserMessage(){
     	StringBuilder sb = new StringBuilder();
     	for(String s:tokens){
-    		sb.append(s);
+    		sb.append(s + " ");
     	}
     	return sb.toString();
     }

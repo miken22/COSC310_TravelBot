@@ -16,7 +16,6 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
 public final class Parser {
-    private static final int MAX_SUPPORTED_MESSAGE_SIZE = 500;
     // Sentence tokenizer
  	private static Tokenizer t;
  	
@@ -61,11 +60,7 @@ public final class Parser {
         }
         
         if (userMsgLower.compareTo("exit") == 0) System.exit(0);
-        if (userMsgLower.isEmpty()) {
-            parsedInput.type = ParsedInputType.None;
-        } else if (userMsgLower.length() > MAX_SUPPORTED_MESSAGE_SIZE) {
-            parsedInput.type = ParsedInputType.TooLong;
-        } else if (userMsgLower.compareTo("stats") == 0) {
+        if (userMsgLower.compareTo("stats") == 0) {
             parsedInput.type = ParsedInputType.Debug_ShowStats;
         } else {
             // Create the token collection

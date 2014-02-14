@@ -49,6 +49,8 @@ public final class Responses {
     
     public static List<String> notEnoughInfo = Arrays.asList("Sorry, you need to tell me more about what you mean by <userinput>");
     
+    public static List<String> NoDestinationSet = Arrays.asList("Sorry, you need to tell me where you want to go before we can talk about <userinput>");
+    
     public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);
     }

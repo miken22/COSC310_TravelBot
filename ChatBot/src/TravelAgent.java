@@ -11,12 +11,12 @@ public class TravelAgent {
     private boolean userHasSaidFarewell = false;
     
     private String botName = "Travel Bot";
-        
+    
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
-        
-    	String message = getResponse(Parser.parseUserMessage(input));
 
+    	String message = getResponse(Parser.parseUserMessage(input));
+    	
         // Write out our response with header & footer
         String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
     
@@ -27,7 +27,7 @@ public class TravelAgent {
     public String getGreeting(){
     	return greeting();
     }
-
+    
     public String getResponse(ParsedInput parsedInput) {
         String response = "";
 
@@ -54,10 +54,6 @@ public class TravelAgent {
             case NotEnoughInfo:
             	response = responseMaker.getMissingInfo(Parser.getUserMessage());
             	break;
-
-            case TooLong:
-                response = "Sorry, your message is too long. I don't have time to read that.";
-                break;
 
             case Greeting:
                 response = getGreeting();

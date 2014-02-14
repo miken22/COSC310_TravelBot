@@ -55,7 +55,6 @@ public class ChatBox{
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 		frame.setSize(550, 450);
 		c = frame.getContentPane();
 		
@@ -114,7 +113,6 @@ public class ChatBox{
 		String in = "";
 		String conversation = "";
 		String out = "";
-		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {

@@ -27,6 +27,10 @@ public final class ResponseMaker {
     public String getBadLocations(String location){
     	return Responses.getRandomResponse(Responses.badDestination, "<Dest>", location);
     }
+    
+    public String noDestinationInfo(String input){
+    	return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>", input);
+    }
 
     public String getImBack() {
         return "Okay, I'm back. What can I help with?";
@@ -147,7 +151,6 @@ public final class ResponseMaker {
     }
 
     public String getWeather(String destination) {
-        assert destination != null;
 
         if (StringUtils.isNullOrEmpty(destination)) {
             int i = 0;
@@ -161,8 +164,6 @@ public final class ResponseMaker {
                 return str;
             }
         }
-
-        locationSet.add(new Location(destination));
         return "It is currently " + locationSet.get(locationSet.size() - 1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination;
     }
 

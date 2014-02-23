@@ -60,6 +60,9 @@ public class ChatBox{
 		convo.setLineWrap(true);
 		convo.setBorder(BasicBorders.getTextFieldBorder());
 		convo.setBounds(2,2,frame.getWidth()-23,300);
+		convo.setLineWrap(true);
+		convo.setWrapStyleWord(true);
+		convo.setFont(new Font("Serrif", Font.PLAIN,14));
 		scroll1.setBounds(2,2,frame.getWidth()-23,300);
 		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
 		c.add(scroll1);
@@ -78,7 +81,7 @@ public class ChatBox{
 		
 		frame.repaint();
 		convo.setText("TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google" + "\r\n\r\n" +
-		 "Travel Bot: " + agent.getGreeting()+ "\r\n");
+		 "Travel Bot: " + agent.getStartUp()+ "\r\n");
 	}
 	
 	public class TextListener implements KeyListener{
@@ -110,18 +113,17 @@ public class ChatBox{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			in = input.getText();
-			// If user does not enter anything the chatbot will not do anything.
+			// Clear user input if clear button is pressed
 			if(e.getSource() == clear){
 				input.setText("");
+			// If user does not enter anything the chatbot will not do anything.
 			} else if(in.length() == 0){
 				return;
 			} else {
-				conversation = convo.getText();
 				input.setText("");
-				convo.setText(conversation + "\n\r" + "User: " + in);	// Prints user message
-				out = agent.buildResponse(in);	// Use user input to determine response to display
-				conversation = convo.getText();							
-				convo.setText(conversation + out);						
+				convo.setText(convo.getText() + "\n\r" + "User: " + in);	// Update textarea with user message
+				out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
+				convo.setText(convo.getText() + out);	// Update textarea with agent response
 			}
 		}
 	}

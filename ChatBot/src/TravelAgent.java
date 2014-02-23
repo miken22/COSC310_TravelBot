@@ -1,5 +1,18 @@
 import java.util.*;
 
+/**This class handles the agents side of the conversation. The
+ * main method is buildResponse, which takes the users input and
+ * sends it to the parser to be tokenized. This returns a type which
+ * is used in the getResponse method to compare against each case.
+ * The matched case then either builds a simple response with some of the
+ * helper methods or invokes the ResponseMaker class to build a more dynamic
+ * response. This is then used to complete the response which is returned
+ * to the ChatBox class to display on screen.
+ * 
+ * @author Mike Nowicki
+ *
+ */
+
 public class TravelAgent {
     private ResponseMaker responseMaker = new ResponseMaker();
     private Location l;
@@ -21,29 +34,15 @@ public class TravelAgent {
        	return response;
     }
     
-    
-    private boolean DestinationSet() {
-    	try{
-    		savedInputs.get("destination");
-    		if(savedInputs.get("destination").equals(null)){
-    			return false;
-    		}
-    		return true;
-    	} catch (NullPointerException e){
-    		return false;
-    	}
-	}
-    
-    public String getGreeting(){
-    	return greeting();
+    public String getStartUp(){
+    	return responseMaker.getStartup();
     }
     
     public String getResponse(ParsedInput parsedInput) {
         String response = "";
-
-        // TravelBot doesn't have time for annoying users ;) (unless they're sorry)
-        if (userHasSaidFarewell && (parsedInput.getType() != ParsedInputType.PleaseComeBack)) {
-            return Responses.getRandomResponse(Responses.sorrybusys);
+        
+        if(userHasSaidFarewell){
+        	return responseMaker.getAlreadyLeft();
         }
 
         // Save all user entered variables
@@ -66,7 +65,7 @@ public class TravelAgent {
             	break;
 
             case Greeting:
-                response = getGreeting();
+                response = greeting();
                 break;
 
             case Food:

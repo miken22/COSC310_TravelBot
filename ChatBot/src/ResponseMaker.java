@@ -1,5 +1,16 @@
 import java.util.*;
 
+/**
+ * This class builds the response strings using the 
+ * stored responses in the Responses class. This class
+ * is called by the TravelAgent based on the parsed input type
+ * cases.
+ * 
+ * 
+ * @author Mike Nowicki
+ *
+ */
+
 public final class ResponseMaker {
     List<Location> locationSet = new ArrayList<>();
     Location l;

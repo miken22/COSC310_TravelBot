@@ -87,7 +87,8 @@ public final class Parser {
             parsePleaseComeBack(parsedInput);
             parseThanks(parsedInput);
             parseBookHotel(parsedInput);
-            parseDestination(parsedInput);
+            parseColdDestination(parsedInput);
+            parseTropicDestination(parsedInput);
             parseWeather(parsedInput);
             parseTravelMethod(parsedInput);
             parseHowFar(parsedInput);
@@ -129,31 +130,47 @@ public final class Parser {
         }
     }
 
-    private static void parseDestination(ParsedInput parsedInput) {
-        String match = parsedInput.getMatchingPhrase(ParserDictionary.dest);
+    public static void parseColdDestination(ParsedInput parsedInput){
+        String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
+        if (!city.isEmpty()) {
+            parsedInput.type = ParsedInputType.SetDestination;
+            parsedInput.setField("city", StringUtils.toTitleCase(city) + ",BC");
+            parsedInput.setField("destination", "Canada");
+        } else {
+        	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
+        	if (!city.isEmpty()) {
+                parsedInput.type = ParsedInputType.SetDestination;
+                parsedInput.setField("city", StringUtils.toTitleCase(city) + ",AB");
+                parsedInput.setField("destination", "Canada");
+            }
+        }   
+    }
+    
+    private static void parseTropicDestination(ParsedInput parsedInput) {
+        String match = parsedInput.getMatchingPhrase(ParserDictionary.tropicdest);
         String places = "";
-        
         
         if (!match.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("destination", StringUtils.toTitleCase(match));
         }
         
-        String city = parsedInput.getMatchingPhrase(ParserDictionary.cities);
+        String city = parsedInput.getMatchingPhrase(ParserDictionary.tropiccities);
         
         if (!city.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("city", StringUtils.toTitleCase(city));
             parsedInput.setField("destination", "Mexico");
         }
+        
         if(match.isEmpty() && city.isEmpty()){
-        	// If the sentence does not contain a destination in our list, try finding
-        	// one using the OpenNLP parser. That way a response can be created using
-        	// the users input even though the agent does not know what it is.
+        	/* If the sentence does not contain a destination in our list, try finding
+        	 * one using the OpenNLP parser. That way a response can be created using
+        	 * the users input even though the agent does not know what it is.        */
         	places = findDest();
         }
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty()){
+        	if(!places.isEmpty() && parsedInput.getField("destination").isEmpty()){
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;
@@ -179,9 +196,18 @@ public final class Parser {
     private static void parseHowFar(ParsedInput parsedInput) {
         if (parsedInput.containsAnyPhrase(ParserDictionary.distance)) {
             parsedInput.type = ParsedInputType.Distance;
-
-            List<String> matches = parsedInput.getMatchingPhrases(ParserDictionary.cities);
-
+            
+            /* This checks the input for one or more cities if the input is about distance.
+             * It will check each list of cities for a match before moving on.
+             */
+            List<String> matches = parsedInput.getMatchingPhrases(ParserDictionary.tropiccities);
+            if(matches.isEmpty()){
+            	matches = parsedInput.getMatchingPhrases(ParserDictionary.albertacities);
+            	if(matches.isEmpty()){
+            		matches = parsedInput.getMatchingPhrases(ParserDictionary.bccities);
+            	}
+            }
+            
             if (matches.size() == 0) {
                 // No cities given
             } else if (matches.size() == 1) {

@@ -22,6 +22,7 @@ public class TravelAgent {
     public HashMap<String, String> savedInputs = new HashMap<>();
     private boolean userHasGreeted = false;
     private boolean userHasSaidFarewell = false;
+    private boolean tropicDestination = true;
     
     private String botName = "Travel Bot";
     
@@ -44,15 +45,33 @@ public class TravelAgent {
         if(userHasSaidFarewell){
         	return responseMaker.getAlreadyLeft();
         }
+        
+//      Save all user entered variables
+        savedInputs.putAll(parsedInput.inputs);    
+        
+//      Check the destination stored so the agent knows what topic
+//      to respond to. Allows the user to change topics on the agent
+//      while still keeping the conversation going.
+        if(savedInputs.get("destination") != null){
+        	for(String s : ParserDictionary.tropicdest){
+        		if(savedInputs.get("destination") == s){
+        			tropicDestination = true;
+        			break;
+        		} else {
+        			tropicDestination = false;        			
+        		}
+        	}
+        }
 
-        // Save all user entered variables
-        savedInputs.putAll(parsedInput.inputs);
         // Check which kind of question or statement the user inputted
         switch (parsedInput.getType()) {
 
             case SetDestination:
-                response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
-//                l = new Location(savedInputs.get("destination"));
+            	if(tropicDestination){
+            		response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
+            	} else {
+            		response = responseMaker.getDestinationInfo(savedInputs.get("city"));
+            	}
                 break;
             
             // If OpenNLP parser flags location not known to the agent this will handle to right response.
@@ -81,7 +100,11 @@ public class TravelAgent {
                 break;
 
             case Activity:
-                response = responseMaker.getActivities();
+            	if(tropicDestination){
+            		response = responseMaker.getTropicalActivities();
+            	} else {
+            		response = responseMaker.getWinterActivities();
+            	}
                 break;
 
             case GetKeyword:
@@ -107,7 +130,11 @@ public class TravelAgent {
                 break;
 
             case GetAround:
-                response = responseMaker.getAround(savedInputs.get("city"));
+            	if(tropicDestination){
+            		response = responseMaker.getAroundTropical(savedInputs.get("city"));
+            	} else {
+            		response = responseMaker.getAroundWinter(savedInputs.get("city"));
+            	}
                 break;
 
             case Accomodations:
@@ -162,16 +189,13 @@ public class TravelAgent {
 
     private String getDebugStats() {
         String stats = "";
-
         for (Map.Entry<String, String> entry : savedInputs.entrySet()) {
             stats += entry.getKey() + " = " + entry.getValue() + "\r\n";
         }
-
         return stats;
     }
 
     private String greeting() {
-    	
         if (userHasGreeted) {
             return responseMaker.getGreetingRepeat();
         } else {

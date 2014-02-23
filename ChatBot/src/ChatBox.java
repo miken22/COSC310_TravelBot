@@ -7,10 +7,10 @@ import opennlp.tools.util.InvalidFormatException;
 
 /**
  * This class will create the GUI for the chat agent
- * and will send and recieve the I/O for the
+ * and will send and receive the I/O for the
  * conversation to the necessary classes.
  * 
- * @author Mike-Laptop
+ * @author Mike Nowicki
  *
  */
 public class ChatBox{
@@ -62,7 +62,7 @@ public class ChatBox{
 		convo.setBounds(2,2,frame.getWidth()-23,300);
 		convo.setLineWrap(true);
 		convo.setWrapStyleWord(true);
-		convo.setFont(new Font("Serrif", Font.PLAIN,14));
+		convo.setFont(new Font("Sans Serrif", Font.PLAIN,14));
 		scroll1.setBounds(2,2,frame.getWidth()-23,300);
 		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
 		c.add(scroll1);
@@ -93,6 +93,7 @@ public class ChatBox{
 				e.consume();
 				send.doClick();
 			}
+			input.setFocusAccelerator(e.getKeyChar());
 		}
 
 		// Unused methods

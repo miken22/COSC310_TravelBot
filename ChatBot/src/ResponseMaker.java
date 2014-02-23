@@ -17,9 +17,9 @@ public final class ResponseMaker {
 
     public String getGreeting(String username) {
     	if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(TropicResponses.getRandomResponse(GeneralResponses.greetings));
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings));
         } else {
-            return substituteParameters(TropicResponses.getRandomResponse(GeneralResponses.greetings)) + " " + username + ".";
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings)) + " " + username + ".";
         }
     }
 
@@ -29,18 +29,18 @@ public final class ResponseMaker {
 
     public String getFarewell(String username) {
         if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(TropicResponses.getRandomResponse(GeneralResponses.farewells));
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.farewells));
         } else {
-            return substituteParameters(TropicResponses.getRandomResponse(GeneralResponses.farewells)) + " " + username + ".";
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.farewells)) + " " + username + ".";
         }
     }
     
     public String getBadLocations(String location){
-    	return TropicResponses.getRandomResponse(GeneralResponses.badDestination, "<Dest>", location);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.badDestination, "<Dest>", location);
     }
     
     public String noDestinationInfo(String input){
-    	return TropicResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", input);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", input);
     }
 
     public String getImBack() {
@@ -48,11 +48,11 @@ public final class ResponseMaker {
     }
     
     public String getMissingInfo(String userinput){
-    	return TropicResponses.getRandomResponse(GeneralResponses.notEnoughInfo,"<userinput>",userinput);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.notEnoughInfo,"<userinput>",userinput);
     }
 
     public String getYoureWelcome() {
-        return TropicResponses.getRandomResponse(GeneralResponses.youreWelcome);
+        return GeneralResponses.getRandomResponse(GeneralResponses.youreWelcome);
     }
 
     public String getCities() {
@@ -66,13 +66,19 @@ public final class ResponseMaker {
     }
 
     public String getKeywordPlaces(String keyword) {
-        return l.getPlaces(keyword);
+        return l.getPlaces(keyword).get(0);
     }
 
-    public String getAround(String location) {
+    public String getAroundTropical(String location) {
         return TropicResponses.getRandomResponse(TropicResponses.transport, "<Dest>", location);
     }
 
+    public String getAroundWinter(String location) {
+    	// TODO: Add responses once new class is built
+    	// return TropicResponses.getRandomResponse(TropicResponses.transport, "<Dest>", location);
+    	return null;
+    }
+    
     public String getTravelMethod(String travelMethod, String location) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
@@ -116,13 +122,16 @@ public final class ResponseMaker {
     }
 
     public String getLocalFood() {
-        String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\n";
+        String response = GeneralResponses.getRandomResponse(GeneralResponses.searching) + "\n";
 
-        if (l.getPlaces("food").isEmpty()) {
-            response += TropicResponses.getRandomResponse(TropicResponses.noRestaurants);
-        } else {
-            response += l.getPlaces("food") + ".";
+        try{
+        	if(!l.getPlaces("food").isEmpty()){
+                response += l.getPlaces("food").get(0) + ".";
+        	}
+        } catch (NullPointerException e){
+        	 response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
         }
+        
         return response;
     }
 
@@ -133,7 +142,7 @@ public final class ResponseMaker {
             return "Sorry you need to say where you want to go!";
         } else if (!StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             destination = location;
-            return TropicResponses.getRandomResponse(TropicResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
+            return TropicResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
             destination = city;
         } else {
@@ -141,9 +150,23 @@ public final class ResponseMaker {
         }
         l = new Location(destination);
         locationSet.add(l);
-        return TropicResponses.getRandomResponse(TropicResponses.niceDest, "<Dest>", destination);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
 
+    public String getDestinationInfo(String city) {
+        
+        if (StringUtils.isNullOrEmpty(city)) {
+            return "Sorry you need to say where you want to go!";
+        }
+        l = new Location(city);
+        locationSet.add(l);
+        // This removes the ",BC" and ",AB" for cleaner presentation. They must be kept that
+        // way to properly interact with Google's APIs.
+        String cleanedCity = city.substring(0, city.length()-3);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", cleanedCity);
+    }
+
+    
     public String getTravelCost(String methodOfTravel) {
         if (methodOfTravel == "car" || methodOfTravel == "drive") {
             return l.estimateTravelCost();
@@ -171,28 +194,32 @@ public final class ResponseMaker {
     public String getWeather(String destination) {
 
         if (StringUtils.isNullOrEmpty(destination)) {
-            int i = 0;
-            String str = "";
             if (locationSet.size() == 0) {
-                return TropicResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", "weather");
-            } else {
-                while (locationSet.get(i) != null) {
-                    str += locationSet.get(i).destination + ": " + locationSet.get(i).tempInCelcius + " degrees C with " + locationSet.get(i++).weatherDescription;
-                }
-                return str;
+                return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", "weather");
             }
         }
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination;
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination + " with " + locationSet.get(locationSet.size()-1).weatherDescription + ".";
     }
 
-    public String getActivities() {
-        String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
-        String s2 = s1;
-        while (s2.equals(s1)) {
-            s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
-        }
+    public String getTropicalActivities() {
+    	String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
+    	String s2 = s1;
+    	while (s2.equals(s1)) {
+    		s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
+    	}
+    	String response = "While you are there you could " + s1 + ", or you could " + s2;
+        return response;
+    }
+    
+    // TODO: Fix class to do winter things
+    public String getWinterActivities() {
+//        String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
+//        String s2 = s1;
+//        while (s2.equals(s1)) {
+//            s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
+//        }
 
-        String response = "While you are there you could " + s1 + ", or you could " + s2;
+        String response = "While you are there you could try something new!";
         return response;
     }
 

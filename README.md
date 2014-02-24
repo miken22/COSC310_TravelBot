@@ -41,6 +41,7 @@ Continuing with the work started by the group in assignment 2 (above), the progr
 To Do:
 
 - Improve GUI
+- Add more extensive dialogue
 - Incorporate OpenNLP for more dynamic conversations
 - Level 0 DFD of system
 - Level 1 DFD of system

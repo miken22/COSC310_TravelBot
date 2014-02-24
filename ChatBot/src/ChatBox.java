@@ -7,8 +7,8 @@ import opennlp.tools.util.InvalidFormatException;
 
 /**
  * This class will create the GUI for the chat agent
- * and will send and receive the I/O for the
- * conversation to the necessary classes.
+ * and will send and receive the I/O for the conversation 
+ * to the necessary classes.
  * 
  * @author Mike Nowicki
  *

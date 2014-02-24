@@ -1,4 +1,11 @@
 import java.util.*;
+/**
+ * This class holds the dictionary for the parser. These act as the 
+ * known words that the parser looks to compare against.
+ * 
+ * @author Mike Nowicki
+ *
+ */
 
 public class ParserDictionary {
     public static List<String> greet = Arrays.asList("good morning", "good afternoon", "good evening", "hi", "hello", "hey", "greetings", "howdy");

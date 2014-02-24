@@ -8,6 +8,14 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Build location information, interact with Google
+ * API's using the JSON library.
+ * 
+ * @author Brett Dupree
+ *
+ */
+
 @SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {

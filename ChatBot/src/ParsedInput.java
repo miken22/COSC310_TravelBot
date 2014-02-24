@@ -1,5 +1,18 @@
 import java.util.*;
 
+/**
+ * This class is used to hold a break down of the users input.
+ * The input is broken down into tokens by the token collection
+ * class and stored in the inputs Hashmap. This map gets stored
+ * for look-up of input later, accessed by get/set field methods.
+ * The class also generates the tolerance for error in user spelling
+ * to try and find matches with words in the ParserDictionary even
+ * if the user misspelled the word.
+ * 
+ * @author Manny Haller
+ *
+ */
+
 public final class ParsedInput {
     private static final double FUZZY_ERROR_RATE = 0.07; // percentage
 

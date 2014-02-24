@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * This class holds the canned responses for visits to Tropical Destinations.
+ * 
+ * @author Mike Nowicki
+ *
+ */
+
 public final class TropicResponses {
     private static java.util.Random rand = new java.util.Random();
 

@@ -6,7 +6,6 @@ import java.util.List;
  * Chat Agent such as greetings and handling issues with the users
  * input.
  * 
- * 
  * @author Mike Nowicki
  *
  */

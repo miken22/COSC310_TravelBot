@@ -15,6 +15,21 @@ import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
+/**
+ * This class handles all the major work of the program. It is called
+ * by the TravelAgent class. This class then breaks the sentence apart
+ * using the Tokenizer that was written (mainly Regex/TokenCollection classes).
+ * The sentence is further parsed by the OpenNLP parsers to try to find
+ * Named Entities in the input that can be saved for later to make the conversation
+ * more realistic (such as remembering the users name etc). Each word also gets
+ * tagged as it's part of speech (POS) in the sentence. Words that appear to be
+ * formal nouns are capitalized and checked against the NER and Parser Dictionary
+ * to add a further level of spell-checking.
+ * 
+ * @author Manny Haller, Mike Nowicki
+ *
+ */
+
 public final class Parser {
     // Sentence tokenizer
  	private static Tokenizer t;

@@ -1,6 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * This class holds the location information for the users
+ * conversation. This class is built by LocationFactory which
+ * queries Google for general information, such as distances,
+ * weather, and nearby searches.
+ * 
+ * @author Brett Dupree
+ *
+ */
 public class Location {
     LocationFactory lf = new LocationFactory();
     public HashMap<String, ArrayList<String>> places = new HashMap<>();
@@ -30,7 +38,8 @@ public class Location {
     }
 
     @SuppressWarnings("static-access")
-	public ArrayList<String> getPlaces(String keyword) {
+	// Query Google for nearby locations, such as shopping_centers, restaurants, lodging, etc
+    public ArrayList<String> getPlaces(String keyword) {
         if (!places.containsKey(keyword)) {
             if (!lf.getPlaces(this, keyword))
                 return null;

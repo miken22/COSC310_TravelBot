@@ -1,4 +1,9 @@
-
+/**
+ * This class handles the agents spell checking.
+ * 
+ * @author Manny Haller
+ *
+ */
 public final class FuzzyMatching {
     // Wrapper to do string to char array for us
     public static FuzzySubstringResults Substring(String s, String t) {

@@ -1,11 +1,21 @@
 import java.util.*;
+/**
+ * This class holds the dictionary for the parser. These act as the 
+ * known words that the parser looks to compare against.
+ * 
+ * @author Mike Nowicki
+ *
+ */
 
 public class ParserDictionary {
     public static List<String> greet = Arrays.asList("good morning", "good afternoon", "good evening", "hi", "hello", "hey", "greetings", "howdy");
     public static List<String> leave = Arrays.asList("good night", "bye", "goodbye", "farewell", "see ya", "see you later", "take care", "ciao");
     public static List<String> comeBack = Arrays.asList("please help", "come back", "please come back", "i need help", "that's rude");
-    public static List<String> dest = Arrays.asList("Mexico");
-    public static List<String> cities = Arrays.asList("Mexico City", "Calgary", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Kelowna", "Chichen Itza");
+    public static List<String> tropicdest = Arrays.asList("Mexico");
+    public static List<String> colddest = Arrays.asList("Canada");
+    public static List<String> tropiccities = Arrays.asList("Mexico City", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Chichen Itza");
+    public static List<String> bccities = Arrays.asList("Revelstoke","Kamloops","Golden","Kelowna");
+    public static List<String> albertacities = Arrays.asList("Canmore","Calgary");
     public static List<String> askForCities = Arrays.asList("cities", "places", "towns", "destinations");
     public static List<String> thanks = Arrays.asList("thanks", "thank you", "appreciated");
     public static List<String> travelMethods = Arrays.asList("fly", "flight", "plane", "boat", "cruise", "bus", "drive", "car");
@@ -24,7 +34,6 @@ public class ParserDictionary {
 
     public static List<List<String>> getTokenizedPhraseList(List<String> phraseList) {
         List<List<String>> tokenizedPhraseList;
-
         // Check if result is cached
         if (!cachedLists.containsKey(phraseList)) { // Not found in cache
             tokenizedPhraseList = tokenizePhrases(phraseList);  // Break down the phrases into a list of tokenized phrases
@@ -32,7 +41,6 @@ public class ParserDictionary {
         } else {
             tokenizedPhraseList = cachedLists.get(phraseList); // Result found in cache
         }
-
         return tokenizedPhraseList;
     }
 
@@ -46,7 +54,6 @@ public class ParserDictionary {
             // then add the list of tokens to our list of tokenized phrases
             tokenizedPhraseList.add(Regex.tokenizeOnWhitespace(phrase));
         }
-
         return tokenizedPhraseList;
     }
 }

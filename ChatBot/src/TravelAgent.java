@@ -1,5 +1,18 @@
 import java.util.*;
 
+/**This class handles the agents side of the conversation. The
+ * main method is buildResponse, which takes the users input and
+ * sends it to the parser to be tokenized. This returns a type which
+ * is used in the getResponse method to compare against each case.
+ * The matched case then either builds a simple response with some of the
+ * helper methods or invokes the ResponseMaker class to build a more dynamic
+ * response. This is then used to complete the response which is returned
+ * to the ChatBox class to display on screen.
+ * 
+ * @author Mike Nowicki
+ *
+ */
+
 public class TravelAgent {
     private ResponseMaker responseMaker = new ResponseMaker();
     private Location l;
@@ -9,6 +22,7 @@ public class TravelAgent {
     public HashMap<String, String> savedInputs = new HashMap<>();
     private boolean userHasGreeted = false;
     private boolean userHasSaidFarewell = false;
+    private boolean tropicDestination = true;
     
     private String botName = "Travel Bot";
     
@@ -21,39 +35,43 @@ public class TravelAgent {
        	return response;
     }
     
-    
-    private boolean DestinationSet() {
-    	try{
-    		savedInputs.get("destination");
-    		if(savedInputs.get("destination").equals(null)){
-    			return false;
-    		}
-    		return true;
-    	} catch (NullPointerException e){
-    		return false;
-    	}
-	}
-    
-    public String getGreeting(){
-    	return greeting();
+    public String getStartUp(){
+    	return responseMaker.getStartup();
     }
     
     public String getResponse(ParsedInput parsedInput) {
         String response = "";
-
-        // TravelBot doesn't have time for annoying users ;) (unless they're sorry)
-        if (userHasSaidFarewell && (parsedInput.getType() != ParsedInputType.PleaseComeBack)) {
-            return Responses.getRandomResponse(Responses.sorrybusys);
+        
+        if(userHasSaidFarewell){
+        	return responseMaker.getAlreadyLeft();
+        }
+        
+//      Save all user entered variables
+        savedInputs.putAll(parsedInput.inputs);    
+        
+//      Check the destination stored so the agent knows what topic
+//      to respond to. Allows the user to change topics on the agent
+//      while still keeping the conversation going.
+        if(savedInputs.get("destination") != null){
+        	for(String s : ParserDictionary.tropicdest){
+        		if(savedInputs.get("destination") == s){
+        			tropicDestination = true;
+        			break;
+        		} else {
+        			tropicDestination = false;        			
+        		}
+        	}
         }
 
-        // Save all user entered variables
-        savedInputs.putAll(parsedInput.inputs);
         // Check which kind of question or statement the user inputted
         switch (parsedInput.getType()) {
 
             case SetDestination:
-                response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
-//                l = new Location(savedInputs.get("destination"));
+            	if(tropicDestination){
+            		response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
+            	} else {
+            		response = responseMaker.getDestinationInfo(savedInputs.get("city"));
+            	}
                 break;
             
             // If OpenNLP parser flags location not known to the agent this will handle to right response.
@@ -66,7 +84,7 @@ public class TravelAgent {
             	break;
 
             case Greeting:
-                response = getGreeting();
+                response = greeting();
                 break;
 
             case Food:
@@ -82,7 +100,11 @@ public class TravelAgent {
                 break;
 
             case Activity:
-                response = responseMaker.getActivities();
+            	if(tropicDestination){
+            		response = responseMaker.getTropicalActivities();
+            	} else {
+            		response = responseMaker.getWinterActivities();
+            	}
                 break;
 
             case GetKeyword:
@@ -108,7 +130,11 @@ public class TravelAgent {
                 break;
 
             case GetAround:
-                response = responseMaker.getAround(savedInputs.get("city"));
+            	if(tropicDestination){
+            		response = responseMaker.getAroundTropical(savedInputs.get("city"));
+            	} else {
+            		response = responseMaker.getAroundWinter(savedInputs.get("city"));
+            	}
                 break;
 
             case Accomodations:
@@ -163,16 +189,13 @@ public class TravelAgent {
 
     private String getDebugStats() {
         String stats = "";
-
         for (Map.Entry<String, String> entry : savedInputs.entrySet()) {
             stats += entry.getKey() + " = " + entry.getValue() + "\r\n";
         }
-
         return stats;
     }
 
     private String greeting() {
-    	
         if (userHasGreeted) {
             return responseMaker.getGreetingRepeat();
         } else {

@@ -17,9 +17,9 @@ public final class ResponseMaker {
 
     public String getGreeting(String username) {
     	if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(Responses.getRandomResponse(Responses.greetings));
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings));
         } else {
-            return substituteParameters(Responses.getRandomResponse(Responses.greetings)) + " " + username + ".";
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings)) + " " + username + ".";
         }
     }
 
@@ -29,18 +29,18 @@ public final class ResponseMaker {
 
     public String getFarewell(String username) {
         if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(Responses.getRandomResponse(Responses.farewells));
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.farewells));
         } else {
-            return substituteParameters(Responses.getRandomResponse(Responses.farewells)) + " " + username + ".";
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.farewells)) + " " + username + ".";
         }
     }
     
     public String getBadLocations(String location){
-    	return Responses.getRandomResponse(Responses.badDestination, "<Dest>", location);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.badDestination, "<Dest>", location);
     }
     
     public String noDestinationInfo(String input){
-    	return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>", input);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", input);
     }
 
     public String getImBack() {
@@ -48,17 +48,17 @@ public final class ResponseMaker {
     }
     
     public String getMissingInfo(String userinput){
-    	return Responses.getRandomResponse(Responses.notEnoughInfo,"<userinput>",userinput);
+    	return GeneralResponses.getRandomResponse(GeneralResponses.notEnoughInfo,"<userinput>",userinput);
     }
 
     public String getYoureWelcome() {
-        return Responses.getRandomResponse(Responses.youreWelcome);
+        return GeneralResponses.getRandomResponse(GeneralResponses.youreWelcome);
     }
 
     public String getCities() {
         String cities = "Well the biggest are ";
 
-        for (String s : Responses.cities) {
+        for (String s : TropicResponses.cities) {
             cities += s + ", ";
         }
         cities += ".";
@@ -66,13 +66,19 @@ public final class ResponseMaker {
     }
 
     public String getKeywordPlaces(String keyword) {
-        return l.getPlaces(keyword);
+        return l.getPlaces(keyword).get(0);
     }
 
-    public String getAround(String location) {
-        return Responses.getRandomResponse(Responses.transport, "<Dest>", location);
+    public String getAroundTropical(String location) {
+        return TropicResponses.getRandomResponse(TropicResponses.transport, "<Dest>", location);
     }
 
+    public String getAroundWinter(String location) {
+    	// TODO: Add responses once new class is built
+    	// return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
+    	return null;
+    }
+    
     public String getTravelMethod(String travelMethod, String location) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
@@ -80,12 +86,12 @@ public final class ResponseMaker {
             response += getTravelCost(travelMethod) + ".";
             return response;
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
-            String response = Responses.getRandomResponse(Responses.searching) + "\r\n";
-            response += Responses.getRandomResponse(Responses.boatResponses, "<Dest>", location);
+            String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
+            response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
             return response;
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
-            String response = Responses.getRandomResponse(Responses.searching) + "\r\n";
-            response += Responses.getRandomResponse(Responses.flightResponses, "<Dest>", location) + "\r\n";
+            String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
+            response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
             response += getTravelCost(travelMethod) + ".";
             return response;
         }
@@ -94,35 +100,38 @@ public final class ResponseMaker {
     }
     
     public String getNoDestinationSet(String input){
-    	return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>",input);
+    	return TropicResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>",input);
     }
 
     public String getGenAccommodation() {
-        return Responses.getRandomResponse(Responses.genAccom);
+        return TropicResponses.getRandomResponse(TropicResponses.genAccom);
     }
 
     public String getBudgetAccom(int amount, String location) {
         String response = "Searching for the best accommodations that match you budget. " + "\n";
 
         if (amount >= 130) {
-            response += Responses.getRandomResponse(Responses.niceAccom, "<Dest>", location);
+            response += TropicResponses.getRandomResponse(TropicResponses.niceAccom, "<Dest>", location);
         } else if (amount > 90) {
-            response += Responses.getRandomResponse(Responses.medAccom, "<Dest>", location);
+            response += TropicResponses.getRandomResponse(TropicResponses.medAccom, "<Dest>", location);
         } else {
-            response += Responses.getRandomResponse(Responses.cheapAccom, "<Dest>", location);
+            response += TropicResponses.getRandomResponse(TropicResponses.cheapAccom, "<Dest>", location);
         }
 
         return response;
     }
 
     public String getLocalFood() {
-        String response = Responses.getRandomResponse(Responses.searching) + "\n";
+        String response = GeneralResponses.getRandomResponse(GeneralResponses.searching) + "\n";
 
-        if (l.getPlaces("food").isEmpty()) {
-            response += Responses.getRandomResponse(Responses.noRestaurants);
-        } else {
-            response += l.getPlaces("food") + ".";
+        try{
+        	if(!l.getPlaces("food").isEmpty()){
+                response += l.getPlaces("food").get(0) + ".";
+        	}
+        } catch (NullPointerException e){
+        	 response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
         }
+        
         return response;
     }
 
@@ -133,7 +142,7 @@ public final class ResponseMaker {
             return "Sorry you need to say where you want to go!";
         } else if (!StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             destination = location;
-            return Responses.getRandomResponse(Responses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
+            return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
             destination = city;
         } else {
@@ -141,9 +150,21 @@ public final class ResponseMaker {
         }
         l = new Location(destination);
         locationSet.add(l);
-        return Responses.getRandomResponse(Responses.niceDest, "<Dest>", destination);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
 
+    public String getDestinationInfo(String city) {
+        
+        if (StringUtils.isNullOrEmpty(city)) {
+            return "Sorry you need to say where you want to go!";
+        }
+        l = new Location(city);
+        locationSet.add(l);
+//        String cleanedCity = city.substring(0, city.length()-3);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", city);
+    }
+
+    
     public String getTravelCost(String methodOfTravel) {
         if (methodOfTravel == "car" || methodOfTravel == "drive") {
             return l.estimateTravelCost();
@@ -153,7 +174,7 @@ public final class ResponseMaker {
     }
 
     public String getLanguages(String dest) {
-        return Responses.getRandomResponse(Responses.lang, "<Dest>", dest);
+        return TropicResponses.getRandomResponse(TropicResponses.lang, "<Dest>", dest);
     }
 
     public String getDistances(String city, String city2) {
@@ -165,34 +186,51 @@ public final class ResponseMaker {
     }
 
     public String getDontKnow() {
-            return Responses.getRandomResponse(Responses.dontKnow);
+            return GeneralResponses.getRandomResponse(GeneralResponses.dontKnow);
     }
 
     public String getWeather(String destination) {
 
         if (StringUtils.isNullOrEmpty(destination)) {
-            int i = 0;
-            String str = "";
             if (locationSet.size() == 0) {
-                return Responses.getRandomResponse(Responses.NoDestinationSet, "<userinput>", "weather");
-            } else {
-                while (locationSet.get(i) != null) {
-                    str += locationSet.get(i).destination + ": " + locationSet.get(i).tempInCelcius + " degrees C with " + locationSet.get(i++).weatherDescription;
-                }
-                return str;
+                return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", "weather");
             }
         }
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination;
+        
+        String desc = locationSet.get(locationSet.size()-1).weatherDescription.toLowerCase();
+        String join = "";
+        for(String s: desc.split(" ")){
+        	if(s.equals("is")){
+        		join = " and the ";
+        		break;
+        	} else {
+        		join = " with ";
+        	}
+        }
+        
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(locationSet.get(locationSet.size() - 1).destination) 
+        		+ join + desc + ".";
     }
 
-    public String getActivities() {
-        String s1 = Responses.getRandomResponse(Responses.activities);
-        String s2 = s1;
-        while (s2.equals(s1)) {
-            s2 = Responses.getRandomResponse(Responses.activities);
-        }
+    public String getTropicalActivities() {
+    	String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
+    	String s2 = s1;
+    	while (s2.equals(s1)) {
+    		s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
+    	}
+    	String response = "While you are there you could " + s1 + ", or you could " + s2;
+        return response;
+    }
+    
+    // TODO: Fix class to do winter things
+    public String getWinterActivities() {
+//        String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
+//        String s2 = s1;
+//        while (s2.equals(s1)) {
+//            s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
+//        }
 
-        String response = "While you are there you could " + s1 + ", or you could " + s2;
+        String response = "While you are there you could try something new!";
         return response;
     }
 
@@ -224,10 +262,18 @@ public final class ResponseMaker {
     }
 
     public String getSimpleNo() {
-        return Responses.getRandomResponse(Responses.simpleNo);
+        return TropicResponses.getRandomResponse(GeneralResponses.simpleNo);
     }
 
     public String getSimpleYes() {
-        return Responses.getRandomResponse(Responses.simpleYes);
+        return TropicResponses.getRandomResponse(GeneralResponses.simpleYes);
     }
+
+	public String getAlreadyLeft() {
+		return GeneralResponses.getRandomResponse(GeneralResponses.AlreadyLeft);
+	}
+
+	public String getStartup() {
+		return GeneralResponses.getRandomResponse(GeneralResponses.StartUp);
+	}
 }

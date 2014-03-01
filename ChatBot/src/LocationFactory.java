@@ -8,13 +8,19 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Build location information, interact with Google
+ * API's using the JSON library.
+ * 
+ * @author Brett Dupree
+ *
+ */
+
 @SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {
         setWeather(loc);
         setDistance(loc);
-        getPlaces(loc, "food");
-        getPlaces(loc, "lodging");
     }
 
     /**
@@ -97,8 +103,9 @@ public class LocationFactory {
 		/*
 		 * Construct URL from paramters, open the stream, read it, and create a JSON object from it.
 		 */
-        if (loc.destination == null) return false;
-		String url = "http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(loc.destination);
+        System.out.println(loc.destination);
+    	if (loc.destination == null) return false;
+		String url = "http://api.openweathermap.org/data/2.5/weather?q=" + loc.destination;
 
         try {
             Scanner scan = new Scanner(new URL(url).openStream());
@@ -129,9 +136,9 @@ public class LocationFactory {
         return false;
     }
 
-    private static double[] geocode(String s) throws IOException {
+    public static double[] geocode(String s) throws IOException {
         String geocodeUrl = "http://maps.googleapis.com/maps/api/geocode/json?address=";
-        geocodeUrl += URLEncoder.encode(s,s) + "&sensor=true";
+        geocodeUrl += URLEncoder.encode(s) + "&sensor=true";
         Scanner scan = new Scanner(new URL(geocodeUrl).openStream());
         String str = new String();
         while (scan.hasNext()) {
@@ -175,7 +182,7 @@ public class LocationFactory {
                 JSONObject tmp;
                 while (!j.isNull(index) && index < 4) {
                     tmp = j.getJSONObject(index);
-                    toReturn.add(tmp.getString("name"));// + ", " + tmp.getString("vicinity")); Trimmed this off to just get place names.
+                    toReturn.add(tmp.getString("name")); // Trimmed this off to just get place names.
                     index++;
                 }
                 loc.places.put(keyword, toReturn);
@@ -185,6 +192,9 @@ public class LocationFactory {
             return false;
         } catch (NullPointerException e){
         	return false;
+        }
+        for(String s:toReturn){
+        	System.out.println(s);
         }
         return false;
     }

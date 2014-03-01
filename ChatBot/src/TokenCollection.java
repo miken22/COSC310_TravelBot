@@ -1,5 +1,14 @@
 import java.util.*;
 
+/**
+ * This class holds the tokenized words from the users input. The
+ * sentence is compared against the different Regex patterns to
+ * determine the best token for the input.
+ * 
+ * @author Manny Haller
+ *
+ */
+
 public final class TokenCollection {
     private String originalInput;
     private String lowercaseInput;

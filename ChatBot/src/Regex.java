@@ -2,6 +2,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * String matching based on regular expressions.
+ * 
+ * @author Manny Haller
+ *
+ */
+
 public final class Regex {
     public static Pattern wordsAndNumbers = Pattern.compile("(\\s[0-9]*\\.[0-9]*\\s)|((?i)\\b([A-Z0-9]*'[A-Z0-9]*|[A-Z0-9]*-[A-Z0-9]*|[A-Z0-9]*)\\b)");
     public static Pattern words = Pattern.compile("(?i)\\b([A-Z]*'[A-Z]*|[A-Z]*-[A-Z]*|[A-Z]*|)\\b");

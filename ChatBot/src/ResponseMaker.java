@@ -73,15 +73,13 @@ public final class ResponseMaker {
     }
 
     public String getAroundWinter(String location) {
-    	// TODO: Add responses once new class is built
-    	// return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
-    	return null;
+    	return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
     }
     
     public String getTravelMethod(String travelMethod, String location) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
-		    String response = "You can if you want to." + "\r\n";
+		    String response = "You can if you want." + "\r\n";
             response += getTravelCost(travelMethod) + ".";
             return response;
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
@@ -103,12 +101,12 @@ public final class ResponseMaker {
     }
 
     public String getGenAccommodation() {
-        return TropicResponses.getRandomResponse(TropicResponses.genAccom);
+        return GeneralResponses.getRandomResponse(GeneralResponses.genAccom);
     }
 
     public String getBudgetAccom(int amount, String location) {
         String response = "Searching for the best accommodations that match you budget. " + "\n";
-
+        System.out.println(amount);
         if (amount >= 130) {
             response += TropicResponses.getRandomResponse(TropicResponses.niceAccom, "<Dest>", location);
         } else if (amount > 90) {
@@ -125,7 +123,7 @@ public final class ResponseMaker {
 
         try{
         	if(!l.getPlaces("food").isEmpty()){
-                response += l.getPlaces("food").get(0) + ".";
+                response += "A very popular place is " + l.getPlaces("food").get(0) + ".";
         	}
         } catch (NullPointerException e){
         	 response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
@@ -179,7 +177,7 @@ public final class ResponseMaker {
     public String getDistances(String city, String city2) {
         String response;
         l = new Location(city, city2);
-        response = "The distance between " + city + " and " + city2 + " is ";
+        response = "The distance between " + city2 + " and " + city + " is ";
         response += (l.distanceFromOrigin == 0) ? "...I don't know." : l.distanceFromOrigin + "km";
         return response;
     }
@@ -223,14 +221,14 @@ public final class ResponseMaker {
     
     // TODO: Fix class to do winter things
     public String getWinterActivities() {
-//        String s1 = TropicResponses.getRandomResponse(TropicResponses.activities);
-//        String s2 = s1;
-//        while (s2.equals(s1)) {
-//            s2 = TropicResponses.getRandomResponse(TropicResponses.activities);
-//        }
+        String s1 = WinterResponses.getRandomResponse(WinterResponses.activities);
+        String s2 = s1;
+        while (s2.equals(s1)) {
+            s2 = TropicResponses.getRandomResponse(WinterResponses.activities);
+        }
 
-        String response = "While you are there you could try something new!";
-        return response;
+        return "While you are there you could " + s1 + ", or you could " + s2;
+     
     }
 
     private String substituteParameters(String paramText) {

@@ -31,7 +31,7 @@ public class TravelAgent {
 
  		String message = getResponse(Parser.parseUserMessage(input));
        	// Write out our response with header & footer
-   		String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n\r\n";
+   		String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n";
        	return response;
     }
     

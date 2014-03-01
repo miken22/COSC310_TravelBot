@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
@@ -26,6 +27,12 @@ public class ChatBox{
 	private JButton send;
 	private JButton clear;
 	
+	private JMenuBar menu;
+	private JMenu file;
+	private JMenuItem newConvo;
+	private JMenuItem exit;
+	private JMenuItem save;
+	
 	private TravelAgent agent;
 	
 	public ChatBox(){
@@ -34,7 +41,18 @@ public class ChatBox{
 		input = new JTextArea();
 		scroll1 = new JScrollPane(convo);
 		scroll2 = new JScrollPane(input);
-			
+		
+		menu = new JMenuBar();
+		file = new JMenu("File");
+		newConvo = new JMenuItem("New Conversation");
+		save = new JMenuItem("Save Conversation");
+		exit = new JMenuItem("Exit");
+		
+		newConvo.addActionListener(new MenuListener(1));
+		save.addActionListener(new MenuListener(2));
+		exit.addActionListener(new MenuListener(3));
+		
+		
 		send = new JButton("Send");
 		clear = new JButton("Clear");
 		send.addActionListener(new ButtonListener());
@@ -53,7 +71,13 @@ public class ChatBox{
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.setSize(550, 450);
+		frame.setSize(550, 470);
+		frame.setJMenuBar(menu);
+		menu.add(file);
+		file.add(newConvo);
+		file.add(save);
+		file.add(exit);
+		
 		c = frame.getContentPane();
 		
 		convo.setEditable(false);
@@ -123,11 +147,42 @@ public class ChatBox{
 				return;
 			} else {
 				input.setText("");
-				convo.setText(convo.getText() + "\n\r" + "User: " + in);	// Update textarea with user message
+				convo.setText(convo.getText() + "\n\r" + "User: " + "\n\r" + in);	// Update textarea with user message
 				out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
 				convo.setText(convo.getText() + out);	// Update textarea with agent response
 			}
 		}
+	}
+	
+	private class MenuListener implements ActionListener {
+
+		private int id;
+		
+		public MenuListener(int a){
+			this.id = a;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+		
+			if(id==1){
+				try {
+					new Parser();
+				} catch (InvalidFormatException e) {e.printStackTrace();} 
+				  catch (IOException e) {e.printStackTrace();}
+				frame.dispose();
+				new ChatBox();
+			} else if (id==2){
+				String name = (String)JOptionPane.showInputDialog(null, "Save As:\n","Set File Name",JOptionPane.PLAIN_MESSAGE,null,null,"");
+				try {
+					SaveText.saveConvo(name, convo.getText());
+				} catch (FileNotFoundException e) {}
+			} else {
+				System.exit(0);
+			}
+			
+		}
+
 	}
 	
 	public static void main(String[] args){

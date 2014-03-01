@@ -23,6 +23,7 @@ public class GeneralResponses {
 	public static List<String> simpleYes = Arrays.asList("Yes.", "Of course, let me look at some options.", "Sure! We can do that.", "I think that can be done.");
 	public static List<String> simpleNo = Arrays.asList("No.", "That's not possible", "Sorry, I can't help with that.");
     public static List<String> dontKnow = Arrays.asList("I do not know the answer to that.", "Sorry, I don't know what to say to that.", "I'm not sure how to respond.", "Sorry, could you try again please?");
+    public static List<String> genAccom = Arrays.asList("We offer a wide variety of accomodations. Do you have a budget?", "We offer lots of different hotels. Do you have a price in mind?", "Were you interested in a family resort, or one of our luxury offerings?");
     public static List<String> youreWelcome = Arrays.asList("No problem.", "You're welcome.", "Of course, anytime.", "My pleasure.");
     public static List<String> badDestination = Arrays.asList("Sorry, we don't go to <Dest>.", "Sorry, I do not think that we arrange trips to <Dest>.", "Sorry, <Dest> is not a place we travel go to.", "Our guide stopped going to <Dest> a while ago, sorry.");
     public static List<String> notEnoughInfo = Arrays.asList("Sorry, you need to tell me more about what you mean by '<userinput>'");

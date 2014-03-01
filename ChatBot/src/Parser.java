@@ -67,10 +67,10 @@ public final class Parser {
         // name then it forces the formatting to be first letter upper cased so the NE finders can try to match
         // the object.
         for(int i = 0; i < taggedString.length; i++){
-        	System.out.print(taggedString[i] + " ");
+//        	System.out.print(taggedString[i] + " ");
         	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")){
         		tokens[i] = StringUtils.toTitleCase(tokens[i]);
-        		System.out.println(tokens[i]); // to see what is happening
+//        		System.out.println(tokens[i]); // to see what is happening
         	}
         }
         

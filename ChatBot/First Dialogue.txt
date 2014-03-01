@@ -1,0 +1,231 @@
+TravelBot started at Mar 01, 2014 02:54:30 PM
+Powered by Google
+
+Travel Bot: Hi! Welcome to our travel center. We help arrange trips to Mexico and ski resorts in BC and Alberta. How can I help you today?
+
+User: Hi
+
+Travel Bot:
+Hi, how can I help?
+
+
+User: I want to go to Calgary
+
+Travel Bot:
+Calgary is very nice!
+
+
+User: how far is calgary
+
+Travel Bot:
+The distance between Calgary and Kelowna is 605.15km
+
+
+User: can I drive?
+
+Travel Bot:
+You can if you want.
+Driving to Calgary, from Kelowna would cost approximately $299.58.
+
+
+User: can i fly
+
+Travel Bot:
+Searching...
+I can certainly help you with that. All our flights are direct to Calgary.
+Flying to Calgary, from Kelowna would cost approximately $207.24.
+
+
+User: what activities are there?
+
+Travel Bot:
+While you are there you could rent a snowmobile, or you could go skiing
+
+
+User: are there popular restaurants?
+
+Travel Bot:
+Let me look that up... 
+A very popular place is Pita Express.
+
+
+User: how can I get around?
+
+Travel Bot:
+We could help set you up with a rental car if you'd like. Be sure to drive carefully on the mountain roads!
+
+
+User: Can I get around another way?
+
+Travel Bot:
+If you want to get between cities Greyhound is the way to go.
+
+
+User: actually, I want to go to Revelstoke
+
+Travel Bot:
+Everybody loves Revelstoke!
+
+
+User: how far is revelstoke?
+
+Travel Bot:
+The distance between Revelstoke and Kelowna is 197.43km
+
+
+User: are there good restaurants there?
+
+Travel Bot:
+Determining what's best for you.
+A very popular place is The Village Idiot.
+
+
+User: are there any activities there?
+
+Travel Bot:
+While you are there you could rent a snowmobile, or you could go heliskiing
+
+
+User: can you book me a hotel?
+
+Travel Bot:
+We offer a wide variety of accomodations. Do you have a budget?
+
+
+User: I can afford $60
+
+Travel Bot:
+Searching for the best accommodations that match you budget. 
+We've partnered with some great places. You might like Hotel Tropicoco, only $50, a night!
+
+
+User: what's the weather like right now?
+
+Travel Bot:
+It is currently -4.0 degrees C in Revelstoke and the sky is clear.
+
+
+User: how can I get around there?
+
+Travel Bot:
+If you want to get between cities Greyhound is the way to go.
+
+
+User: How can I get around town?
+
+Travel Bot:
+We could help set you up with a rental car if you'd like. Be sure to drive carefully on the mountain roads!
+
+
+User: Actually I want to go somewhere warm. I want to go to Mexico City
+
+Travel Bot:
+It is currently -4.0 degrees C in Revelstoke and the sky is clear.
+
+
+User: I want to go to Mexico City
+
+Travel Bot:
+Mexico City, Mexico is a wonderful place!
+
+
+User: can i book a hotel there?
+
+Travel Bot:
+Were you interested in a family resort, or one of our luxury offerings?
+
+
+User: I can afford $100 a night
+
+Travel Bot:
+Searching for the best accommodations that match you budget. 
+
+
+
+User: Actually, I want to go to Cancun
+
+Travel Bot:
+Everybody loves Cancun, Mexico!
+
+
+
+User: what's the weather like there
+
+Travel Bot:
+It is currently 25.37 degrees C in Cancun, Mexico and the sky is clear.
+
+
+
+User: can you book me a hotel?
+
+Travel Bot:
+Were you interested in a family resort, or one of our luxury offerings?
+
+
+
+User: I can afford $100
+
+Travel Bot:
+Searching for the best accommodations that match you budget. 
+I suggest BeachScape Kin Ha Villas. It just takes seconds to walk from your room to the beach!
+
+
+
+User: what activities are there?
+
+Travel Bot:
+While you are there you could swim with dolphins, or you could see some of the historical landmarks
+
+
+
+User: how can i get around?
+
+Travel Bot:
+If you want to get between cities coach bus is the way to go.
+
+
+
+User: are there any popular restaurants?
+
+Travel Bot:
+Well let me find out... 
+There may be some local places, but nothing outstanding.
+
+
+
+User: can I go on a cruise?
+
+Travel Bot:
+Searching...
+Yes! The Maya Riviera is one of the most popular cruise destinations.
+
+
+
+User: can i fly there?
+
+Travel Bot:
+Searching...
+I can certainly help you with that. All our flights are direct to Cancun.
+Flying to cancun, mexico, from Kelowna would cost approximately $2157.65.
+
+
+
+User: can I drive?
+
+Travel Bot:
+You can if you want.
+Driving to cancun, mexico, from Kelowna would cost approximately $3118.99.
+
+
+
+User: ok thanks
+
+Travel Bot:
+Of course, anytime.
+
+
+
+User: bye
+
+Travel Bot:
+See ya

@@ -15,7 +15,7 @@ public class ParserDictionary {
     public static List<String> colddest = Arrays.asList("Canada");
     public static List<String> tropiccities = Arrays.asList("Mexico City", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Chichen Itza");
     public static List<String> bccities = Arrays.asList("Revelstoke","Kamloops","Golden","Kelowna");
-    public static List<String> albertacities = Arrays.asList("Banff","Lake Louise","Calgary");
+    public static List<String> albertacities = Arrays.asList("Canmore","Calgary");
     public static List<String> askForCities = Arrays.asList("cities", "places", "towns", "destinations");
     public static List<String> thanks = Arrays.asList("thanks", "thank you", "appreciated");
     public static List<String> travelMethods = Arrays.asList("fly", "flight", "plane", "boat", "cruise", "bus", "drive", "car");
@@ -34,7 +34,6 @@ public class ParserDictionary {
 
     public static List<List<String>> getTokenizedPhraseList(List<String> phraseList) {
         List<List<String>> tokenizedPhraseList;
-
         // Check if result is cached
         if (!cachedLists.containsKey(phraseList)) { // Not found in cache
             tokenizedPhraseList = tokenizePhrases(phraseList);  // Break down the phrases into a list of tokenized phrases
@@ -42,7 +41,6 @@ public class ParserDictionary {
         } else {
             tokenizedPhraseList = cachedLists.get(phraseList); // Result found in cache
         }
-
         return tokenizedPhraseList;
     }
 
@@ -56,7 +54,6 @@ public class ParserDictionary {
             // then add the list of tokens to our list of tokenized phrases
             tokenizedPhraseList.add(Regex.tokenizeOnWhitespace(phrase));
         }
-
         return tokenizedPhraseList;
     }
 }

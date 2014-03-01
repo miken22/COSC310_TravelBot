@@ -62,7 +62,7 @@ public class ChatBox{
 		convo.setBounds(2,2,frame.getWidth()-23,300);
 		convo.setLineWrap(true);
 		convo.setWrapStyleWord(true);
-		convo.setFont(new Font("Sans Serrif", Font.PLAIN,14));
+		convo.setFont(new Font("Sans Serif", Font.PLAIN,12));
 		scroll1.setBounds(2,2,frame.getWidth()-23,300);
 		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
 		c.add(scroll1);
@@ -70,6 +70,7 @@ public class ChatBox{
 		input.setLineWrap(true);
 		input.setBorder(BasicBorders.getTextFieldBorder());	
 		input.setBounds(4, 305, frame.getWidth()-115, 80);
+		input.setFont(new Font("Sans Serif", Font.PLAIN,12));
 		scroll2.setBounds(4, 305, frame.getWidth()-115, 95);
 		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Talk to TravelBot:"));
 		c.add(scroll2);

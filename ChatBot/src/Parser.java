@@ -149,13 +149,13 @@ public final class Parser {
         String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
         if (!city.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("city", StringUtils.toTitleCase(city) + ",BC");
+            parsedInput.setField("city", StringUtils.toTitleCase(city));
             parsedInput.setField("destination", "Canada");
         } else {
         	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
         	if (!city.isEmpty()) {
                 parsedInput.type = ParsedInputType.SetDestination;
-                parsedInput.setField("city", StringUtils.toTitleCase(city) + ",AB");
+                parsedInput.setField("city", StringUtils.toTitleCase(city));
                 parsedInput.setField("destination", "Canada");
             }
         }   
@@ -176,6 +176,7 @@ public final class Parser {
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("city", StringUtils.toTitleCase(city));
             parsedInput.setField("destination", "Mexico");
+            return;
         }
         
         if(match.isEmpty() && city.isEmpty()){
@@ -209,18 +210,22 @@ public final class Parser {
     }
 
     private static void parseHowFar(ParsedInput parsedInput) {
-        if (parsedInput.containsAnyPhrase(ParserDictionary.distance)) {
-            parsedInput.type = ParsedInputType.Distance;
+    	if (parsedInput.containsAnyPhrase(ParserDictionary.distance)) {
+    		parsedInput.type = ParsedInputType.Distance;
             
             /* This checks the input for one or more cities if the input is about distance.
              * It will check each list of cities for a match before moving on.
              */
-            List<String> matches = parsedInput.getMatchingPhrases(ParserDictionary.tropiccities);
-            if(matches.isEmpty()){
-            	matches = parsedInput.getMatchingPhrases(ParserDictionary.albertacities);
-            	if(matches.isEmpty()){
-            		matches = parsedInput.getMatchingPhrases(ParserDictionary.bccities);
-            	}
+            List<String> matches = new ArrayList<>();
+            
+            for(String s: parsedInput.getMatchingPhrases(ParserDictionary.tropiccities)){
+            	matches.add(s);
+            }
+            for(String s: parsedInput.getMatchingPhrases(ParserDictionary.albertacities)){
+            	matches.add(s);
+        	}
+            for(String s: parsedInput.getMatchingPhrases(ParserDictionary.bccities)){
+        	   matches.add(s);
             }
             
             if (matches.size() == 0) {

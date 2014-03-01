@@ -147,7 +147,8 @@ public class JSONObject {
     /**
      * Construct an empty JSONObject.
      */
-    public JSONObject() {
+    @SuppressWarnings("rawtypes")
+	public JSONObject() {
         this.map = new HashMap();
     }
 

@@ -75,7 +75,7 @@ public final class ResponseMaker {
 
     public String getAroundWinter(String location) {
     	// TODO: Add responses once new class is built
-    	// return TropicResponses.getRandomResponse(TropicResponses.transport, "<Dest>", location);
+    	// return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
     	return null;
     }
     
@@ -142,7 +142,7 @@ public final class ResponseMaker {
             return "Sorry you need to say where you want to go!";
         } else if (!StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             destination = location;
-            return TropicResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
+            return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
             destination = city;
         } else {
@@ -160,10 +160,8 @@ public final class ResponseMaker {
         }
         l = new Location(city);
         locationSet.add(l);
-        // This removes the ",BC" and ",AB" for cleaner presentation. They must be kept that
-        // way to properly interact with Google's APIs.
-        String cleanedCity = city.substring(0, city.length()-3);
-        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", cleanedCity);
+//        String cleanedCity = city.substring(0, city.length()-3);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", city);
     }
 
     
@@ -198,7 +196,20 @@ public final class ResponseMaker {
                 return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", "weather");
             }
         }
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + locationSet.get(locationSet.size() - 1).destination + " with " + locationSet.get(locationSet.size()-1).weatherDescription + ".";
+        
+        String desc = locationSet.get(locationSet.size()-1).weatherDescription.toLowerCase();
+        String join = "";
+        for(String s: desc.split(" ")){
+        	if(s.equals("is")){
+        		join = " and the ";
+        		break;
+        	} else {
+        		join = " with ";
+        	}
+        }
+        
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(locationSet.get(locationSet.size() - 1).destination) 
+        		+ join + desc + ".";
     }
 
     public String getTropicalActivities() {

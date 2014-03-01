@@ -33,18 +33,27 @@ After it has been downloaded do the following:
 2. Type: java -jar ChatBot.jar
 
 ========================================================================================================
-Assignment 3 Additions
+Assignment 3 
+Individual Work:
 
-Continuing with the work started by the group in assignment 2 (above), the program will begin to be improved by including a simple GUI and increasing the parsers ability by using the OpenNLP parsers (http://opennlp.apache.org/) . This will also allow for better handling of misspelled words, especially proper nouns that are not explicitly defined in the ParserDictionary class. This will allow the agent to handle conversations more dynamically, creating responses based on user input even when the agent has no knowledge of what the user has said.
+Continuing with the work started by the group in assignment 2 (above), the program will begin to be improved by including a simple GUI and increasing the parsers ability by using the OpenNLP parsers (http://opennlp.apache.org/) . This will allow the agent to handle conversations more dynamically, creating responses based on user input even when the agent has no knowledge of what the user has said.
 
+Added Features:
+
+GUI Interface:
+A simple graphical user interface has been added to the system to provide the user with a more realistic chat environment. The GUI stores all text from the conversation to allow the user to look back at previous responses, and WILL also have a feature added to export the chat history. This feature could be used by the user to save conversations to look back on later, or to be used by the agent as additional learning data.
+
+Implement OpenNLP: 
+OpenNLP NER and POS Tagger have been added to the system to try and generate more realistic conversations. The primary way that this is done is by parsing the sentence and flagging parts of the input that might represent nouns. The system converts the text to title case (from mike to Mike for example) to create a syntactically correct sentence. Then the OpenNLP Named Entity Recognition parser compares the input to its learned vocabulary. This way the agent can recognize words that are not explicitly coded in its dictionary and still generate responses. An example would be if the user asks about going to Paris, although the system does not know the word explicitly, the NER flags Paris as a location and stores the input as a "bad location" type. The agent can then use the input to build a sentence that explains to the user that it cannot help with going to Paris.
+
+Improved Spell Checking: 
+The original system had a Fuzzy Pattern Matching algorithm to try and identify user spelling mistakes. As mentioned above, the OpenNLP POS Tagger has added another level of spell checking allowing the agent to recognize extra words from its learning set for people, organizations and places.
+
+Second Conversation Topic:
+On top of the current conversation the agent now handles organizing vacations to BC's interior and parts of Alberta. On top of using the same framework to generate similar conversation styles to the Mexico conversations, further additions to the Location class allow for more detailed Google searches for activities around the destination. 
 ========================================================================================================
 To Do:
 
 - Improve GUI
-- Add more extensive dialogue.
-- Incorporate OpenNLP for more dynamic conversations
-- Level 0 DFD of system
-- Level 1 DFD of system
-- Explanations of features added
 - 30 turn sample dialogue
 - Video explaining project work so far.

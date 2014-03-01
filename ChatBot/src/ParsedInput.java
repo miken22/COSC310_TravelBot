@@ -64,7 +64,6 @@ public final class ParsedInput {
             if (result.levenshteinDistance <= allowedDistance) { // Input contains a close-enough recognized phrase
                 matches.add(phrase);
             }
-            System.out.println(phrase);
         }
 
         return matches;

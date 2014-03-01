@@ -19,7 +19,7 @@ public class Location {
     public double distanceFromOrigin;
 
     public Location(String destination) {
-        this.destination = destination;
+        this.destination = destination.toLowerCase();
         lf.build(this);
     }
 

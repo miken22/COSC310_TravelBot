@@ -42,7 +42,6 @@ public final class ResponseMaker {
     public String noDestinationInfo(String input){
     	return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", input);
     }
-
     public String getImBack() {
         return "Okay, I'm back. What can I help with?";
     }

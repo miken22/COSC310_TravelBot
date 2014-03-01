@@ -51,6 +51,7 @@ The original system had a Fuzzy Pattern Matching algorithm to try and identify u
 
 Second Conversation Topic:
 On top of the current conversation the agent now handles organizing vacations to BC's interior and parts of Alberta. On top of using the same framework to generate similar conversation styles to the Mexico conversations, further additions to the Location class allow for more detailed Google searches for activities around the destination. 
+
 ========================================================================================================
 To Do:
 

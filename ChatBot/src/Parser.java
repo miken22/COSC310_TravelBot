@@ -112,6 +112,7 @@ public final class Parser {
             parseActivities(parsedInput);
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
+            parseGoSkiing(parsedInput);
         }
         return parsedInput;
     }
@@ -149,13 +150,13 @@ public final class Parser {
         String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
         if (!city.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("city", StringUtils.toTitleCase(city));
+            parsedInput.setField("city", StringUtils.toTitleCase(city)+",BC");
             parsedInput.setField("destination", "Canada");
         } else {
         	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
         	if (!city.isEmpty()) {
                 parsedInput.type = ParsedInputType.SetDestination;
-                parsedInput.setField("city", StringUtils.toTitleCase(city));
+                parsedInput.setField("city", StringUtils.toTitleCase(city)+",AB");
                 parsedInput.setField("destination", "Canada");
             }
         }   
@@ -186,7 +187,7 @@ public final class Parser {
         	places = findDest();
         }
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty() && parsedInput.getField("destination").isEmpty()){
+        	if(!places.isEmpty()){
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;
@@ -273,6 +274,12 @@ public final class Parser {
         if (parsedInput.containsAnyPhrase(ParserDictionary.getAround)) {
             parsedInput.type = ParsedInputType.GetAround;
         }
+    }
+    
+    private static void parseGoSkiing(ParsedInput parsedInput){
+    	if(parsedInput.containsAnyPhrase(ParserDictionary.skiactivities)){
+    		parsedInput.type = ParsedInputType.SkiResort;
+    	}
     }
 
     private static void parseGetFood(ParsedInput parsedInput) {

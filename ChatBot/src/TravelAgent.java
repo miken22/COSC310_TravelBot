@@ -31,7 +31,7 @@ public class TravelAgent {
 
  		String message = getResponse(Parser.parseUserMessage(input));
        	// Write out our response with header & footer
-   		String response = "\r\n\r\n" + botName + ":\r\n" + message + "\r\n";
+   		String response = "\r\n\r\n" + botName + ": " + message + "\r\n";
        	return response;
     }
     
@@ -106,12 +106,20 @@ public class TravelAgent {
             		response = responseMaker.getWinterActivities();
             	}
                 break;
-
+                
+            case SkiResort:
+            	response = responseMaker.getSkiResorts(savedInputs.get("city"));
+            	break;
+            	
             case GetKeyword:
                 response = responseMaker.getKeywordPlaces(savedInputs.get("keyword"));
 
             case ListCities:
-                response = responseMaker.getCities();
+            	if(tropicDestination){
+            		response = responseMaker.getCities();
+            	} else {
+            		response = "The biggest cities in the area are Vancouver and Calgary.";
+            	}
                 break;
 
             // How the user wants to get to destination

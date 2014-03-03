@@ -22,10 +22,11 @@ public class ParserDictionary {
     public static List<String> distance = Arrays.asList("far", "long", "distance");
     public static List<String> food = Arrays.asList("eat", "food", "restaurant", "dine", "lunch", "dinner", "bar");
     public static List<String> budget = Arrays.asList("budget", "afford", "cost");
-    public static List<String> activities = Arrays.asList("things to do", "activities");
-    public static List<String> getAround = Arrays.asList("get around");
+    public static List<String> activities = Arrays.asList("things to do", "activities", "do");
+    public static List<String> getAround = Arrays.asList("get around", "transportation","travel around");
     public static List<String> bookInfo = Arrays.asList("passport", "reservation", "book", "booking");
     public static List<String> lang = Arrays.asList("english", "spanish", "french");
+    public static List<String> skiactivities = Arrays.asList("ski", "skiing", "snowboard","snowboarding");
     public static List<String> weather = Arrays.asList("weather", "temperature", "rain", "sun", "warm", "cool", "time of year");
     public static List<String> seasons = Arrays.asList("spring", "summer", "fall", "winter");
 

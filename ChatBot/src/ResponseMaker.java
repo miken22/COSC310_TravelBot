@@ -157,8 +157,8 @@ public final class ResponseMaker {
         }
         l = new Location(city);
         locationSet.add(l);
-//        String cleanedCity = city.substring(0, city.length()-3);
-        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", city);
+        String cleanedCity = city.substring(0, city.length()-3);
+        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", cleanedCity);
     }
 
     
@@ -204,9 +204,9 @@ public final class ResponseMaker {
         		join = " with ";
         	}
         }
-        
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(locationSet.get(locationSet.size() - 1).destination) 
-        		+ join + desc + ".";
+        String city = locationSet.get(locationSet.size()-1).destination;
+        String cleanedCity = city.substring(0, city.length()-3);
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(cleanedCity)+ join + desc + ".";
     }
 
     public String getTropicalActivities() {
@@ -219,7 +219,32 @@ public final class ResponseMaker {
         return response;
     }
     
-    // TODO: Fix class to do winter things
+    public String getSkiResorts(String city){
+    	String response = "";
+    	
+    	switch(city.toLowerCase()){
+    	case "revelstoke,bc":
+    		response = "One of the best resorts in the area, Revelstoke mountain will provide you with an excellent challenge.";
+    		break;
+    	case "kamloops,bc":
+    		response = "Kamloops is home to a great family resort, Sunshine Village. Not too challenging with activities for the whole family!";
+        	break;
+    	case "kelowna,bc":
+    		response = "Voted best tree skiing in Canada, Big White Ski Resort boast some of the best powder in the interior in some technical terrain.";
+    		break;
+    	case "golden,bc":
+    		response = "Golden is the home of back-country skiing. Warm up at Kicking Horse with its steep valleys before trying a trip out to the back-country by helicopter or snow-cat!";
+    		break;
+    	case "banff,ab":
+    		response = "Banff is one of the most unique areas, providing you with access to numerous resorts in a relatively short drive. Lake Louise is one of the most historic and beautiful resorts in Canada, while Sunshine Village has the terrain to challenge everyone!";
+    		break;
+    	case "calgary,ab":
+    		response = "While you're in Calgary you have to stop by Olympic Park. The resort was host to the winter Olympics and you can still tour many of the buildings from then.";
+    		break;
+    	}
+    	return response;
+    }
+    
     public String getWinterActivities() {
         String s1 = WinterResponses.getRandomResponse(WinterResponses.activities);
         String s2 = s1;

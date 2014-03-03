@@ -46,8 +46,6 @@ public class LocationFactory {
 		 * URLEncoder is used to deal with spaces and such.
 		 */
     	try{
-    	System.out.println("dest " + loc.destination);
-    	System.out.println("origin: " + loc.origin);
         url = "http://maps.googleapis.com/maps/api/distancematrix/json?origins=" + URLEncoder.encode(loc.origin) + "&destinations=" + URLEncoder.encode(loc.destination) + "&mode=driving&sensor=false&language=en-EN";
     	} catch (NullPointerException e){
     		return false;
@@ -103,7 +101,6 @@ public class LocationFactory {
 		/*
 		 * Construct URL from paramters, open the stream, read it, and create a JSON object from it.
 		 */
-        System.out.println(loc.destination);
     	if (loc.destination == null) return false;
 		String url = "http://api.openweathermap.org/data/2.5/weather?q=" + loc.destination;
 
@@ -192,9 +189,6 @@ public class LocationFactory {
             return false;
         } catch (NullPointerException e){
         	return false;
-        }
-        for(String s:toReturn){
-        	System.out.println(s);
         }
         return false;
     }

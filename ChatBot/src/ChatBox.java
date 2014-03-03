@@ -147,7 +147,7 @@ public class ChatBox{
 				return;
 			} else {
 				input.setText("");
-				convo.setText(convo.getText() + "\n\r" + "User: " + "\n\r" + in);	// Update textarea with user message
+				convo.setText(convo.getText() + "\n\r" + "User: " + in);	// Update textarea with user message
 				out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
 				convo.setText(convo.getText() + out);	// Update textarea with agent response
 			}

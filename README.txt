@@ -27,9 +27,11 @@ The org.json package has classes built by Douglas Crockford (https://github.com/
 
 The way that this program is run is by running the Executable JAR File. This file depends on the en-pos-maxent.bin file as well. Follow these steps to run the program:
 
-1. Download the ChatBot.jar file and en-pos-maxent.bin file from GitHub. Save the two files to the same folder location.
+1. Download the ChatBot.jar file and en-pos-maxent.bin file from GitHub in the Executable Folder. 
 
-2. Double click the ChatBot.jar file. The tagger will need 1-2 seconds to load before the application fully launches.
+2. Save the two files to the same location on your computer.
+
+3. Double click the ChatBot.jar file. The tagger will need 1-2 seconds to load before the application fully launches.
 
 =================================================================================================
 Assignment 3 

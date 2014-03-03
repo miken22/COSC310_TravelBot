@@ -10,7 +10,6 @@ Project Description:
 Develop an interactive conversational travel agent that responds to user questions using Java. The user can ask the chatbot any question that is related to the trip such as weather of the destination, cost of the vacation, and transportation for the trip, etc. 
 	 
 =============================================================================================
-
 FILES/FOLDERS DESCRIPTION
 
 The Program class controls the ChatBot program. The class handles user input, which can be provided by Text File or in the Console. 
@@ -23,7 +22,7 @@ The input type is then passed to the TravelAgent class, which again uses cases t
 
 The org.json package has classes built by Douglas Crockford (https://github.com/douglascrockford/JSON-js) to allow the prorgam to interact with the Google API's.
 
-The way that this program is run is by running the Executable JAR File. This file depends on the en-pos-maxent.bin file as well. Follow these steps to run the program:
+The way that this program is run is by running the Executable JAR File. The file depends on the en-pos-maxent.bin file as well. Follow these steps to run the program:
 
 1. Download the ChatBot.jar file and en-pos-maxent.bin file from GitHub in the Executable Folder. 
 
@@ -39,7 +38,7 @@ Continuing with the work started by the group in assignment 2 (above), the progr
 
 Added Features:
 Second Conversation Topic:
-On top of the current conversation the agent now handles organizing vacations to different towns in BC's interior and parts of Alberta.
+On top of the current conversation the agent now handles organizing vacations to different towns in BC's interior and parts of Alberta. The agent is also able to handle topic changes, going from planning a vacation in BC to arranging a trip in Mexico.
 
 GUI Interface:
 A simple graphical user interface has been added to the system to provide the user with a more realistic chat environment. The GUI stores all text from the conversation to allow the user to look back at previous responses, and WILL also have a feature added to export the chat history. This feature could be used by the user to save conversations to look back on later, or to use for the agent to build more responses.
@@ -53,7 +52,7 @@ User: Can I go to Paris?
 Travel Bot: Sorry, I do not think that we arrange trips to Paris. 
 
 Improved Spell Checking: 
-The original system had a Fuzzy Pattern Matching algorithm to try and identify user spelling mistakes. This lets the agent attempt to understand the users sentence by comparing a possible misspelled word against words in its dictionary. Using the new features with OpenNLP incorrectly capitalized named entities also get flagged and allow the agent to respond as shown below:
+The original system had a Fuzzy Pattern Matching algorithm to try and identify user spelling mistakes. This lets the agent attempt to understand the users’ sentence by comparing a possible misspelled word against words in its dictionary. Using the new features with OpenNLP incorrectly capitalized named entities also get flagged and allow the agent to respond as shown below:
 Examples:
 User: I want to go to revelstok
 Travel Bot: Everybody loves Revelstoke!
@@ -87,7 +86,3 @@ Travel Bot: Sorry, I do not think that we arrange trips to Paris.
 This example demonstrates the agent handling a question that is not related to being in the interior.
 User: can i go on a cruise?
 Travel Bot: It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.
-
-=============================================================================================
-To Do:
-- Video explaining project work so far.

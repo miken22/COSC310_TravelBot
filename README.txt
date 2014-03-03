@@ -25,12 +25,11 @@ The input type is then passed to the TravelAgent class, which again uses cases t
 
 The org.json package has classes built by Douglas Crockford (https://github.com/douglascrockford/JSON-js) to allow the prorgam to interact with the Google API's.
 
-The best way to run the application is by executing the JAR file. The JAR file is located in the ~/sim_imput/ChatBot folder.
-After it has been downloaded do the following:
+The way that this program is run is by running the Executable JAR File. This file depends on the en-pos-maxent.bin file as well. Follow these steps to run the program:
 
-1. Open Command Prompt and navigate to the folder location when the JAR was downloaded.
+1. Download the ChatBot.jar file and en-pos-maxent.bin file from GitHub. Save the two files to the same folder location.
 
-2. Type: java -jar ChatBot.jar
+2. Double click the ChatBot.jar file. The tagger will need 1-2 seconds to load before the application fully launches.
 
 =================================================================================================
 Assignment 3 
@@ -39,6 +38,8 @@ Individual Work:
 Continuing with the work started by the group in assignment 2 (above), the program will begin to be improved by including a simple GUI and increasing the parsers ability by using the OpenNLP parsers (http://opennlp.apache.org/) . This will allow the agent to handle conversations more dynamically, creating responses based on user input even when the agent has no knowledge of what the user has said.
 
 Added Features:
+Second Conversation Topic:
+On top of the current conversation the agent now handles organizing vacations to BC's interior and parts of Alberta.
 
 GUI Interface:
 A simple graphical user interface has been added to the system to provide the user with a more realistic chat environment. The GUI stores all text from the conversation to allow the user to look back at previous responses, and WILL also have a feature added to export the chat history. This feature could be used by the user to save conversations to look back on later, or to use for the agent to build more responses.
@@ -58,9 +59,21 @@ User: I want to go to revelstok
 Travel Bot: Everybody loves Revelstoke!
 User: Where can I go sking
 Travel Bot: One of the best resorts in the area, Revelstoke mountain will provide you with an excellent challenge.
+User: what's the weathr like
+Travel Bot: It is currently -4.59 degrees C in Revelstoke with broken clouds.
 
-Second Conversation Topic:
-On top of the current conversation the agent now handles organizing vacations to BC's interior and parts of Alberta. On top of using the same framework to generate similar conversation styles to the Mexico conversations, further additions to the Location class allow for more detailed Google searches for activities around the destination. 
+More Dynamic Response Building:
+Building upon the framework of the Location class developed in Assignment 2 the program has been modified to allow for more realistic answers by using the Google APIs to return true search results. This is most commonly used for search for restaurants and hotel locations. The agent will try and perform a Google search on the keyword and if there are any results it will pick a result to use in building a response for the user.
+Examples:
+User: I can afford $60 a night.
+Travel Bot: Searching for the best accommodations that match you budget. 
+In that price range there is the Sandman Hotel Revelstoke for only $55 a night.
+User: are there good restaurants there?
+Travel Bot: Determining what's best for you. 
+A very popular place is The Village Idiot.
+In the below case this is how the agent handles a search with no valid results:
+User: are there any popular restaurants?
+Travel Bot: Well let me find out... There may be some local places, but nothing outstanding.
 
 Response Handling:
 The agent now has a more refined method to handle inputs that it does not know the answer to. While the agent has the basics to generate a message that it does not know how to respond, other features have been added to try and let the agent use the users input to build a more realistic response as shown below:
@@ -71,6 +84,9 @@ Travel Bot: Sorry, you have to decide where you want to go before we can talk ab
 This example (from above) also shows how the agent uses the user's input to create a more realistic response.
 User: Can I go to Paris?
 Travel Bot: Sorry, I do not think that we arrange trips to Paris. 
+This example demonstrates the agent handling a question that is not related to being in the interior.
+User: can i go on a cruise?
+Travel Bot: It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.
 
 
 =============================================================================================

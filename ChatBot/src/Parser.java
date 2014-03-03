@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -323,31 +322,32 @@ public final class Parser {
     }   
     // These methods all train the appropriate NER part of the parser, and the tokenizer
 	private void trainNF() throws InvalidFormatException, IOException {
-		InputStream is = new FileInputStream("OpenNLP/en-ner-person.bin");
+		InputStream is = this.getClass().getResourceAsStream("en-ner-person.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
         nf = new NameFinderME(tnf);
     }
     
     private void trainOF() throws InvalidFormatException, IOException{
-		InputStream is = new FileInputStream("OpenNLP/en-ner-organization.bin");
+    	InputStream is = this.getClass().getResourceAsStream("/en-ner-organization.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
         of = new NameFinderME(tnf);
     }
     
     private void trainLF() throws InvalidFormatException, IOException{
-		InputStream is = new FileInputStream("OpenNLP/en-ner-location.bin");
+    	InputStream is = this.getClass().getResourceAsStream("/en-ner-location.bin");
         TokenNameFinderModel tnf = new TokenNameFinderModel(is);
         lf = new NameFinderME(tnf);
     }
     
     private void trainTokenizer() throws InvalidFormatException, IOException{
-		InputStream is = new FileInputStream("OpenNLP/en-token.bin");
+    	InputStream is = this.getClass().getResourceAsStream("/en-token.bin");
         TokenizerModel tm = new TokenizerModel(is);
         t = new TokenizerME(tm);
     }
     
     private void trainTagger(){
-    	POSModel model = new POSModelLoader().load(new File("OpenNLP/en-pos-maxent.bin"));
+    	InputStream is = this.getClass().getResourceAsStream("/en-pos-maxent.bin");
+    	POSModel model = new POSModelLoader().load(new File(this.getClass().getResource("/en-pos-maxent.bin").getFile()));
     	tagger = new POSTaggerME(model);
     }
 }

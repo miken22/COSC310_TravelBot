@@ -106,7 +106,7 @@ public final class ResponseMaker {
 
     public String getBudgetAccom(int amount, String location) {
         String response = "Searching for the best accommodations that match you budget. " + "\n";
-        System.out.println(amount);
+
         if (amount >= 130) {
             response += TropicResponses.getRandomResponse(TropicResponses.niceAccom, "<Dest>", location);
         } else if (amount > 90) {
@@ -119,14 +119,15 @@ public final class ResponseMaker {
     }
 
     public String getLocalFood() {
-        String response = GeneralResponses.getRandomResponse(GeneralResponses.searching) + "\n";
+        String response = "";
 
         try{
         	if(!l.getPlaces("food").isEmpty()){
                 response += "A very popular place is " + l.getPlaces("food").get(0) + ".";
         	}
         } catch (NullPointerException e){
-        	 response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
+        	response = "Really searching...... ";
+        	response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
         }
         
         return response;
@@ -297,5 +298,35 @@ public final class ResponseMaker {
 
 	public String getStartup() {
 		return GeneralResponses.getRandomResponse(GeneralResponses.StartUp);
+	}
+
+	public String getWinterAccom(int amount, String city) {
+		String response = "Searching for the best accommodations that match you budget. " + "\n";
+		List<String> places = new ArrayList<>();
+		try{
+			places = l.getPlaces("lodging");
+			int r = 0;
+			if(places.size()>1){
+				r = new java.util.Random().nextInt(places.size());
+			} 
+			String hotel = places.get(r);
+			
+			if(hotel.substring(0, 4)=="The "){
+				hotel = hotel.substring(4, hotel.length());
+			}
+			
+			response += WinterResponses.getRandomResponse(WinterResponses.searchedAccom, "<hotel>", hotel);
+			return response + "$"+(amount-5)+" a night.";
+		} catch (NullPointerException e){}
+		
+		
+        if (amount >= 130) {
+            response += WinterResponses.getRandomResponse(WinterResponses.niceAccom, "<Dest>", city);
+        } else if (amount > 90) {
+            response += WinterResponses.getRandomResponse(WinterResponses.medAccom, "<Dest>", city);
+        } else {
+            response += WinterResponses.getRandomResponse(WinterResponses.cheapAccom, "<Dest>", city);
+        }
+        return response;
 	}
 }

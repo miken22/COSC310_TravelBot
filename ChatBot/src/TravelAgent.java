@@ -124,7 +124,11 @@ public class TravelAgent {
 
             // How the user wants to get to destination
             case TravelMethod:
-                response = responseMaker.getTravelMethod(savedInputs.get("travel method"), savedInputs.get("city"));
+        		if(savedInputs.get("travel method").toLowerCase() == "cruise" && !tropicDestination){
+        			response = "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
+        		} else {
+            		response = responseMaker.getTravelMethod(savedInputs.get("travel method"), savedInputs.get("city"));
+            	}
                 break;
 
             case Distance:
@@ -151,7 +155,12 @@ public class TravelAgent {
 
             case Budget:
                 int amount = Integer.valueOf(savedInputs.get("budget"));
-                response = responseMaker.getBudgetAccom(amount, savedInputs.get("city"));
+                if(tropicDestination){
+                    response = responseMaker.getBudgetAccom(amount, savedInputs.get("city"));
+                } else {
+
+                    response = responseMaker.getWinterAccom(amount, savedInputs.get("city"));
+                }
                 break;
 
             case Language:

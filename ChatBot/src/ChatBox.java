@@ -187,6 +187,7 @@ public class ChatBox{
 	
 	public static void main(String[] args){
 		// Initialize parser for conversation
+		System.out.println( Utils.getExecutingPath());
 		try {
 			new Parser();
 		} catch (InvalidFormatException e) {

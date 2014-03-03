@@ -15,13 +15,13 @@ public class ParserDictionary {
     public static List<String> colddest = Arrays.asList("Canada");
     public static List<String> tropiccities = Arrays.asList("Mexico City", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Chichen Itza");
     public static List<String> bccities = Arrays.asList("Revelstoke","Kamloops","Golden","Kelowna");
-    public static List<String> albertacities = Arrays.asList("Canmore","Calgary");
+    public static List<String> albertacities = Arrays.asList("Canmore","Calgary","Banff");
     public static List<String> askForCities = Arrays.asList("cities", "places", "towns", "destinations");
     public static List<String> thanks = Arrays.asList("thanks", "thank you", "appreciated");
     public static List<String> travelMethods = Arrays.asList("fly", "flight", "plane", "boat", "cruise", "bus", "drive", "car");
     public static List<String> distance = Arrays.asList("far", "long", "distance");
     public static List<String> food = Arrays.asList("eat", "food", "restaurant", "dine", "lunch", "dinner", "bar");
-    public static List<String> budget = Arrays.asList("budget", "afford", "cost");
+    public static List<String> budget = Arrays.asList("budget", "afford", "cost", "spend", "$");
     public static List<String> activities = Arrays.asList("things to do", "activities", "do");
     public static List<String> getAround = Arrays.asList("get around", "transportation","travel around");
     public static List<String> bookInfo = Arrays.asList("passport", "reservation", "book", "booking");

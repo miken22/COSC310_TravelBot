@@ -1,5 +1,5 @@
 COSC 310 Project
-=================================================================================================
+=============================================================================================
 
 Team Members:
 
@@ -11,7 +11,7 @@ Team Members:
 Project Description: 
 Develop an interactive conversational travel agent that responds to user questions using Java. The user can ask the chatbot any question that is related to the trip such as weather of the destination, cost of the vacation, and transportation for the trip, etc. 
 	 
-=================================================================================================
+=============================================================================================
 
 FILES/FOLDERS DESCRIPTION
 
@@ -73,6 +73,6 @@ User: Can I go to Paris?
 Travel Bot: Sorry, I do not think that we arrange trips to Paris. 
 
 
-=================================================================================================
+=============================================================================================
 To Do:
 - Video explaining project work so far.

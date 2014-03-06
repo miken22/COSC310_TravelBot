@@ -88,7 +88,12 @@ public class TravelAgent {
                 break;
 
             case Food:
-                response = responseMaker.getLocalFood();
+            	String place = "";
+            	try{
+            		place = l.getPlaces("food").get(0);
+            		savedInputs.put("food",place);
+            	} catch (NullPointerException e){}
+                response = responseMaker.getLocalFood(place);
                 break;
 
             case Farewell:

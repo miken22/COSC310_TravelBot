@@ -118,15 +118,12 @@ public final class ResponseMaker {
         return response;
     }
 
-    public String getLocalFood() {
+    public String getLocalFood(String place) {
         String response = "";
-
-        try{
-        	if(!l.getPlaces("food").isEmpty()){
-                response += "A very popular place is " + l.getPlaces("food").get(0) + ".";
-        	}
-        } catch (NullPointerException e){
-        	response = "Really searching...... ";
+        String city = l.destination;
+        if(!place.isEmpty()){
+        	response = "A very popular place in " + city + " is " + place + ".";
+        } else {
         	response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
         }
         

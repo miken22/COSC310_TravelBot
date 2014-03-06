@@ -30,49 +30,19 @@ import opennlp.tools.tokenize.TokenizerModel;
  */
 
 public final class CustomParser {
-    // Sentence tokenizer
- 	private static Tokenizer t;
- 	
- 	// Three different NER's to be used on text
- 	private static NameFinderME nf;
- 	private static NameFinderME of;
- 	private static NameFinderME lf;
- 	private static POSTaggerME tagger;
- 	
- 	private static String[] tokens;
+    
+	private static String[] tokens;
+	private static Parser p;
  	
  	public CustomParser() throws InvalidFormatException, IOException{
-	
-		trainTokenizer();
-		trainTagger();
-		// Initialize NER's
-		trainNF();
-		trainOF();
-		trainLF();
-		// Add currency finder;
+		p = new Parser();
 	}
     
     public static ParsedInput parseUserMessage(String userMessage) {
         ParsedInput parsedInput = new ParsedInput();
         
         String userMsgLower = userMessage.toLowerCase().trim();
-        
-        // OpenNLP tokenization of sentence. To catch pos and named entities that have not been explicitly coded
-        // in the parser dictionary.
-        tokens = t.tokenize(userMessage);
-        String[] taggedString = tagger.tag(tokens);
-        
-        // This checks all parts of speech. If something appears like it could be a person, place, organization
-        // name then it forces the formatting to be first letter upper cased so the NE finders can try to match
-        // the object.
-        for(int i = 0; i < taggedString.length; i++){
-//        	System.out.print(taggedString[i] + " ");
-        	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")){
-        		tokens[i] = StringUtils.toTitleCase(tokens[i]);
-//        		System.out.println(tokens[i]); // to see what is happening
-        	}
-        }
-        
+                
         if (userMsgLower.compareTo("exit") == 0) System.exit(0);
         if (userMsgLower.compareTo("stats") == 0) {
             parsedInput.type = ParsedInputType.Debug_ShowStats;
@@ -81,13 +51,16 @@ public final class CustomParser {
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);
             
+            // User OpenNLP for further sentence analysis
+            p.tagSentence(userMessage);
+            
             // Use name parser from openNLP to identify user name
-            String name = findNames();
+            String name = p.findNames();
             if(!name.isEmpty()){
             	parsedInput.setField("username", name);
             }
             // Identify organizations in used sentence.
-            String org = findOrgs();
+            String org = p.findOrgs();
             if(!org.isEmpty()){
             	parsedInput.setField("organization",org);
             }
@@ -183,7 +156,7 @@ public final class CustomParser {
         	/* If the sentence does not contain a destination in our list, try finding
         	 * one using the OpenNLP parser. That way a response can be created using
         	 * the users input even though the agent does not know what it is.        */
-        	places = findDest();
+        	places = p.findDest();
         }
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
         	if(!places.isEmpty()){
@@ -285,69 +258,5 @@ public final class CustomParser {
         if (parsedInput.containsAnyPhrase(ParserDictionary.food)) {
             parsedInput.type = ParsedInputType.Food;
         }
-    }
-	
-	// All have been added for Assignment 3
-    private static String findDest(){
-    	Span d[] = lf.find(tokens);
-    	String[] holder = Span.spansToStrings(d, tokens);
-    	StringBuilder fs = new StringBuilder();
-    	
-    	for(int i = 0; i < holder.length; i++){
-    		fs = fs.append(holder[i] + " ");
-    	}
-    	return fs.toString();
-    }
-    
-    private static String findNames(){
-    	Span d[] = nf.find(tokens);
-    	String[] holder = Span.spansToStrings(d, tokens);
-    	StringBuilder fs = new StringBuilder();
-    	
-    	for(int i = 0; i < holder.length; i++){
-    		fs = fs.append(holder[i]);
-    	}
-    	return fs.toString();
-    }
-    
-    private static String findOrgs(){
-    	Span d[] = of.find(tokens);
-    	String[] holder = Span.spansToStrings(d, tokens);
-    	StringBuilder fs = new StringBuilder();
-    	
-    	for(int i = 0; i < holder.length; i++){
-    		fs = fs.append(holder[i] + " ");
-    	}
-    	return fs.toString();
-    }   
-    // These methods all train the appropriate NER part of the parser, and the tokenizer
-	private void trainNF() throws InvalidFormatException, IOException {
-		InputStream is = this.getClass().getResourceAsStream("en-ner-person.bin");
-        TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        nf = new NameFinderME(tnf);
-    }
-    
-    private void trainOF() throws InvalidFormatException, IOException{
-    	InputStream is = this.getClass().getResourceAsStream("/en-ner-organization.bin");
-        TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        of = new NameFinderME(tnf);
-    }
-    
-    private void trainLF() throws InvalidFormatException, IOException{
-    	InputStream is = this.getClass().getResourceAsStream("/en-ner-location.bin");
-        TokenNameFinderModel tnf = new TokenNameFinderModel(is);
-        lf = new NameFinderME(tnf);
-    }
-    
-    private void trainTokenizer() throws InvalidFormatException, IOException{
-    	InputStream is = this.getClass().getResourceAsStream("/en-token.bin");
-        TokenizerModel tm = new TokenizerModel(is);
-        t = new TokenizerME(tm);
-    }
-    
-    private void trainTagger(){
-    	InputStream is = this.getClass().getResourceAsStream("/en-pos-maxent.bin");
-    	POSModel model = new POSModelLoader().load(new File(this.getClass().getResource("/en-pos-maxent.bin").getFile()));
-    	tagger = new POSTaggerME(model);
     }
 }

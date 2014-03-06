@@ -17,7 +17,7 @@ public final class ResponseMaker {
 
     public String getGreeting(String username) {
     	if (StringUtils.isNullOrEmpty(username)) {
-            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings));
+            return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings)) + ".";
         } else {
             return substituteParameters(GeneralResponses.getRandomResponse(GeneralResponses.greetings)) + " " + username + ".";
         }

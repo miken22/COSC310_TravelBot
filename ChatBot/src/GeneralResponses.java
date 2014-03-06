@@ -15,7 +15,7 @@ public class GeneralResponses {
 
 	public static List<String> AlreadyLeft = Arrays.asList("You already said bye, I must help the next customer. Please come back again later!");
 	public static List<String> StartUp = Arrays.asList("Hi! Welcome to our travel center. We help arrange trips to Mexico and ski resorts in BC and Alberta. How can I help you today?");
-	public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help?", "Hi, how can I help?", "Hello. Can I help you plan a trip?", "Hey there, I'm TravelBot!", "Greetings, welcome to my Travel Agency.", "Welcome to our travel center. How can I help?", "Hi there, how can I help you this <TimeOfDay>.");
+	public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help", "Hi, how can I help", "Hello. Can I help you plan a trip", "Hey there, I'm TravelBot! How are you", "Greetings, welcome to my Travel Agency", "Welcome to our travel center. How can I help", "Hi there, how can I help you this <TimeOfDay>");
     public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "Farewell", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by");
     public static List<String> niceDest = Arrays.asList("<Dest> is very nice!", "Everybody loves <Dest>!", "<Dest> is a wonderful place!");
     public static List<String> noRestaurants = Arrays.asList("There aren't any places that I'd recommend.", "There may be some local places, but nothing outstanding.", "It's all about street vendors and local food there.");

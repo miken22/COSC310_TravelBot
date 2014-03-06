@@ -85,10 +85,10 @@ public final class ResponseMaker {
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
             if(location != "Kamloops,BC" && location != "Revelstoke,BC" && location != "Canmore,AB" && location != "Banff,AB" && location !="Golden,BC"){
-            	response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location) + "\r\n";
+            	response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
             } else {
             	response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
-            	response += getTravelCost(travelMethod) + ".";
+            	response += getTravelCost(travelMethod);
             }
             return response;
         }
@@ -146,18 +146,6 @@ public final class ResponseMaker {
         locationSet.add(l);
         return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
-
-    public String getDestinationInfo(String city) {
-        
-        if (StringUtils.isNullOrEmpty(city)) {
-            return "Sorry you need to say where you want to go!";
-        }
-        l = new Location(city);
-        locationSet.add(l);
-        String cleanedCity = city.substring(0, city.length()-3);
-        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", cleanedCity);
-    }
-
     
     public String getTravelCost(String methodOfTravel) {
         if (methodOfTravel == "car" || methodOfTravel == "drive") {

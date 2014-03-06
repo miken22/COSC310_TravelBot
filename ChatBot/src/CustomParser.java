@@ -17,7 +17,6 @@ import opennlp.tools.util.InvalidFormatException;
 
 public final class CustomParser {
     
-	private static String[] tokens;
 	private static Parser p;
  	
  	public CustomParser() throws InvalidFormatException, IOException{
@@ -100,6 +99,13 @@ public final class CustomParser {
     }
 
     public static void parseColdDestination(ParsedInput parsedInput){
+    	String match = parsedInput.getMatchingPhrase(ParserDictionary.colddest);
+        
+        if (!match.isEmpty()) {
+            parsedInput.type = ParsedInputType.SetDestination;
+            parsedInput.setField("destination", StringUtils.toTitleCase(match));
+        }
+    	
         String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
         if (!city.isEmpty()) {
             parsedInput.type = ParsedInputType.SetDestination;
@@ -140,7 +146,8 @@ public final class CustomParser {
         	places = p.findDest();
         }
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty()){
+        	if(!places.isEmpty() && places.equals("Canada")){
+        		System.out.println(places);
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;

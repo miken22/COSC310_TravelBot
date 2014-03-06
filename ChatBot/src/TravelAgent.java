@@ -70,7 +70,7 @@ public class TravelAgent {
             	if(tropicDestination){
             		response = responseMaker.getDestinationInfo(savedInputs.getValue("destination"), savedInputs.getValue("city"));
             	} else {
-            		response = responseMaker.getDestinationInfo(savedInputs.getValue("city"));
+            		response = responseMaker.getDestinationInfo(savedInputs.getValue("destination"),savedInputs.getValue("city"));
             	}
                 break;
             

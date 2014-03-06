@@ -24,7 +24,8 @@ public final class CustomParser {
 	}
     
     public static ParsedInput parseUserMessage(String userMessage) {
-        ParsedInput parsedInput = new ParsedInput();
+    
+    	ParsedInput parsedInput = new ParsedInput();
         
         String userMsgLower = userMessage.toLowerCase().trim();
                 
@@ -57,9 +58,9 @@ public final class CustomParser {
             parseGreetingOrFarewell(parsedInput);
             parsePleaseComeBack(parsedInput);
             parseThanks(parsedInput);
-            parseBookHotel(parsedInput);
             parseColdDestination(parsedInput);
             parseTropicDestination(parsedInput);
+            parseBookHotel(parsedInput);
             parseWeather(parsedInput);
             parseTravelMethod(parsedInput);
             parseHowFar(parsedInput);
@@ -69,6 +70,9 @@ public final class CustomParser {
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
             parseGoSkiing(parsedInput);
+//            if(parsedInput.type.equals(ParsedInputType.DontUnderstand)){
+//            	parsedInput.type = ParsedInputType.NotEnoughInfo;
+//            }
         }
         return parsedInput;
     }
@@ -146,8 +150,7 @@ public final class CustomParser {
         	places = p.findDest();
         }
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty() && places.equals("Canada")){
-        		System.out.println(places);
+        	if(!places.isEmpty() || !places.equals("Canada")){
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;

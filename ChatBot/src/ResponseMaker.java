@@ -72,7 +72,7 @@ public final class ResponseMaker {
     	return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
     }
     
-    public String getTravelMethod(String travelMethod, String location) {
+    public String getTravelMethod(String travelMethod, String location, boolean tropicDest) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
 		    String response = "You can if you want." + "\r\n";
@@ -80,17 +80,21 @@ public final class ResponseMaker {
             return response;
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
+            if(!tropicDest){
+            	response += "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
+            } else {
+            	response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
+            }
             return response;
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            if(location != "Kamloops,BC" && location != "Revelstoke,BC" && location != "Canmore,AB" && location != "Banff,AB" && location !="Golden,BC"){
-            	response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
-            } else {
-            	response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
-            	response += getTravelCost(travelMethod);
+           	if(!tropicDest && location != "Calgary,BC" ){
+           			response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
+           	} else {
+           		response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
+               	response += getTravelCost(travelMethod);
             }
-            return response;
+           	return response;
         }
 	
         return "Sorry, we don't book trips by " + travelMethod;
@@ -140,7 +144,7 @@ public final class ResponseMaker {
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
             destination = city;
         } else {
-            destination = city + ", " + location;
+            destination = city;
         }
         l = new Location(destination);
         locationSet.add(l);
@@ -167,11 +171,11 @@ public final class ResponseMaker {
         return response;
     }
 
-    public String getDontKnow() {
-            return GeneralResponses.getRandomResponse(GeneralResponses.dontKnow);
+    public String getDontKnow(String userMessage) {
+            return GeneralResponses.getRandomResponse(GeneralResponses.dontKnow,"<usermessage>",userMessage);
     }
 
-    public String getWeather(String destination) {
+    public String getWeather(String destination,boolean tropicDest) {
 
         if (StringUtils.isNullOrEmpty(destination)) {
             if (locationSet.size() == 0) {
@@ -190,8 +194,11 @@ public final class ResponseMaker {
         	}
         }
         String city = locationSet.get(locationSet.size()-1).destination;
-        String cleanedCity = city.substring(0, city.length()-3);
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(cleanedCity)+ join + desc + ".";
+        if(!tropicDest){
+        	String cleanedCity = city.substring(0, city.length()-3);
+        	city = cleanedCity;
+        }
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(city)+ join + desc + ".";
     }
 
     public String getTropicalActivities() {

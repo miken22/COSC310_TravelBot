@@ -113,7 +113,13 @@ public class TravelAgent {
                 break;
                 
             case SkiResort:
-            	response = responseMaker.getSkiResorts(savedInputs.getValue("city"));
+            	String city = "";
+            	try{
+            		city = savedInputs.getValue("city");
+            		response = responseMaker.getSkiResorts(city);
+            	} catch (NullPointerException e){
+            		response = responseMaker.getNoDestinationSet(CustomParser.getUserMessage());
+            	}
             	break;
             	
             case GetKeyword:
@@ -129,12 +135,8 @@ public class TravelAgent {
 
             // How the user wants to get to destination
             case TravelMethod:
-        		if(savedInputs.getValue("travel method").toLowerCase() == "cruise" && !tropicDestination){
-        			response = "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
-        		} else {
-            		response = responseMaker.getTravelMethod(savedInputs.getValue("travel method"), savedInputs.getValue("city"));
-            	}
-                break;
+            	response = responseMaker.getTravelMethod(savedInputs.getValue("travel method"), savedInputs.getValue("city"), tropicDestination);
+            	break;
 
             case Distance:
                 if (savedInputs.getValue("city2") != null) {
@@ -160,20 +162,28 @@ public class TravelAgent {
 
             case Budget:
                 int amount = Integer.valueOf(savedInputs.getValue("budget"));
-                if(tropicDestination){
-                    response = responseMaker.getBudgetAccom(amount, savedInputs.getValue("city"));
-                } else {
-
-                    response = responseMaker.getWinterAccom(amount, savedInputs.getValue("city"));
+                try{
+                	city = savedInputs.getValue("city");
+                	if(tropicDestination){
+                        response = responseMaker.getBudgetAccom(amount, city);
+                    } else {
+                        response = responseMaker.getWinterAccom(amount,city);
+                    }
+                } catch (NullPointerException e){
+                	response = responseMaker.getNoDestinationSet("booking a hotel.");
                 }
                 break;
 
             case Language:
-                response = responseMaker.getLanguages(savedInputs.getValue("destination"));
+            	if(tropicDestination){
+            		response = responseMaker.getLanguages(savedInputs.getValue("destination"));
+            	} else {
+            		response = "The major Canadian languages are English and French.";
+            	}
                 break;
 
             case CheckWeather:
-                response = responseMaker.getWeather(savedInputs.getValue("city"));
+                response = responseMaker.getWeather(savedInputs.getValue("city"),tropicDestination);
                 break;
 
             case Thanks:
@@ -189,7 +199,7 @@ public class TravelAgent {
                 break;
 
             case DontUnderstand:
-                response = responseMaker.getDontKnow();
+                response = responseMaker.getDontKnow(CustomParser.getUserMessage());
                 break;
 
             case None:

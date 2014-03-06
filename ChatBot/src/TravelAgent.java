@@ -19,7 +19,7 @@ public class TravelAgent {
     
     // Agent state
     private ArrayList<ParsedInput> previousInputs = new ArrayList<>();
-    public HashMap<String, String> savedInputs = new HashMap<>();
+    public UserInputs<String,String> savedInputs = new UserInputs<>();
     private boolean userHasGreeted = false;
     private boolean userHasSaidFarewell = false;
     private boolean tropicDestination = true;
@@ -29,7 +29,7 @@ public class TravelAgent {
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
 
- 		String message = getResponse(Parser.parseUserMessage(input));
+ 		String message = getResponse(CustomParser.parseUserMessage(input));
        	// Write out our response with header & footer
    		String response = "\r\n\r\n" + botName + ": " + message + "\r\n";
        	return response;
@@ -52,9 +52,9 @@ public class TravelAgent {
 //      Check the destination stored so the agent knows what topic
 //      to respond to. Allows the user to change topics on the agent
 //      while still keeping the conversation going.
-        if(savedInputs.get("destination") != null){
+        if(savedInputs.getValue("destination") != null){
         	for(String s : ParserDictionary.tropicdest){
-        		if(savedInputs.get("destination") == s){
+        		if(savedInputs.getValue("destination") == s){
         			tropicDestination = true;
         			break;
         		} else {
@@ -68,19 +68,19 @@ public class TravelAgent {
 
             case SetDestination:
             	if(tropicDestination){
-            		response = responseMaker.getDestinationInfo(savedInputs.get("destination"), savedInputs.get("city"));
+            		response = responseMaker.getDestinationInfo(savedInputs.getValue("destination"), savedInputs.getValue("city"));
             	} else {
-            		response = responseMaker.getDestinationInfo(savedInputs.get("city"));
+            		response = responseMaker.getDestinationInfo(savedInputs.getValue("city"));
             	}
                 break;
             
             // If OpenNLP parser flags location not known to the agent this will handle to right response.
             case BadDestination:
-            	response = responseMaker.getBadLocations(savedInputs.get("bad destination"));
+            	response = responseMaker.getBadLocations(savedInputs.getValue("bad destination"));
             	break;
             	
             case NotEnoughInfo:
-            	response = responseMaker.getMissingInfo(Parser.getUserMessage());
+            	response = responseMaker.getMissingInfo(CustomParser.getUserMessage());
             	break;
 
             case Greeting:
@@ -91,7 +91,7 @@ public class TravelAgent {
             	String place = "";
             	try{
             		place = l.getPlaces("food").get(0);
-            		savedInputs.put("food",place);
+            		savedInputs.addInput("food",place);
             	} catch (NullPointerException e){}
                 response = responseMaker.getLocalFood(place);
                 break;
@@ -113,11 +113,11 @@ public class TravelAgent {
                 break;
                 
             case SkiResort:
-            	response = responseMaker.getSkiResorts(savedInputs.get("city"));
+            	response = responseMaker.getSkiResorts(savedInputs.getValue("city"));
             	break;
             	
             case GetKeyword:
-                response = responseMaker.getKeywordPlaces(savedInputs.get("keyword"));
+                response = responseMaker.getKeywordPlaces(savedInputs.getValue("keyword"));
 
             case ListCities:
             	if(tropicDestination){
@@ -129,28 +129,28 @@ public class TravelAgent {
 
             // How the user wants to get to destination
             case TravelMethod:
-        		if(savedInputs.get("travel method").toLowerCase() == "cruise" && !tropicDestination){
+        		if(savedInputs.getValue("travel method").toLowerCase() == "cruise" && !tropicDestination){
         			response = "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
         		} else {
-            		response = responseMaker.getTravelMethod(savedInputs.get("travel method"), savedInputs.get("city"));
+            		response = responseMaker.getTravelMethod(savedInputs.getValue("travel method"), savedInputs.getValue("city"));
             	}
                 break;
 
             case Distance:
-                if (savedInputs.get("city2") != null) {
-                    l = new Location(savedInputs.get("city"), savedInputs.get("city2"));
-                    response = responseMaker.getDistances(l.origin, savedInputs.get("city2"));
+                if (savedInputs.getValue("city2") != null) {
+                    l = new Location(savedInputs.getValue("city"), savedInputs.getValue("city2"));
+                    response = responseMaker.getDistances(l.origin, savedInputs.getValue("city2"));
                 } else {
-                    Location l2 = new Location(savedInputs.get("city"));
-                    response = responseMaker.getDistances(l2.origin, savedInputs.get("city"));
+                    Location l2 = new Location(savedInputs.getValue("city"));
+                    response = responseMaker.getDistances(l2.origin, savedInputs.getValue("city"));
                 }
                 break;
 
             case GetAround:
             	if(tropicDestination){
-            		response = responseMaker.getAroundTropical(savedInputs.get("city"));
+            		response = responseMaker.getAroundTropical(savedInputs.getValue("city"));
             	} else {
-            		response = responseMaker.getAroundWinter(savedInputs.get("city"));
+            		response = responseMaker.getAroundWinter(savedInputs.getValue("city"));
             	}
                 break;
 
@@ -159,21 +159,21 @@ public class TravelAgent {
                 break;
 
             case Budget:
-                int amount = Integer.valueOf(savedInputs.get("budget"));
+                int amount = Integer.valueOf(savedInputs.getValue("budget"));
                 if(tropicDestination){
-                    response = responseMaker.getBudgetAccom(amount, savedInputs.get("city"));
+                    response = responseMaker.getBudgetAccom(amount, savedInputs.getValue("city"));
                 } else {
 
-                    response = responseMaker.getWinterAccom(amount, savedInputs.get("city"));
+                    response = responseMaker.getWinterAccom(amount, savedInputs.getValue("city"));
                 }
                 break;
 
             case Language:
-                response = responseMaker.getLanguages(savedInputs.get("destination"));
+                response = responseMaker.getLanguages(savedInputs.getValue("destination"));
                 break;
 
             case CheckWeather:
-                response = responseMaker.getWeather(savedInputs.get("city"));
+                response = responseMaker.getWeather(savedInputs.getValue("city"));
                 break;
 
             case Thanks:
@@ -211,7 +211,7 @@ public class TravelAgent {
 
     private String getDebugStats() {
         String stats = "";
-        for (Map.Entry<String, String> entry : savedInputs.entrySet()) {
+        for (Map.Entry<String, String> entry : savedInputs.getEntrySet()) {
             stats += entry.getKey() + " = " + entry.getValue() + "\r\n";
         }
         return stats;
@@ -221,13 +221,13 @@ public class TravelAgent {
         if (userHasGreeted) {
             return responseMaker.getGreetingRepeat();
         } else {
-            return responseMaker.getGreeting(savedInputs.get("username"));
+            return responseMaker.getGreeting(savedInputs.getValue("username"));
         }
     }
 
     private String farewell(ParsedInput parsedInput) {
         userHasSaidFarewell = true;
-        return responseMaker.getFarewell(savedInputs.get("username"));
+        return responseMaker.getFarewell(savedInputs.getValue("username"));
     }
 
     private String pleaseComeBack(ParsedInput parsedInput) {

@@ -167,7 +167,7 @@ public class ChatBox{
 		
 			if(id==1){
 				try {
-					new Parser();
+					new CustomParser();
 				} catch (InvalidFormatException e) {e.printStackTrace();} 
 				  catch (IOException e) {e.printStackTrace();}
 				frame.dispose();
@@ -189,7 +189,7 @@ public class ChatBox{
 		// Initialize parser for conversation
 		System.out.println( Utils.getExecutingPath());
 		try {
-			new Parser();
+			new CustomParser();
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

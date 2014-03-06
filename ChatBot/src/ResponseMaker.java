@@ -38,10 +38,6 @@ public final class ResponseMaker {
     public String getBadLocations(String location){
     	return GeneralResponses.getRandomResponse(GeneralResponses.badDestination, "<Dest>", location);
     }
-    
-    public String noDestinationInfo(String input){
-    	return GeneralResponses.getRandomResponse(GeneralResponses.NoDestinationSet, "<userinput>", input);
-    }
     public String getImBack() {
         return "Okay, I'm back. What can I help with?";
     }
@@ -120,8 +116,7 @@ public final class ResponseMaker {
 
     public String getLocalFood(String place) {
         String response = "";
-        String city = l.destination;
-        if(!place.isEmpty()){
+        String city = l.destination;        if(!place.isEmpty()){
         	response = "A very popular place in " + city + " is " + place + ".";
         } else {
         	response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);

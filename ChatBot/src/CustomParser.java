@@ -1,18 +1,7 @@
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 import opennlp.tools.util.InvalidFormatException;
-import opennlp.tools.util.Span;
-import opennlp.tools.cmdline.postag.POSModelLoader;
-import opennlp.tools.namefind.NameFinderME;
-import opennlp.tools.namefind.TokenNameFinderModel;
-import opennlp.tools.postag.POSModel;
-import opennlp.tools.postag.POSTaggerME;
-import opennlp.tools.tokenize.Tokenizer;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
 
 /**
  * This class handles all the major work of the program. It is called
@@ -20,10 +9,7 @@ import opennlp.tools.tokenize.TokenizerModel;
  * using the Tokenizer that was written (mainly Regex/TokenCollection classes).
  * The sentence is further parsed by the OpenNLP parsers to try to find
  * Named Entities in the input that can be saved for later to make the conversation
- * more realistic (such as remembering the users name etc). Each word also gets
- * tagged as it's part of speech (POS) in the sentence. Words that appear to be
- * formal nouns are capitalized and checked against the NER and Parser Dictionary
- * to add a further level of spell-checking.
+ * more realistic (such as remembering the users name etc). 
  * 
  * @author Manny Haller, Mike Nowicki
  *
@@ -50,7 +36,6 @@ public final class CustomParser {
         	
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);
-            
             // User OpenNLP for further sentence analysis
             p.tagSentence(userMessage);
             
@@ -88,15 +73,11 @@ public final class CustomParser {
         }
         return parsedInput;
     }
-
-	public static String getUserMessage(){
-    	StringBuilder sb = new StringBuilder();
-    	for(String s:tokens){
-    		sb.append(s + " ");
-    	}
-    	return sb.toString();
-    }
     
+    public static String getUserMessage(){
+    	return p.getUserMessage();
+    }
+	
     private static void parseGreetingOrFarewell(ParsedInput parsedInput) {
         // Check for greetings and farewells
         if (parsedInput.containsAnyPhrase(ParserDictionary.greet)) {

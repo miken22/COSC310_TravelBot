@@ -16,7 +16,11 @@ import opennlp.tools.util.Span;
 /**
  * This class uses the OpenNLP NER and POS Taggers
  * to help identify other potential keywords or phrases
- * said by the user
+ * said by the user. Each word also get tagged as it's part of speech (POS) in the sentence. 
+ * Words that appear to be formal nouns are capitalized and checked 
+ * against the NER and Parser Dictionary to add a further level of spell-checking and to
+ * allow the agent to handle more cases then it is explicitly programmed to do.
+ * 
  * 
  * @author Mike Nowicki
  *
@@ -63,6 +67,14 @@ public class Parser {
         }
         
 	}
+
+	public String getUserMessage(){
+    	StringBuilder sb = new StringBuilder();
+    	for(String s:tokens){
+    		sb.append(s + " ");
+    	}
+    	return sb.toString();
+    }
 	
 	// All have been added for Assignment 3
     public String findDest(){

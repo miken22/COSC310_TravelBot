@@ -84,8 +84,12 @@ public final class ResponseMaker {
             return response;
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
-            response += getTravelCost(travelMethod) + ".";
+            if(location != "Kamloops,BC" && location != "Revelstoke,BC" && location != "Canmore,AB" && location != "Banff,AB" && location !="Golden,BC"){
+            	response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location) + "\r\n";
+            } else {
+            	response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
+            	response += getTravelCost(travelMethod) + ".";
+            }
             return response;
         }
 	

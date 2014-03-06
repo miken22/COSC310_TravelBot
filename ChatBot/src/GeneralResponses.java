@@ -29,7 +29,8 @@ public class GeneralResponses {
     public static List<String> notEnoughInfo = Arrays.asList("Sorry, you need to tell me more about what you mean by '<userinput>'");
 	public static List<String> NoDestinationSet = Arrays.asList("Sorry, you have to decide where you want to go before we can talk about <userinput>.", "I need to know a place before I can help you with <userinput>.");
 	public static List<String> flightResponses = Arrays.asList("Yes, we have two direct flights to <Dest> and numerous other flights that leave daily. ", "I can certainly help you with that. All our flights are direct to <Dest>.");
-
+	public static List<String> cantFly = Arrays.asList("It's hard to fly to <Dest> since there's no airport!", "Sorry, we don't book private planes that can fly to <Dest>.", "We don't arrange flights to <Dest>.");
+	
 	public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);
     }

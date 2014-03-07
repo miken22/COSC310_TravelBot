@@ -18,7 +18,8 @@ public enum ParsedInputType {
     GetAround,              //
     Language,               //
     ListCities,             //  For distances
-    Dates,                  //   
+    Dates,   
+    Query,   
     Budget,                 //  amount affordable for hotels
     SimpleYes,              //
     SimpleNo,               //

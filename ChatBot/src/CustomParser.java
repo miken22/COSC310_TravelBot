@@ -1,18 +1,7 @@
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 import opennlp.tools.util.InvalidFormatException;
-import opennlp.tools.util.Span;
-import opennlp.tools.cmdline.postag.POSModelLoader;
-import opennlp.tools.namefind.NameFinderME;
-import opennlp.tools.namefind.TokenNameFinderModel;
-import opennlp.tools.postag.POSModel;
-import opennlp.tools.postag.POSTaggerME;
-import opennlp.tools.tokenize.Tokenizer;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
 
 /**
  * This class handles all the major work of the program. It is called
@@ -20,10 +9,7 @@ import opennlp.tools.tokenize.TokenizerModel;
  * using the Tokenizer that was written (mainly Regex/TokenCollection classes).
  * The sentence is further parsed by the OpenNLP parsers to try to find
  * Named Entities in the input that can be saved for later to make the conversation
- * more realistic (such as remembering the users name etc). Each word also gets
- * tagged as it's part of speech (POS) in the sentence. Words that appear to be
- * formal nouns are capitalized and checked against the NER and Parser Dictionary
- * to add a further level of spell-checking.
+ * more realistic (such as remembering the users name etc). 
  * 
  * @author Manny Haller, Mike Nowicki
  *
@@ -31,15 +17,15 @@ import opennlp.tools.tokenize.TokenizerModel;
 
 public final class CustomParser {
     
-	private static String[] tokens;
 	private static Parser p;
- 	
+	
  	public CustomParser() throws InvalidFormatException, IOException{
 		p = new Parser();
 	}
     
     public static ParsedInput parseUserMessage(String userMessage) {
-        ParsedInput parsedInput = new ParsedInput();
+    
+    	ParsedInput parsedInput = new ParsedInput();
         
         String userMsgLower = userMessage.toLowerCase().trim();
                 
@@ -50,7 +36,6 @@ public final class CustomParser {
         	
             // Create the token collection
             parsedInput.tokenCollection.parse(userMessage);
-            
             // User OpenNLP for further sentence analysis
             p.tagSentence(userMessage);
             
@@ -70,32 +55,38 @@ public final class CustomParser {
             // solution to always catch instances of cuba that imply it is the destination.
             
             // In order, check for
-            parseGreetingOrFarewell(parsedInput);
+            parseDestination(parsedInput);
+            parseCities(parsedInput);
+            parseSearchWords(parsedInput);
             parsePleaseComeBack(parsedInput);
-            parseThanks(parsedInput);
             parseBookHotel(parsedInput);
-            parseColdDestination(parsedInput);
-            parseTropicDestination(parsedInput);
             parseWeather(parsedInput);
             parseTravelMethod(parsedInput);
             parseHowFar(parsedInput);
-            parseCities(parsedInput);
             parseBudget(parsedInput);
             parseActivities(parsedInput);
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
             parseGoSkiing(parsedInput);
+            parseGreetingOrFarewell(parsedInput);
+            parseThanks(parsedInput);
         }
         return parsedInput;
     }
+   
 
 	public static String getUserMessage(){
-    	StringBuilder sb = new StringBuilder();
-    	for(String s:tokens){
-    		sb.append(s + " ");
-    	}
-    	return sb.toString();
+    	return p.getUserMessage();
     }
+	 
+    private static void parseSearchWords(ParsedInput parsedInput) {
+    	String match = "";
+        if (parsedInput.containsAnyPhrase(ParserDictionary.searchKeys)) {
+        	match = parsedInput.getMatchingPhrase(ParserDictionary.searchKeys);
+        	parsedInput.setField("search", match);
+            parsedInput.type = ParsedInputType.Query;
+        }		
+	}
     
     private static void parseGreetingOrFarewell(ParsedInput parsedInput) {
         // Check for greetings and farewells
@@ -117,31 +108,22 @@ public final class CustomParser {
             parsedInput.type = ParsedInputType.Thanks;
         }
     }
-
-    public static void parseColdDestination(ParsedInput parsedInput){
-        String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
-        if (!city.isEmpty()) {
-            parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("city", StringUtils.toTitleCase(city)+",BC");
-            parsedInput.setField("destination", "Canada");
-        } else {
-        	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
-        	if (!city.isEmpty()) {
-                parsedInput.type = ParsedInputType.SetDestination;
-                parsedInput.setField("city", StringUtils.toTitleCase(city)+",AB");
-                parsedInput.setField("destination", "Canada");
-            }
-        }   
-    }
     
-    private static void parseTropicDestination(ParsedInput parsedInput) {
+    private static void parseDestination(ParsedInput parsedInput) {
         String match = parsedInput.getMatchingPhrase(ParserDictionary.tropicdest);
         String places = "";
         
         if (!match.isEmpty()) {
+        	System.out.println(match);
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("destination", StringUtils.toTitleCase(match));
-        }
+        } else {
+        	match = parsedInput.getMatchingPhrase(ParserDictionary.colddest);
+            if (!match.isEmpty()) {
+                parsedInput.type = ParsedInputType.SetDestination;
+                parsedInput.setField("destination", StringUtils.toTitleCase(match));
+            }   
+        }        
         
         String city = parsedInput.getMatchingPhrase(ParserDictionary.tropiccities);
         
@@ -150,16 +132,31 @@ public final class CustomParser {
             parsedInput.setField("city", StringUtils.toTitleCase(city));
             parsedInput.setField("destination", "Mexico");
             return;
-        }
-        
+        } else {
+        	city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);            
+            if (!city.isEmpty()) {
+                parsedInput.type = ParsedInputType.SetDestination;
+                parsedInput.setField("city", StringUtils.toTitleCase(city)+",BC");
+                parsedInput.setField("destination", "Canada");
+                return;
+            } else {
+            	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
+            	if (!city.isEmpty()) {
+                    parsedInput.type = ParsedInputType.SetDestination;
+                    parsedInput.setField("city", StringUtils.toTitleCase(city)+",AB");
+                    parsedInput.setField("destination", "Canada");
+                    return;
+                }
+            }   
+        }        
         if(match.isEmpty() && city.isEmpty()){
         	/* If the sentence does not contain a destination in our list, try finding
         	 * one using the OpenNLP parser. That way a response can be created using
         	 * the users input even though the agent does not know what it is.        */
         	places = p.findDest();
-        }
+        }        
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty()){
+        	if(match.isEmpty() &&(!places.isEmpty() || !places.equals("Canada"))){
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;

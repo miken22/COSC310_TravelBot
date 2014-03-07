@@ -72,21 +72,38 @@ public final class ResponseMaker {
     	return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
     }
     
-    public String getTravelMethod(String travelMethod, String location) {
+    public String getTravelMethod(String travelMethod, String location, boolean tropicDest) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
-		    String response = "You can if you want." + "\r\n";
-            response += getTravelCost(travelMethod) + ".";
+		    
+    		String response = "You can if you want." + "\r\n";
+            response += getTravelCost(travelMethod);
             return response;
+            
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
+        	
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
+            
+            if(!tropicDest){
+            	response += "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
+            } else {
+            	response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
+            }
             return response;
+            
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
-            String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
-            response += getTravelCost(travelMethod) + ".";
-            return response;
+            
+        	String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
+        
+        	if(!tropicDest && location != "Calgary,AB" ){
+        		location = location.substring(0,location.length()-3);
+        		response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
+           	} else {
+           		response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
+               	response += getTravelCost(travelMethod);
+            }
+           	return response;
+        
         }
 	
         return "Sorry, we don't book trips by " + travelMethod;
@@ -125,35 +142,27 @@ public final class ResponseMaker {
         return response;
     }
 
-    public String getDestinationInfo(String location, String city) {
+    public String getDestinationInfo(String location, String city, boolean tropicDest) {
         String destination = "";
-
+        
         if (StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             return "Sorry you need to say where you want to go!";
         } else if (!StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             destination = location;
             return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
-            destination = city;
+        	destination = city;
         } else {
-            destination = city + ", " + location;
+        	destination = city;
         }
         l = new Location(destination);
         locationSet.add(l);
+        if(!tropicDest){
+        	city = destination.substring(0,destination.length()-3);
+        	return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", city);
+        }
         return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
-
-    public String getDestinationInfo(String city) {
-        
-        if (StringUtils.isNullOrEmpty(city)) {
-            return "Sorry you need to say where you want to go!";
-        }
-        l = new Location(city);
-        locationSet.add(l);
-        String cleanedCity = city.substring(0, city.length()-3);
-        return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", cleanedCity);
-    }
-
     
     public String getTravelCost(String methodOfTravel) {
         if (methodOfTravel == "car" || methodOfTravel == "drive") {
@@ -175,11 +184,11 @@ public final class ResponseMaker {
         return response;
     }
 
-    public String getDontKnow() {
-            return GeneralResponses.getRandomResponse(GeneralResponses.dontKnow);
+    public String getDontKnow(String userMessage) {
+            return GeneralResponses.getRandomResponse(GeneralResponses.dontKnow,"<usermessage>",userMessage);
     }
 
-    public String getWeather(String destination) {
+    public String getWeather(String destination,boolean tropicDest) {
 
         if (StringUtils.isNullOrEmpty(destination)) {
             if (locationSet.size() == 0) {
@@ -198,8 +207,11 @@ public final class ResponseMaker {
         	}
         }
         String city = locationSet.get(locationSet.size()-1).destination;
-        String cleanedCity = city.substring(0, city.length()-3);
-        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(cleanedCity)+ join + desc + ".";
+        if(!tropicDest){
+        	String cleanedCity = city.substring(0, city.length()-3);
+        	city = cleanedCity;
+        }
+        return "It is currently " + locationSet.get(locationSet.size()-1).tempInCelcius + " degrees C in " + StringUtils.toTitleCase(city)+ join + desc + ".";
     }
 
     public String getTropicalActivities() {
@@ -217,7 +229,7 @@ public final class ResponseMaker {
     	
     	switch(city.toLowerCase()){
     	case "revelstoke,bc":
-    		response = "One of the best resorts in the area, Revelstoke mountain will provide you with an excellent challenge.";
+    		response = "One of the best resorts in the area is Revelstoke Mountain. It will provide you with an excellent challenge.";
     		break;
     	case "kamloops,bc":
     		response = "Kamloops is home to a great family resort, Sunshine Village. Not too challenging with activities for the whole family!";
@@ -320,5 +332,24 @@ public final class ResponseMaker {
             response += WinterResponses.getRandomResponse(WinterResponses.cheapAccom, "<Dest>", city);
         }
         return response;
+	}
+
+	public String getSearchResults(String search) {
+		if(StringUtils.isNullOrEmpty(search)){
+			return "Sorry you haven't told me what you'd like to search for.";
+		}
+		String response = "";
+		ArrayList<String> places = new ArrayList<>();
+		try{
+			places = l.getPlaces(search);
+			int r = new java.util.Random().nextInt(places.size());
+			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
+			response.replaceAll("<search>", search);
+			System.out.println(places.toString() + ", " + r);
+		} catch (NullPointerException e){
+			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
+		}
+		
+		return response;
 	}
 }

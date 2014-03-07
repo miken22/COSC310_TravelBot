@@ -72,6 +72,7 @@ public class ChatBox{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(550, 470);
+		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		menu.add(file);
 		file.add(newConvo);
@@ -185,16 +186,8 @@ public class ChatBox{
 
 	}
 	
-	public static void main(String[] args){
-		// Initialize parser for conversation
-		System.out.println( Utils.getExecutingPath());
-		try {
-			new CustomParser();
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws InvalidFormatException, IOException{
+		new CustomParser();
 		new ChatBox();
 	}	
 }

@@ -57,6 +57,7 @@ public final class CustomParser {
             // In order, check for
             parseDestination(parsedInput);
             parseCities(parsedInput);
+            parseSearchWords(parsedInput);
             parsePleaseComeBack(parsedInput);
             parseBookHotel(parsedInput);
             parseWeather(parsedInput);
@@ -72,11 +73,21 @@ public final class CustomParser {
         }
         return parsedInput;
     }
-    
-    public static String getUserMessage(){
+   
+
+	public static String getUserMessage(){
     	return p.getUserMessage();
     }
-	
+	 
+    private static void parseSearchWords(ParsedInput parsedInput) {
+    	String match = "";
+        if (parsedInput.containsAnyPhrase(ParserDictionary.searchKeys)) {
+        	match = parsedInput.getMatchingPhrase(ParserDictionary.searchKeys);
+        	parsedInput.setField("search", match);
+            parsedInput.type = ParsedInputType.Query;
+        }		
+	}
+    
     private static void parseGreetingOrFarewell(ParsedInput parsedInput) {
         // Check for greetings and farewells
         if (parsedInput.containsAnyPhrase(ParserDictionary.greet)) {

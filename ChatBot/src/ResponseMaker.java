@@ -333,4 +333,21 @@ public final class ResponseMaker {
         }
         return response;
 	}
+
+	public String getSearchResults(String search) {
+		if(StringUtils.isNullOrEmpty(search)){
+			return "Sorry you haven't told me what you'd like to search for.";
+		}
+		String response = "";
+		ArrayList<String> places = new ArrayList<>();
+		try{
+			places = l.getPlaces(search);
+			int r = new java.util.Random().nextInt(places.size());
+			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
+		} catch (NullPointerException e){
+			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
+		}
+		
+		return response;
+	}
 }

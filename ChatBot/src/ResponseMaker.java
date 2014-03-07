@@ -344,6 +344,8 @@ public final class ResponseMaker {
 			places = l.getPlaces(search);
 			int r = new java.util.Random().nextInt(places.size());
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
+			response.replaceAll("<search>", search);
+			System.out.println(places.toString() + ", " + r);
 		} catch (NullPointerException e){
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
 		}

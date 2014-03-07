@@ -31,8 +31,8 @@ public class GeneralResponses {
 	public static List<String> flightResponses = Arrays.asList("Yes, we have two direct flights to <Dest> and numerous other flights that leave daily. ", "I can certainly help you with that. All our flights are direct to <Dest>.");
 	public static List<String> cantFly = Arrays.asList("It's hard to fly to <Dest> since there's no airport.", "Sorry, we don't book private planes that can fly to <Dest>.", "We don't arrange flights to <Dest>.");
 
-	public static List<String> searchAnswers = Arrays.asList("I've found a result ");
-	public static List<String> searchMiss = Arrays.asList();
+	public static List<String> searchAnswers = Arrays.asList("I've found a result for '<search>'. There is a place called '<result>' that might be perfect for you.", "Yes, I've found a place called '<result>' that might be just what you're looking for.", "You could try '<result>', it looks perfect for you.");
+	public static List<String> searchMiss = Arrays.asList("Sorry, I could not find anything matching '<query>', would you like to try again?", "Sorry, there are no matches for '<query>'. You can enter another search if you would like.");
 	
 	public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);

@@ -93,7 +93,8 @@ public class TravelAgent {
             		search = savedInputs.getValue("search");
             	} catch (NullPointerException e){}
             	response = responseMaker.getSearchResults(search);
-
+            	break;
+            	
             case Food:
             	String place = "";
             	try{

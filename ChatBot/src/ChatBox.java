@@ -3,7 +3,12 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import opennlp.tools.util.InvalidFormatException;
 
 /**
@@ -21,9 +26,15 @@ public class ChatBox{
 	private Container c;
 	private JScrollPane scroll1;
 	private JScrollPane scroll2;
-	private JTextArea convo;
+	private JTextPane convo;
 	private JTextArea input;
 
+	private StyledDocument textarea;
+	private Style userStyle;
+	private Style agentStyle;
+	private Style chatStyle;
+	private Font font;
+	
 	private JButton send;
 	private JButton clear;
 	
@@ -35,12 +46,16 @@ public class ChatBox{
 	
 	private TravelAgent agent;
 	
-	public ChatBox(){
+	public ChatBox() throws FontFormatException, IOException{
 		
-		convo = new JTextArea();
+		convo = new JTextPane();
 		input = new JTextArea();
 		scroll1 = new JScrollPane(convo);
 		scroll2 = new JScrollPane(input);
+		
+		userStyle = convo.addStyle("userin", null);
+		agentStyle = convo.addStyle("agentstyle",null);
+		chatStyle = convo.addStyle("chatstyle", null);
 		
 		menu = new JMenuBar();
 		file = new JMenu("File");
@@ -63,51 +78,75 @@ public class ChatBox{
 		buildFrame();
 	}
 	
-	private void buildFrame(){
+	private void buildFrame() throws FontFormatException, IOException{
 		
 		agent = new TravelAgent();
 		
 		frame = new JFrame("TravelBot Chat Agency");
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setSize(550, 470);
+		frame.setSize(530, 455);
 		frame.setResizable(false);
 		frame.setJMenuBar(menu);
+		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
+		menu.setBackground(new Color(239,239,239));
 		menu.add(file);
 		file.add(newConvo);
 		file.add(save);
 		file.add(exit);
 		
 		c = frame.getContentPane();
+		c.setBackground(new Color(242,242,242));
+		font = Font.createFont(0,this.getClass().getResourceAsStream("/Trebuchet MS.ttf"));
 		
 		convo.setEditable(false);
-		convo.setLineWrap(true);
-		convo.setBorder(BasicBorders.getTextFieldBorder());
-		convo.setBounds(2,2,frame.getWidth()-23,300);
-		convo.setLineWrap(true);
-		convo.setWrapStyleWord(true);
-		convo.setFont(new Font("Sans Serif", Font.PLAIN,12));
-		scroll1.setBounds(2,2,frame.getWidth()-23,300);
-		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Chat History"));
+		convo.setBounds(2,2,frame.getWidth()-19,300);
+		font = font.deriveFont(Font.PLAIN,14);
+		convo.setFont(font);
+		convo.setBorder(BorderFactory.createBevelBorder(1));	
+		scroll1.setBounds(2,2,frame.getWidth()-19,300);
+		scroll1.setBackground(new Color(242,242,242));
+		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Chat History"));
 		c.add(scroll1);
 		
+		textarea = convo.getStyledDocument();
+		
 		input.setLineWrap(true);
-		input.setBorder(BasicBorders.getTextFieldBorder());	
-		input.setBounds(4, 305, frame.getWidth()-115, 80);
-		input.setFont(new Font("Sans Serif", Font.PLAIN,12));
-		scroll2.setBounds(4, 305, frame.getWidth()-115, 95);
-		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Talk to TravelBot:"));
+		input.setBorder(BorderFactory.createSoftBevelBorder(1));	
+		input.setBounds(4, 305, frame.getWidth()-111, 77);
+		input.setFont(font);
+		scroll2.setBounds(4, 305, frame.getWidth()-111, 92);
+		scroll2.setBackground(new Color(242,242,242));
+		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Talk to TravelBot:"));
 		c.add(scroll2);
 		
-		send.setBounds(frame.getWidth()-105,312,80,40);
-		clear.setBounds(frame.getWidth()-105,355,80,40);
+		send.setBounds(frame.getWidth()-101,312,80,40);
+		send.setBorder(BorderFactory.createRaisedBevelBorder());
+		send.setBackground(new Color(230,230,230));
+		send.setFocusPainted(false);
+		clear.setBounds(frame.getWidth()-101,355,80,40);
+		clear.setBorder(BorderFactory.createRaisedBevelBorder());
+		clear.setBackground(new Color(230,230,230));
+		clear.setFocusPainted(false);
 		c.add(send);
 		c.add(clear);
+	
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		input.requestFocus();
+
+		StyleConstants.setForeground(chatStyle, Color.black);
+        try { textarea.insertString(textarea.getLength(), "TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google",chatStyle); }
+        catch (BadLocationException e1){}
 		
-		frame.repaint();
-		convo.setText("TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google" + "\r\n\r\n" +
-		 "Travel Bot: " + agent.getStartUp()+ "\r\n");
+		StyleConstants.setForeground(agentStyle, new Color(0,128,0));
+        try { textarea.insertString(textarea.getLength(),"\r\n\r\nTravel Bot: ",agentStyle);}
+        catch (BadLocationException e1){}
+        
+		StyleConstants.setForeground(chatStyle, Color.black);
+        try { textarea.insertString(textarea.getLength(), agent.getStartUp(),chatStyle); }
+        catch (BadLocationException e1){}
+		
 	}
 	
 	public class TextListener implements KeyListener{
@@ -145,13 +184,39 @@ public class ChatBox{
 				input.setText("");
 			// If user does not enter anything the chatbot will not do anything.
 			} else if(in.length() == 0){
+				input.requestFocus();
 				return;
 			} else {
-				input.setText("");
-				convo.setText(convo.getText() + "\n\r" + "User: " + in);	// Update textarea with user message
-				out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
-				convo.setText(convo.getText() + out);	// Update textarea with agent response
+				addText();
 			}
+			input.requestFocus();
+		}
+		
+		public void addText(){
+
+			input.setText("");
+			
+			StyleConstants.setForeground(userStyle, Color.red);
+	        try { textarea.insertString(textarea.getLength(), "\r\n\r\nUser: ",userStyle); }
+	        catch (BadLocationException e1){}
+
+			StyleConstants.setForeground(chatStyle, Color.black);
+	        try { textarea.insertString(textarea.getLength(), in,chatStyle); }
+	        catch (BadLocationException e1){}
+
+			out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
+			
+			StyleConstants.setForeground(agentStyle, new Color(0,128,0));
+	        try { textarea.insertString(textarea.getLength(), "\r\n\r\nTravelBot: ",agentStyle); }
+	        catch (BadLocationException e1){}
+	        
+			StyleConstants.setForeground(chatStyle, Color.black);
+	        try { textarea.insertString(textarea.getLength(), out,chatStyle); }
+	        catch (BadLocationException e1){}
+	        
+	        Document d = convo.getDocument();
+	        convo.select(d.getLength(), d.getLength());
+
 		}
 	}
 	
@@ -172,7 +237,9 @@ public class ChatBox{
 				} catch (InvalidFormatException e) {e.printStackTrace();} 
 				  catch (IOException e) {e.printStackTrace();}
 				frame.dispose();
-				new ChatBox();
+				try {
+					new ChatBox();
+				} catch (FontFormatException | IOException e) {}
 			} else if (id==2){
 				String name = (String)JOptionPane.showInputDialog(null, "Save As:\n","Set File Name",JOptionPane.PLAIN_MESSAGE,null,null,"");
 				try {
@@ -186,7 +253,7 @@ public class ChatBox{
 
 	}
 	
-	public static void main(String[] args) throws InvalidFormatException, IOException{
+	public static void main(String[] args) throws InvalidFormatException, IOException, FontFormatException{
 		new CustomParser();
 		new ChatBox();
 	}	

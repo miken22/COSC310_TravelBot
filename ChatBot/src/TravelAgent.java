@@ -24,14 +24,12 @@ public class TravelAgent {
     private boolean userHasSaidFarewell = false;
     private boolean tropicDestination = true;
     
-    private String botName = "Travel Bot";
-    
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
 
  		String message = getResponse(CustomParser.parseUserMessage(input));
        	// Write out our response with header & footer
-   		String response = "\r\n\r\n" + botName + ": " + message + "\r\n";
+   		String response = message;
        	return response;
     }
     

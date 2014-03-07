@@ -344,10 +344,12 @@ public final class ResponseMaker {
 			places = l.getPlaces(search);
 			int r = new java.util.Random().nextInt(places.size());
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
-			response.replaceAll("<search>", search);
+			response = response.replace("<search>", search);
+			response = response.replace("_"," ");
 			System.out.println(places.toString() + ", " + r);
 		} catch (NullPointerException e){
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
+			response = response.replace("_"," ");
 		}
 		
 		return response;

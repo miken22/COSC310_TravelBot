@@ -31,7 +31,7 @@ The way that this program is run is by running the Executable JAR File. The file
 3. Double click the ChatBot.jar file. The tagger will need 1-2 seconds to load before the application fully launches.
 
 =================================================================================================
-Assignment 3 
+Assignment 3 - Michael Nowicki
 Individual Work:
 
 Continuing with the work started by the group in assignment 2 (above), the program will begin to be improved by including a simple GUI and increasing the parsers ability by using the OpenNLP parsers (http://opennlp.apache.org/) . This will allow the agent to handle conversations more dynamically, creating responses based on user input even when the agent has no knowledge of what the user has said.
@@ -62,7 +62,7 @@ User: what's the weathr like
 Travel Bot: It is currently -4.59 degrees C in Revelstoke with broken clouds.
 
 Dynamic Response Building:
-Building upon the framework of the Location class developed in Assignment 2 the program has been modified to allow for more realistic answers by using the Google APIs to return true search results. This is used for search for restaurants and hotel locations. The agent will try and perform a Google search on the keyword and if there are any results it will pick a result to use in building a response for the user.
+Building upon the framework of the Location class developed in Assignment 2 the program has been modified to allow for more realistic answers by using the Google APIs to return true search results. This is used automatically for search for restaurants and hotel locations. The agent has also be provided with a list of the most relevant keywords for Google's Nearby Search feature which will look for locations that match the type within a given area. The agent will try and perform a Google search on the keyword and if there are any results it will pick a result to use in building a response for the user.
 Examples:
 User: I can afford $60 a night.
 Travel Bot: Searching for the best accommodations that match you budget. 
@@ -73,6 +73,8 @@ A very popular place is The Village Idiot.
 In the below case this is how the agent handles a search with no valid results:
 User: are there any popular restaurants?
 Travel Bot: Well let me find out... There may be some local places, but nothing outstanding.
+User: is there a library?
+Travel Bot: Yes, I've found a place called 'Millarville Community Library' that might be just what you're looking for. 
 
 Input Handling:
 The agent now has a more refined method to handle inputs that it does not know the answer to. While the agent has the basics to generate a message that it does not know how to respond, the following features have been added to improve the agent by using the users input to build a more realistic response as shown below:

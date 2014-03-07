@@ -10,7 +10,7 @@ import java.io.*;
 public class SaveText {
     private static PrintStream outputStream = System.out;
 	public static void saveConvo(String name, String text) throws FileNotFoundException{
-		String path = Utils.getExecutingPath() + name + ".txt";
+		String path = SaveText.class.getProtectionDomain().getCodeSource().getLocation().getPath() + name + ".txt";
 		outputStream = new PrintStream(path);
         outputStream.print(text + "\r\n");
 	}

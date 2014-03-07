@@ -109,6 +109,9 @@ public final class CustomParser {
         }
     }
     
+    // This method checks all possible conditions for the users conversation. It just runs
+    // through a bunch of cases to check which location, and how specific the user was
+    // in setting the destination    
     private static void parseDestination(ParsedInput parsedInput) {
         String match = parsedInput.getMatchingPhrase(ParserDictionary.tropicdest);
         String places = "";
@@ -154,12 +157,15 @@ public final class CustomParser {
         	 * one using the OpenNLP parser. That way a response can be created using
         	 * the users input even though the agent does not know what it is.        */
         	places = p.findDest();
+        	System.out.println(places);
         }        
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(match.isEmpty() &&(!places.isEmpty() || !places.equals("Canada"))){
-            	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
-            	parsedInput.type = ParsedInputType.BadDestination;
-            	return;
+        	if(match.isEmpty() && !StringUtils.isNullOrEmpty(places)){
+        		if(!places.equals("Canada")){
+        			parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
+            		parsedInput.type = ParsedInputType.BadDestination;
+                	return;
+        		}
             }
         }
     }

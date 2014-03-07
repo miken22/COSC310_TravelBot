@@ -30,7 +30,7 @@ public class Location {
     }
     @SuppressWarnings("static-access")
     public String estimateTravelCost() {
-        return "Driving to " + this.destination + ", from " + this.origin + " would cost approximately $" + lf.round((this.distanceFromOrigin /2)*1.3, 2) + " round trip.";
+        return "Driving to " + StringUtils.toTitleCase(this.destination) + ", from " + StringUtils.toTitleCase(this.origin) + " would cost approximately $" + lf.round((this.distanceFromOrigin /2)*1.3, 2) + " round trip.";
     }
     @SuppressWarnings("static-access")
     public String estimateFlightCost() {

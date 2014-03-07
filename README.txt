@@ -62,7 +62,7 @@ User: what's the weathr like
 Travel Bot: It is currently -4.59 degrees C in Revelstoke with broken clouds.
 
 Dynamic Response Building:
-Building upon the framework of the Location class developed in Assignment 2 the program has been modified to allow for more realistic answers by using the Google APIs to return true search results. This is most commonly used for search for restaurants and hotel locations. The agent will try and perform a Google search on the keyword and if there are any results it will pick a result to use in building a response for the user.
+Building upon the framework of the Location class developed in Assignment 2 the program has been modified to allow for more realistic answers by using the Google APIs to return true search results. This is used for search for restaurants and hotel locations. The agent will try and perform a Google search on the keyword and if there are any results it will pick a result to use in building a response for the user.
 Examples:
 User: I can afford $60 a night.
 Travel Bot: Searching for the best accommodations that match you budget. 

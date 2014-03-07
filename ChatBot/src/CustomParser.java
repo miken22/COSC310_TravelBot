@@ -18,7 +18,7 @@ import opennlp.tools.util.InvalidFormatException;
 public final class CustomParser {
     
 	private static Parser p;
- 	
+	
  	public CustomParser() throws InvalidFormatException, IOException{
 		p = new Parser();
 	}
@@ -55,24 +55,20 @@ public final class CustomParser {
             // solution to always catch instances of cuba that imply it is the destination.
             
             // In order, check for
-            parseGreetingOrFarewell(parsedInput);
+            parseDestination(parsedInput);
+            parseCities(parsedInput);
             parsePleaseComeBack(parsedInput);
-            parseThanks(parsedInput);
-            parseColdDestination(parsedInput);
-            parseTropicDestination(parsedInput);
             parseBookHotel(parsedInput);
             parseWeather(parsedInput);
             parseTravelMethod(parsedInput);
             parseHowFar(parsedInput);
-            parseCities(parsedInput);
             parseBudget(parsedInput);
             parseActivities(parsedInput);
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
             parseGoSkiing(parsedInput);
-//            if(parsedInput.type.equals(ParsedInputType.DontUnderstand)){
-//            	parsedInput.type = ParsedInputType.NotEnoughInfo;
-//            }
+            parseGreetingOrFarewell(parsedInput);
+            parseThanks(parsedInput);
         }
         return parsedInput;
     }
@@ -101,38 +97,22 @@ public final class CustomParser {
             parsedInput.type = ParsedInputType.Thanks;
         }
     }
-
-    public static void parseColdDestination(ParsedInput parsedInput){
-    	String match = parsedInput.getMatchingPhrase(ParserDictionary.colddest);
-        
-        if (!match.isEmpty()) {
-            parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("destination", StringUtils.toTitleCase(match));
-        }
-    	
-        String city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);
-        if (!city.isEmpty()) {
-            parsedInput.type = ParsedInputType.SetDestination;
-            parsedInput.setField("city", StringUtils.toTitleCase(city)+",BC");
-            parsedInput.setField("destination", "Canada");
-        } else {
-        	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
-        	if (!city.isEmpty()) {
-                parsedInput.type = ParsedInputType.SetDestination;
-                parsedInput.setField("city", StringUtils.toTitleCase(city)+",AB");
-                parsedInput.setField("destination", "Canada");
-            }
-        }   
-    }
     
-    private static void parseTropicDestination(ParsedInput parsedInput) {
+    private static void parseDestination(ParsedInput parsedInput) {
         String match = parsedInput.getMatchingPhrase(ParserDictionary.tropicdest);
         String places = "";
         
         if (!match.isEmpty()) {
+        	System.out.println(match);
             parsedInput.type = ParsedInputType.SetDestination;
             parsedInput.setField("destination", StringUtils.toTitleCase(match));
-        }
+        } else {
+        	match = parsedInput.getMatchingPhrase(ParserDictionary.colddest);
+            if (!match.isEmpty()) {
+                parsedInput.type = ParsedInputType.SetDestination;
+                parsedInput.setField("destination", StringUtils.toTitleCase(match));
+            }   
+        }        
         
         String city = parsedInput.getMatchingPhrase(ParserDictionary.tropiccities);
         
@@ -141,16 +121,31 @@ public final class CustomParser {
             parsedInput.setField("city", StringUtils.toTitleCase(city));
             parsedInput.setField("destination", "Mexico");
             return;
-        }
-        
+        } else {
+        	city = parsedInput.getMatchingPhrase(ParserDictionary.bccities);            
+            if (!city.isEmpty()) {
+                parsedInput.type = ParsedInputType.SetDestination;
+                parsedInput.setField("city", StringUtils.toTitleCase(city)+",BC");
+                parsedInput.setField("destination", "Canada");
+                return;
+            } else {
+            	city = parsedInput.getMatchingPhrase(ParserDictionary.albertacities);
+            	if (!city.isEmpty()) {
+                    parsedInput.type = ParsedInputType.SetDestination;
+                    parsedInput.setField("city", StringUtils.toTitleCase(city)+",AB");
+                    parsedInput.setField("destination", "Canada");
+                    return;
+                }
+            }   
+        }        
         if(match.isEmpty() && city.isEmpty()){
         	/* If the sentence does not contain a destination in our list, try finding
         	 * one using the OpenNLP parser. That way a response can be created using
         	 * the users input even though the agent does not know what it is.        */
         	places = p.findDest();
-        }
+        }        
         if(!parsedInput.containsAnyPhrase(ParserDictionary.greet)){
-        	if(!places.isEmpty() || !places.equals("Canada")){
+        	if(match.isEmpty() &&(!places.isEmpty() || !places.equals("Canada"))){
             	parsedInput.setField("bad destination", StringUtils.toTitleCase(places));
             	parsedInput.type = ParsedInputType.BadDestination;
             	return;

@@ -75,26 +75,35 @@ public final class ResponseMaker {
     public String getTravelMethod(String travelMethod, String location, boolean tropicDest) {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
-		    String response = "You can if you want." + "\r\n";
-            response += getTravelCost(travelMethod) + ".";
+		    
+    		String response = "You can if you want." + "\r\n";
+            response += getTravelCost(travelMethod);
             return response;
+            
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
+        	
             String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
+            
             if(!tropicDest){
             	response += "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
             } else {
             	response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
             }
             return response;
+            
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
-            String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-           	if(!tropicDest && location != "Calgary,BC" ){
-           			response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
+            
+        	String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
+        
+        	if(!tropicDest && location != "Calgary,AB" ){
+        		location = location.substring(0,location.length()-3);
+        		response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
            	} else {
            		response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
                	response += getTravelCost(travelMethod);
             }
            	return response;
+        
         }
 	
         return "Sorry, we don't book trips by " + travelMethod;
@@ -133,21 +142,25 @@ public final class ResponseMaker {
         return response;
     }
 
-    public String getDestinationInfo(String location, String city) {
+    public String getDestinationInfo(String location, String city, boolean tropicDest) {
         String destination = "";
-
+        
         if (StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             return "Sorry you need to say where you want to go!";
         } else if (!StringUtils.isNullOrEmpty(location) && StringUtils.isNullOrEmpty(city)) {
             destination = location;
             return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", location) + " Where would you like to go in " + location + "?";
         } else if (StringUtils.isNullOrEmpty(location) && !StringUtils.isNullOrEmpty(city)) {
-            destination = city;
+        	destination = city;
         } else {
-            destination = city;
+        	destination = city;
         }
         l = new Location(destination);
         locationSet.add(l);
+        if(!tropicDest){
+        	city = destination.substring(0,destination.length()-3);
+        	return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", city);
+        }
         return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
     
@@ -216,7 +229,7 @@ public final class ResponseMaker {
     	
     	switch(city.toLowerCase()){
     	case "revelstoke,bc":
-    		response = "One of the best resorts in the area, Revelstoke mountain will provide you with an excellent challenge.";
+    		response = "One of the best resorts in the area is Revelstoke Mountain. It will provide you with an excellent challenge.";
     		break;
     	case "kamloops,bc":
     		response = "Kamloops is home to a great family resort, Sunshine Village. Not too challenging with activities for the whole family!";

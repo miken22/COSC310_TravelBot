@@ -62,19 +62,19 @@ public class TravelAgent {
         		}
         	}
         }
-
+        String city = "";
+        String dest = "";
         // Check which kind of question or statement the user inputted
         switch (parsedInput.getType()) {
 
             case SetDestination:
-            	if(tropicDestination){
-            		response = responseMaker.getDestinationInfo(savedInputs.getValue("destination"), savedInputs.getValue("city"));
-            	} else {
-            		response = responseMaker.getDestinationInfo(savedInputs.getValue("destination"),savedInputs.getValue("city"));
-            	}
+            	try{
+            		dest = savedInputs.getValue("destination");
+            		city = savedInputs.getValue("city");
+            	} catch (NullPointerException e){}
+            	response = responseMaker.getDestinationInfo(dest,city,tropicDestination);
                 break;
             
-            // If OpenNLP parser flags location not known to the agent this will handle to right response.
             case BadDestination:
             	response = responseMaker.getBadLocations(savedInputs.getValue("bad destination"));
             	break;
@@ -113,7 +113,7 @@ public class TravelAgent {
                 break;
                 
             case SkiResort:
-            	String city = "";
+            	city = "";
             	try{
             		city = savedInputs.getValue("city");
             		response = responseMaker.getSkiResorts(city);

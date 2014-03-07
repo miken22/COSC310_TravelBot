@@ -72,6 +72,7 @@ public class ChatBox{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setSize(550, 470);
+		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		menu.add(file);
 		file.add(newConvo);

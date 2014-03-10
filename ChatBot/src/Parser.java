@@ -38,6 +38,8 @@ public class Parser {
  	private POSTaggerME tagger;
 	private String[] tokens;
 	
+	private String saveLastInput;
+	
 	public Parser() throws InvalidFormatException, IOException{
 		trainTokenizer();
 		trainTagger();
@@ -49,6 +51,7 @@ public class Parser {
 	
 	public void tagSentence(String userMessage){
 		
+		saveLastInput = userMessage;
 		// OpenNLP tokenization of sentence. To catch pos and named entities that have not been explicitly coded
         // in the parser dictionary.
         tokens = t.tokenize(userMessage);
@@ -69,11 +72,7 @@ public class Parser {
 	}
 
 	public String getUserMessage(){
-    	StringBuilder sb = new StringBuilder();
-    	for(String s:tokens){
-    		sb.append(s + " ");
-    	}
-    	return sb.toString();
+    	return saveLastInput;
     }
 	
 	// All have been added for Assignment 3

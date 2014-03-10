@@ -62,7 +62,7 @@ public class TravelAgent {
         }
         String city = "";
         String dest = "";
-        // Check which kind of question or statement the user inputted
+        // Check which kind of question or statement the user input
         switch (parsedInput.getType()) {
 
             case SetDestination:

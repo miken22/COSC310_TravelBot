@@ -1,4 +1,4 @@
-COSC 310 Project
+﻿COSC 310 Project
 =============================================================================================
 Team Members for A1 and A2:
 	Allan Tsai
@@ -41,7 +41,7 @@ Second Conversation Topic:
 On top of the current conversation the agent now handles organizing vacations to different towns in BC's interior and parts of Alberta. The agent is also able to handle topic changes, going from planning a vacation in BC to arranging a trip in Mexico.
 
 GUI Interface:
-A simple graphical user interface has been added to the system to provide the user with a more realistic chat environment. The GUI stores all text from the conversation to allow the user to look back at previous responses, and WILL also have a feature added to export the chat history. This feature could be used by the user to save conversations to look back on later, or to use for the agent to build more responses.
+A simple graphical user interface has been added to the system to provide the user with a more realistic chat environment with a non-generic font. The GUI stores all text from the conversation to allow the user to look back at previous responses, and WILL also have a feature added to export the chat history. This feature could be used by the user to save conversations to look back on later, or to use for the agent to build more responses.
 
 Implement OpenNLP: 
 OpenNLP NER and POS Tagger have been added to the system to try and generate more realistic conversations. The primary way that this is done is by parsing the sentence and flagging parts of the input that might represent nouns. The system converts the text to title case (from mike to Mike for example) to create a syntactically correct sentence. Then the OpenNLP Named Entity Recognition parser compares the input to its learned vocabulary. This way the agent can recognize words that are not explicitly coded in its dictionary and still generate responses. An example would be if the user asks about going to Paris, although the system does not know the word explicitly, the NER flags Paris as a location and stores the input as a "bad location" type. The agent can then use the input to build a sentence that explains to the user that it cannot help with going to Paris.

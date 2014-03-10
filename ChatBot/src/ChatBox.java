@@ -1,13 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.border.*;
+import javax.swing.text.*;
 
 import opennlp.tools.util.InvalidFormatException;
 
@@ -89,44 +85,49 @@ public class ChatBox{
 		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
-		menu.setBackground(new Color(239,239,239));
+		menu.setBackground(new Color(244,244,244));
 		menu.add(file);
 		file.add(newConvo);
 		file.add(save);
 		file.add(exit);
 		
 		c = frame.getContentPane();
-		c.setBackground(new Color(242,242,242));
+		c.setBackground(new Color(240,240,240));
 		font = Font.createFont(0,this.getClass().getResourceAsStream("/Trebuchet MS.ttf"));
 		
 		convo.setEditable(false);
 		convo.setBounds(2,2,frame.getWidth()-19,300);
 		font = font.deriveFont(Font.PLAIN,14);
+		Border b = new LineBorder(Color.LIGHT_GRAY,1,true);
 		convo.setFont(font);
-		convo.setBorder(BorderFactory.createBevelBorder(1));	
+		convo.setBorder(b);	
+		convo.setBackground(new Color(252,252,252));
 		scroll1.setBounds(2,2,frame.getWidth()-19,300);
-		scroll1.setBackground(new Color(242,242,242));
-		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Chat History"));
+		scroll1.setBackground(new Color(240,240,240));
+		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1,true), "Chat History"));
 		c.add(scroll1);
 		
 		textarea = convo.getStyledDocument();
 		
 		input.setLineWrap(true);
-		input.setBorder(BorderFactory.createSoftBevelBorder(1));	
+		input.setBorder(b);	
 		input.setBounds(4, 305, frame.getWidth()-111, 77);
+		input.setBackground(new Color(252,252,252));
 		input.setFont(font);
 		scroll2.setBounds(4, 305, frame.getWidth()-111, 92);
-		scroll2.setBackground(new Color(242,242,242));
-		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY), "Talk to TravelBot:"));
+		scroll2.setBackground(new Color(240,240,240));
+		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1,true), "Chat with TravelBot:"));
 		c.add(scroll2);
 		
 		send.setBounds(frame.getWidth()-101,312,80,40);
-		send.setBorder(BorderFactory.createRaisedBevelBorder());
-		send.setBackground(new Color(230,230,230));
+//		send.setBorder(BorderFactory.createRaisedBevelBorder());
+		send.setBorder(b);
+		send.setBackground(new Color(250,250,250));
 		send.setFocusPainted(false);
 		clear.setBounds(frame.getWidth()-101,355,80,40);
-		clear.setBorder(BorderFactory.createRaisedBevelBorder());
-		clear.setBackground(new Color(230,230,230));
+//		clear.setBorder(BorderFactory.createRaisedBevelBorder());
+		clear.setBorder(b);
+		clear.setBackground(new Color(250,250,250));
 		clear.setFocusPainted(false);
 		c.add(send);
 		c.add(clear);
@@ -180,14 +181,19 @@ public class ChatBox{
 		public void actionPerformed(ActionEvent e) {
 			in = input.getText();
 			// Clear user input if clear button is pressed
+			JButton b = (JButton)e.getSource();
+			b.setBackground(new Color(253,253,253));
 			if(e.getSource() == clear){
 				input.setText("");
+				b.setBackground(new Color(250,250,250));
 			// If user does not enter anything the chatbot will not do anything.
 			} else if(in.length() == 0){
 				input.requestFocus();
+				b.setBackground(new Color(250,250,250));
 				return;
 			} else {
 				addText();
+				b.setBackground(new Color(250,250,250));
 			}
 			input.requestFocus();
 		}

@@ -15,8 +15,8 @@ public class GeneralResponses {
 
 	public static List<String> AlreadyLeft = Arrays.asList("You already said bye, I must help the next customer. Please come back again later!");
 	public static List<String> StartUp = Arrays.asList("Hi! Welcome to our travel center. We help arrange trips to Mexico and ski resorts in BC and Alberta. How can I help you today?");
-	public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm Travel Bot. How can I help", "Hi, how can I help", "Hello. Can I help you plan a trip", "Hey there, I'm TravelBot! How are you", "Greetings, welcome to my Travel Agency", "Welcome to our travel center. How can I help", "Hi there, how can I help you this <TimeOfDay>");
-    public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "Farewell", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by");
+	public static List<String> greetings = Arrays.asList("Good <TimeOfDay>, I'm TravelBot. How can I help", "Hi, how can I help", "Hello. Can I help you plan a trip", "Hey there, I'm TravelBot! How are you", "Greetings, welcome to my travel agency", "Welcome to our travel center. How can I help", "Hi there, how can I help you this <TimeOfDay>");
+    public static List<String> farewells = Arrays.asList("Good <TimeOfDay>", "Bye", "Goodbye", "See ya", "See you later", "Take care", "Ciao", "Thanks for stopping by");
     public static List<String> niceDest = Arrays.asList("<Dest> is very nice!", "Everybody loves <Dest>!", "<Dest> is a wonderful place!");
     public static List<String> noRestaurants = Arrays.asList("There aren't any places that I'd recommend.", "There may be some local places, but nothing outstanding.", "It's all about street vendors and local food there.");
 	public static List<String> searching = Arrays.asList("Well let me find out... ", "Let me look that up... ", "Determining what's best for you.", "Searching...");
@@ -32,7 +32,7 @@ public class GeneralResponses {
 	public static List<String> cantFly = Arrays.asList("It's hard to fly to <Dest> since there's no airport.", "Sorry, we don't book private planes that can fly to <Dest>.", "We don't arrange flights to <Dest>.");
 
 	public static List<String> searchAnswers = Arrays.asList("I've found a result for '<search>'. There is a place called '<result>' that might be perfect for you.", "Yes, I've found a place called '<result>' that might be just what you're looking for.", "You could try '<result>', it looks perfect for you.");
-	public static List<String> searchMiss = Arrays.asList("Sorry, I could not find anything matching '<query>', would you like to look for something else?", "Sorry, there are no matches for '<query>'. You can enter another search if you would like.");
+	public static List<String> searchMiss = Arrays.asList("Sorry, I could not find anything matching '<query>', would you like me to look for something else?", "Sorry, there are no matches for '<query>'. Would you like me to search for something else for you?");
 	
 	public static String getRandomResponse(List<String> responses, String keyword, String value) {
         return responses.get(rand.nextInt(responses.size())).replace(keyword, value);

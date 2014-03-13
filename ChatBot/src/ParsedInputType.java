@@ -27,7 +27,9 @@ public enum ParsedInputType {
     Debug_ShowStats,
     Debug_Enable, 
     BadDestination, 
-    NotEnoughInfo;
+    NotEnoughInfo, 
+    GreetingUser, 
+    FarewellUser;
 
     public boolean isWellFormed() {
         return (this != ParsedInputType.None) &&

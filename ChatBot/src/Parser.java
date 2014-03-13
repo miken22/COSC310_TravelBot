@@ -63,7 +63,8 @@ public class Parser {
         // the object.
         for(int i = 0; i < taggedString.length; i++){
 //        	System.out.print(tokens[i]+ ", "+ taggedString[i] + " ");
-        	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")){
+        	if(taggedString[i].equals("NNP") || taggedString[i].equals("NN") || taggedString[i].equals("POS")
+        			|| taggedString[i].equals("VBP")|| taggedString[i].equals("CD")){
         		tokens[i] = StringUtils.toTitleCase(tokens[i]);
 //        		System.out.println(tokens[i]); // to see what is happening
         	}
@@ -91,7 +92,7 @@ public class Parser {
     	Span d[] = nf.find(tokens);
     	String[] holder = Span.spansToStrings(d, tokens);
     	StringBuilder fs = new StringBuilder();
-    	
+
     	for(int i = 0; i < holder.length; i++){
     		fs = fs.append(holder[i]);
     	}

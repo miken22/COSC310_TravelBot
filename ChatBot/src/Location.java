@@ -29,12 +29,12 @@ public class Location {
         lf.build(this);
     }
     @SuppressWarnings("static-access")
-    public String estimateTravelCost() {
-        return "Driving to " + StringUtils.toTitleCase(this.destination) + ", from " + StringUtils.toTitleCase(this.origin) + " would cost approximately $" + lf.round((this.distanceFromOrigin /2)*1.3, 2) + " round trip.";
+    public String estimateTravelCost(String location) {
+        return "Driving to " + location + " from " + StringUtils.toTitleCase(this.origin) + " would cost approximately $" + lf.round((this.distanceFromOrigin /2)*1.3, 2) + " round trip.";
     }
     @SuppressWarnings("static-access")
-    public String estimateFlightCost() {
-        return "Flying to " + this.destination + ", from " + this.origin + " would cost approximately $" + lf.round(this.distanceFromOrigin / 2.92, 2);
+    public String estimateFlightCost(String location) {
+        return "Flying to " + location + " from " + this.origin + " would cost approximately $" + lf.round(this.distanceFromOrigin / 2.92, 2);
     }
 
     @SuppressWarnings("static-access")

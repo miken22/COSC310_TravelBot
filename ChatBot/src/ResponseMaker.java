@@ -69,6 +69,7 @@ public final class ResponseMaker {
     }
 
     public String getAroundWinter(String location) {
+    	location = location.substring(0,location.length()-3);
     	return WinterResponses.getRandomResponse(WinterResponses.transport, "<Dest>", location);
     }
     
@@ -77,7 +78,7 @@ public final class ResponseMaker {
     	if (travelMethod == "car" || travelMethod == "drive") {
 		    
     		String response = "You can if you want." + "\r\n";
-            response += getTravelCost(travelMethod);
+            response += getTravelCost(travelMethod,location);
             return response;
             
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
@@ -94,13 +95,13 @@ public final class ResponseMaker {
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
             
         	String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-        
-        	if(!tropicDest && location != "Calgary,AB" ){
+
+        	if(!tropicDest && !location.equals("Calgary,AB")){
         		location = location.substring(0,location.length()-3);
         		response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
            	} else {
-           		response += TropicResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
-               	response += getTravelCost(travelMethod);
+           		response += GeneralResponses.getRandomResponse(GeneralResponses.flightResponses, "<Dest>", location) + "\r\n";
+               	response += getTravelCost(travelMethod,location);
             }
            	return response;
         
@@ -164,11 +165,11 @@ public final class ResponseMaker {
         return GeneralResponses.getRandomResponse(GeneralResponses.niceDest, "<Dest>", destination);
     }
     
-    public String getTravelCost(String methodOfTravel) {
+    public String getTravelCost(String methodOfTravel, String location) {
         if (methodOfTravel == "car" || methodOfTravel == "drive") {
-            return l.estimateTravelCost();
+            return l.estimateTravelCost(location);
         } else {
-            return l.estimateFlightCost();
+            return l.estimateFlightCost(location);
         }
     }
 
@@ -346,7 +347,6 @@ public final class ResponseMaker {
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
 			response = response.replace("<search>", search);
 			response = response.replace("_"," ");
-			System.out.println(places.toString() + ", " + r);
 		} catch (NullPointerException e){
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
 			response = response.replace("_"," ");

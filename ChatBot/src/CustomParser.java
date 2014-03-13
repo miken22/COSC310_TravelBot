@@ -39,11 +39,6 @@ public final class CustomParser {
             // User OpenNLP for further sentence analysis
             p.tagSentence(userMessage);
             
-            // Use name parser from openNLP to identify user name
-            String name = p.findNames();
-            if(!name.isEmpty()){
-            	parsedInput.setField("username", name);
-            }
             // Identify organizations in used sentence.
             String org = p.findOrgs();
             if(!org.isEmpty()){
@@ -90,10 +85,16 @@ public final class CustomParser {
     
     private static void parseGreetingOrFarewell(ParsedInput parsedInput) {
         // Check for greetings and farewells
-        if (parsedInput.containsAnyPhrase(ParserDictionary.greet)) {
-            parsedInput.type = ParsedInputType.Greeting;
+    	String name = p.findNames();
+        
+    	if (parsedInput.containsAnyPhrase(ParserDictionary.greet)) {
+    		if(!name.isEmpty()){
+    			parsedInput.setField("username", name);
+    		}
+    		parsedInput.type = ParsedInputType.Greeting;
+        	
         } else if (parsedInput.containsAnyPhrase(ParserDictionary.leave)) {
-            parsedInput.type = ParsedInputType.Farewell;
+        	parsedInput.type = ParsedInputType.Farewell;
         }
     }
 

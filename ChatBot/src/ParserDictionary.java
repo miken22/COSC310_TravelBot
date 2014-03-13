@@ -21,7 +21,7 @@ public class ParserDictionary {
     public static List<String> travelMethods = Arrays.asList("fly", "flight", "plane", "boat", "cruise", "bus", "drive", "car");
     public static List<String> distance = Arrays.asList("far", "long", "distance");
     public static List<String> food = Arrays.asList("eat", "food", "restaurant", "dine", "lunch", "dinner", "bar");
-    public static List<String> budget = Arrays.asList("budget", "afford", "cost", "spend", "$");
+    public static List<String> budget = Arrays.asList("budget", "afford", "cost", "spend", "$","a night");
     public static List<String> activities = Arrays.asList("things to do", "activities", "do");
     public static List<String> getAround = Arrays.asList("get around", "transportation","travel around");
     public static List<String> bookInfo = Arrays.asList("passport", "reservation", "book", "booking");
@@ -29,7 +29,6 @@ public class ParserDictionary {
     public static List<String> skiactivities = Arrays.asList("ski", "skiing", "snowboard","snowboarding");
     public static List<String> weather = Arrays.asList("weather", "temperature", "rain", "sun", "warm", "cool", "time of year");
     public static List<String> seasons = Arrays.asList("spring", "summer", "fall", "winter");
-
     public static List<String> searchKeys = Arrays.asList("airport", "amusement_park", "aquarium", "bar", "café", "campground", "casino", "clothing_store", "convenience_store", "department_store", "grocery_or_supermarket", "hospital", "library", "liquor_store", "lodging", "movie_theater", "museum", "night_club", "park", "parking", "restaurant", "shopping_mall", "spa", "stadium", "travel_agency", "university", "zoo");
     
   // Stores the phrase lists as a list of phrases, each phrase being a list of words in the phrase

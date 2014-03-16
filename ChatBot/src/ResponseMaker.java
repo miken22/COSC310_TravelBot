@@ -227,7 +227,7 @@ public final class ResponseMaker {
     
     public String getSkiResorts(String city){
     	String response = "";
-    	System.out.println(city.toLowerCase());
+    	
     	switch(city.toLowerCase()){
     	case "revelstoke,bc":
     		response = "One of the best resorts in the area is Revelstoke Mountain. It will provide you with an excellent challenge.";

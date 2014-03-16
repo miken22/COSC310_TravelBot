@@ -36,7 +36,6 @@ public class ChatBox{
 	
 	private JMenuBar menu;
 	private JMenu file;
-	private JMenuItem newConvo;
 	private JMenuItem exit;
 	private JMenuItem save;
 	
@@ -55,13 +54,11 @@ public class ChatBox{
 		
 		menu = new JMenuBar();
 		file = new JMenu("File");
-		newConvo = new JMenuItem("New Conversation");
 		save = new JMenuItem("Save Conversation");
 		exit = new JMenuItem("Exit");
 		
-		newConvo.addActionListener(new MenuListener(1));
-		save.addActionListener(new MenuListener(2));
-		exit.addActionListener(new MenuListener(3));
+		save.addActionListener(new MenuListener(1));
+		exit.addActionListener(new MenuListener(2));
 		
 		
 		send = new JButton("Send");
@@ -87,7 +84,6 @@ public class ChatBox{
 		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
 		menu.setBackground(new Color(244,244,244));
 		menu.add(file);
-		file.add(newConvo);
 		file.add(save);
 		file.add(exit);
 		
@@ -120,12 +116,10 @@ public class ChatBox{
 		c.add(scroll2);
 		
 		send.setBounds(frame.getWidth()-101,312,80,40);
-//		send.setBorder(BorderFactory.createRaisedBevelBorder());
 		send.setBorder(b);
 		send.setBackground(new Color(250,250,250));
 		send.setFocusPainted(false);
 		clear.setBounds(frame.getWidth()-101,355,80,40);
-//		clear.setBorder(BorderFactory.createRaisedBevelBorder());
 		clear.setBorder(b);
 		clear.setBackground(new Color(250,250,250));
 		clear.setFocusPainted(false);
@@ -203,22 +197,26 @@ public class ChatBox{
 			input.setText("");
 			
 			StyleConstants.setForeground(userStyle, Color.red);
-	        try { textarea.insertString(textarea.getLength(), "\r\n\r\nUser: ",userStyle); }
-	        catch (BadLocationException e1){}
+	        try { 
+	        	textarea.insertString(textarea.getLength(), "\r\n\r\nUser: ",userStyle); 
+			} catch (BadLocationException e1){}
 
 			StyleConstants.setForeground(chatStyle, Color.black);
-	        try { textarea.insertString(textarea.getLength(), in,chatStyle); }
-	        catch (BadLocationException e1){}
+	        try { 
+	        	textarea.insertString(textarea.getLength(), in,chatStyle); 
+			} catch (BadLocationException e1){}
 
 			out = agent.buildResponse(in);	// Pass user input to TravelAgent for parsing and response generation							
 			
 			StyleConstants.setForeground(agentStyle, new Color(0,128,0));
-	        try { textarea.insertString(textarea.getLength(), "\r\n\r\nTravelBot: ",agentStyle); }
-	        catch (BadLocationException e1){}
+	        try { 
+	        	textarea.insertString(textarea.getLength(), "\r\n\r\nTravelBot: ",agentStyle); 
+	        } catch (BadLocationException e1){}
 	        
 			StyleConstants.setForeground(chatStyle, Color.black);
-	        try { textarea.insertString(textarea.getLength(), out,chatStyle); }
-	        catch (BadLocationException e1){}
+	        try { 
+	        	textarea.insertString(textarea.getLength(), out,chatStyle); 
+	        }catch (BadLocationException e1){}
 	        
 	        Document d = convo.getDocument();
 	        convo.select(d.getLength(), d.getLength());
@@ -237,20 +235,11 @@ public class ChatBox{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 		
-			if(id==1){
-				try {
-					new CustomParser();
-				} catch (InvalidFormatException e) {e.printStackTrace();} 
-				  catch (IOException e) {e.printStackTrace();}
-				frame.dispose();
-				try {
-					new ChatBox();
-				} catch (FontFormatException | IOException e) {}
-			} else if (id==2){
+			if (id==1){
 				String name = (String)JOptionPane.showInputDialog(null, "Save As:\n","Set File Name",JOptionPane.PLAIN_MESSAGE,null,null,"");
 				try {
 					SaveText.saveConvo(name, convo.getText());
-				} catch (FileNotFoundException e) {}
+				} catch (FileNotFoundException e) {System.exit(0);}
 			} else {
 				System.exit(0);
 			}

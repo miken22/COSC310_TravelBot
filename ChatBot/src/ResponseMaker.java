@@ -77,7 +77,7 @@ public final class ResponseMaker {
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
 		    
-    		String response = "You can if you want." + "\r\n";
+    		String response = "You can if you want. ";
             response += getTravelCost(travelMethod,location);
             return response;
             
@@ -95,7 +95,7 @@ public final class ResponseMaker {
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
             
         	String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-
+        	System.out.println(location);
         	if(!tropicDest && !location.equals("Calgary,AB")){
         		location = location.substring(0,location.length()-3);
         		response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);

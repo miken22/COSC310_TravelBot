@@ -164,7 +164,7 @@ public class LocationFactory {
             double[] geo = geocode(loc.destination);
             String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                     "location=" + geo[0] + "," + geo[1] + "&types=" + keyword +
-                    "&radius=100&sensor=false&key=AIzaSyD-GnR8Af9fm57GuOz9kdLTzjPMjfPeXiQ";
+                    "&radius=5000&sensor=false&key=AIzaSyD-GnR8Af9fm57GuOz9kdLTzjPMjfPeXiQ";
             Scanner scan = new Scanner(new URL(url).openStream());
             String str = new String();
             while (scan.hasNext()) {

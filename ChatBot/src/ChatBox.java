@@ -74,11 +74,12 @@ public class ChatBox{
 	private void buildFrame() throws FontFormatException, IOException{
 		
 		agent = new TravelAgent();
+		Border b = new LineBorder(Color.LIGHT_GRAY,1,true);
 		
 		frame = new JFrame("TravelBot Chat Agency");
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(530, 455);
+		frame.setSize(580, 475);
 		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
@@ -92,34 +93,31 @@ public class ChatBox{
 		font = Font.createFont(0,this.getClass().getResourceAsStream("/Trebuchet MS.ttf"));
 		
 		convo.setEditable(false);
-		convo.setBounds(2,2,frame.getWidth()-19,300);
+		convo.setBounds(2,2,frame.getWidth()-150,320);
 		font = font.deriveFont(Font.PLAIN,14);
-		Border b = new LineBorder(Color.LIGHT_GRAY,1,true);
 		convo.setFont(font);
 		convo.setBorder(b);	
 		convo.setBackground(new Color(252,252,252));
-		scroll1.setBounds(2,2,frame.getWidth()-19,300);
+		scroll1.setBounds(2,2,frame.getWidth()-150,320);
 		scroll1.setBackground(new Color(240,240,240));
 		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1,true), "Chat History"));
 		c.add(scroll1);
 		
-		textarea = convo.getStyledDocument();
-		
 		input.setLineWrap(true);
 		input.setBorder(b);	
-		input.setBounds(4, 305, frame.getWidth()-111, 77);
+		input.setBounds(4, 325, frame.getWidth()-150, 77);
 		input.setBackground(new Color(252,252,252));
 		input.setFont(font);
-		scroll2.setBounds(4, 305, frame.getWidth()-111, 92);
+		scroll2.setBounds(4, 325, frame.getWidth()-150, 92);
 		scroll2.setBackground(new Color(240,240,240));
 		scroll2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1,true), "Chat with TravelBot:"));
 		c.add(scroll2);
 		
-		send.setBounds(frame.getWidth()-101,312,80,40);
+		send.setBounds(frame.getWidth()-140,332,120,40);
 		send.setBorder(b);
 		send.setBackground(new Color(250,250,250));
 		send.setFocusPainted(false);
-		clear.setBounds(frame.getWidth()-101,355,80,40);
+		clear.setBounds(frame.getWidth()-140,375,120,40);
 		clear.setBorder(b);
 		clear.setBackground(new Color(250,250,250));
 		clear.setFocusPainted(false);
@@ -130,6 +128,8 @@ public class ChatBox{
 		frame.setVisible(true);
 		input.requestFocus();
 
+		textarea = convo.getStyledDocument();
+		
 		StyleConstants.setForeground(chatStyle, Color.black);
         try { textarea.insertString(textarea.getLength(), "TravelBot started at " + Utils.getCurrentDateFull() + "\r\n" + "Powered by Google",chatStyle); }
         catch (BadLocationException e1){}

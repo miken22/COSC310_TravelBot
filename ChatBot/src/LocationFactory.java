@@ -204,8 +204,10 @@ public class LocationFactory {
     	try {
 
     		double[] geoOrigin = geocode(loc.origin);
+    		double[] geoDest = geocode(dest);
+    		
             String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            geoOrigin[0] +","+ geoOrigin[1] + "&destination=" + dest +
+            geoOrigin[0] +","+ geoOrigin[1] + "&destination=" + geoDest[0] + "," + geoDest[1] +
             "&sensor=false&key=AIzaSyB8uxek_r9kgGZvM4pJOI20R04Y8RsLxj0";
             
             Scanner scan = new Scanner(new URL(url).openStream());
@@ -226,7 +228,8 @@ public class LocationFactory {
             	
                 while (!steps.isNull(index) && index < steps.length()) {
                     direct = steps.getJSONObject(index);
-                    directions += direct.get("html_instructions") + ". \n";
+                    directions += direct.get("html_instructions") + "\n";
+                    // Modify to remove HTML tags they're just annoying.
                     index++;
                 }
                 System.out.println(directions);

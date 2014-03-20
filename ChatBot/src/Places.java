@@ -18,7 +18,7 @@ public class Places {
 	
 	public Places(String name, String address){
 		this.name = name;
-		this.address = address.replaceAll(" ", "");
+		this.address = address;
 	}
 	
 	public String getName(){

@@ -92,11 +92,15 @@ public class TravelAgent {
             	} catch (NullPointerException e){}
             	response = responseMaker.getSearchResults(search);
             	break;
+            
+            case Directions:
+            	response = responseMaker.getDirections();
+            	break;
             	
             case Food:
             	String place = "";
             	try{
-            		place = l.getPlaces("food").get(0);
+            		place = l.getPlaces("food");
             		savedInputs.addInput("food",place);
             	} catch (NullPointerException e){}
                 response = responseMaker.getLocalFood(place);
@@ -127,10 +131,7 @@ public class TravelAgent {
             		response = responseMaker.getNoDestinationSet(CustomParser.getUserMessage());
             	}
             	break;
-            	
-            case GetKeyword:
-                response = responseMaker.getKeywordPlaces(savedInputs.getValue("keyword"));
-
+            
             case ListCities:
             	if(tropicDestination){
             		response = responseMaker.getCities();

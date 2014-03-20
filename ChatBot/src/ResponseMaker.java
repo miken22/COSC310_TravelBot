@@ -14,6 +14,7 @@ import java.util.*;
 public final class ResponseMaker {
     List<Location> locationSet = new ArrayList<>();
     Location l;
+    private String place = "";
 
     public String getGreeting(String username) {
     	if (StringUtils.isNullOrEmpty(username)) {
@@ -60,10 +61,6 @@ public final class ResponseMaker {
         return cities;
     }
 
-    public String getKeywordPlaces(String keyword) {
-        return l.getPlaces(keyword).get(0);
-    }
-
     public String getAroundTropical(String location) {
         return TropicResponses.getRandomResponse(TropicResponses.transport, "<Dest>", location);
     }
@@ -74,18 +71,16 @@ public final class ResponseMaker {
     }
     
     public String getTravelMethod(String travelMethod, String location, boolean tropicDest) {
+    	String response = "";
     	
     	if (travelMethod == "car" || travelMethod == "drive") {
 		    
-    		String response = "You can if you want. ";
+    		response = "You can if you want. ";
             response += getTravelCost(travelMethod,location);
             return response;
             
         } else if (travelMethod == "boat" || travelMethod == "cruise") {
-        	
-            String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-            
-            if(!tropicDest){
+        	if(!tropicDest){
             	response += "It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.";
             } else {
             	response += TropicResponses.getRandomResponse(TropicResponses.boatResponses, "<Dest>", location);
@@ -93,10 +88,7 @@ public final class ResponseMaker {
             return response;
             
         } else if (travelMethod == "fly" || travelMethod == "flight" || travelMethod == "plane") {
-            
-        	String response = TropicResponses.getRandomResponse(GeneralResponses.searching) + "\r\n";
-        	System.out.println(location);
-        	if(!tropicDest && !location.equals("Calgary,AB")){
+           if(!tropicDest && !location.equals("Calgary,AB")){
         		location = location.substring(0,location.length()-3);
         		response += TropicResponses.getRandomResponse(GeneralResponses.cantFly, "<Dest>", location);
            	} else {
@@ -104,9 +96,7 @@ public final class ResponseMaker {
                	response += getTravelCost(travelMethod,location);
             }
            	return response;
-        
         }
-	
         return "Sorry, we don't book trips by " + travelMethod;
     }
     
@@ -119,8 +109,7 @@ public final class ResponseMaker {
     }
 
     public String getBudgetAccom(int amount, String location) {
-        String response = "Searching for the best accommodations that match you budget. " + "\n";
-
+    	String response = "";
         if (amount >= 130) {
             response += TropicResponses.getRandomResponse(TropicResponses.niceAccom, "<Dest>", location);
         } else if (amount > 90) {
@@ -134,7 +123,8 @@ public final class ResponseMaker {
 
     public String getLocalFood(String place) {
         String response = "";
-        String city = l.destination;        if(!place.isEmpty()){
+        String city = l.destination;        
+        if(!place.isEmpty()){
         	response = "A very popular place in " + city + " is " + place + ".";
         } else {
         	response += GeneralResponses.getRandomResponse(GeneralResponses.noRestaurants);
@@ -307,14 +297,8 @@ public final class ResponseMaker {
 
 	public String getWinterAccom(int amount, String city) {
 		String response = "Searching for the best accommodations that match you budget. " + "\n";
-		List<String> places = new ArrayList<>();
 		try{
-			places = l.getPlaces("lodging");
-			int r = 0;
-			if(places.size()>1){
-				r = new java.util.Random().nextInt(places.size());
-			} 
-			String hotel = places.get(r);
+			String hotel = l.getPlaces("lodging");
 			
 			if(hotel.substring(0, 4)=="The "){
 				hotel = hotel.substring(4, hotel.length());
@@ -340,18 +324,20 @@ public final class ResponseMaker {
 			return "Sorry you haven't told me what you'd like to search for.";
 		}
 		String response = "";
-		ArrayList<String> places = new ArrayList<>();
 		try{
-			places = l.getPlaces(search);
-			int r = new java.util.Random().nextInt(places.size());
-			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", places.get(r));
+			place = l.getPlaces(search);
+			response = GeneralResponses.getRandomResponse(GeneralResponses.searchAnswers, "<result>", place);
 			response = response.replace("<search>", search);
 			response = response.replace("_"," ");
 		} catch (NullPointerException e){
 			response = GeneralResponses.getRandomResponse(GeneralResponses.searchMiss, "<query>", search);
 			response = response.replace("_"," ");
 		}
-		
+		return response;
+	}
+	
+	public String getDirections(){
+		String response = l.getDirections(place);
 		return response;
 	}
 }

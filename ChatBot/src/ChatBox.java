@@ -1,9 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.*;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 import opennlp.tools.util.InvalidFormatException;
 
@@ -24,6 +27,8 @@ public class ChatBox{
 	private JScrollPane scroll2;
 	private JTextPane convo;
 	private JTextArea input;
+	private JLabel label;
+	private ImageIcon logo;
 
 	private StyledDocument textarea;
 	private Style userStyle;
@@ -83,16 +88,22 @@ public class ChatBox{
 		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
+		logo = new ImageIcon(getClass().getClassLoader().getResource("powered-by-google-on-white.png"));
+		label = new JLabel(logo);
+		label.setSize(logo.getIconWidth(), logo.getIconHeight());
 		menu.setBackground(new Color(244,244,244));
 		menu.add(file);
 		file.add(save);
 		file.add(exit);
 		
 		c = frame.getContentPane();
+		label.setLocation(frame.getWidth()-logo.getIconWidth()-10, 0);
+		c.add(label);
 		c.setBackground(new Color(240,240,240));
 		font = Font.createFont(0,this.getClass().getResourceAsStream("/Trebuchet MS.ttf"));
 		
 		convo.setEditable(false);
+		convo.setContentType("text/html");
 		convo.setBounds(2,2,frame.getWidth()-150,320);
 		font = font.deriveFont(Font.PLAIN,14);
 		convo.setFont(font);
@@ -193,7 +204,10 @@ public class ChatBox{
 		}
 		
 		public void addText(){
-
+			StringBuilder output = new StringBuilder();
+			HTMLDocument doc = (HTMLDocument)convo.getDocument();
+			HTMLEditorKit editorKit = (HTMLEditorKit)convo.getEditorKit();
+			
 			input.setText("");
 			
 			StyleConstants.setForeground(userStyle, Color.red);
@@ -213,13 +227,15 @@ public class ChatBox{
 	        	textarea.insertString(textarea.getLength(), "\r\n\r\nTravelBot: ",agentStyle); 
 	        } catch (BadLocationException e1){}
 	        
-			StyleConstants.setForeground(chatStyle, Color.black);
-	        try { 
-	        	textarea.insertString(textarea.getLength(), out,chatStyle); 
-	        }catch (BadLocationException e1){}
 	        
-	        Document d = convo.getDocument();
-	        convo.select(d.getLength(), d.getLength());
+			StyleConstants.setForeground(chatStyle, Color.black);
+		    try {
+		    	editorKit.insertHTML(doc,doc.getLength(),out,0,0,null);
+		    } catch (BadLocationException e) {
+		    } catch (IOException e) {
+		    }
+		        
+	        convo.select(doc.getLength(), doc.getLength());
 
 		}
 	}

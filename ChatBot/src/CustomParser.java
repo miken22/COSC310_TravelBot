@@ -53,6 +53,7 @@ public final class CustomParser {
             parseDestination(parsedInput);
             parseCities(parsedInput);
             parseSearchWords(parsedInput);
+            parsedDirections(parsedInput);
             parsePleaseComeBack(parsedInput);
             parseBookHotel(parsedInput);
             parseWeather(parsedInput);
@@ -65,10 +66,17 @@ public final class CustomParser {
             parseGoSkiing(parsedInput);
             parseGreetingOrFarewell(parsedInput);
             parseThanks(parsedInput);
+            
         }
         return parsedInput;
     }
    
+
+	private static void parsedDirections(ParsedInput parsedInput) {
+        if (parsedInput.containsAnyPhrase(ParserDictionary.Directions)) {
+            parsedInput.type = ParsedInputType.Directions;
+        }
+	}
 
 	public static String getUserMessage(){
     	return p.getUserMessage();

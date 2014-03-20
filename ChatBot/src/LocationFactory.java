@@ -158,7 +158,7 @@ public class LocationFactory {
     }
 
     public static boolean getPlaces(Location loc, String keyword) {
-        ArrayList<String> toReturn = new ArrayList<>();
+        ArrayList<Places> toReturn = new ArrayList<>();
 
         try {
             double[] geo = geocode(loc.destination);
@@ -172,6 +172,7 @@ public class LocationFactory {
 
             }
             scan.close();
+//            System.out.println(str);
             JSONObject json = new JSONObject(str);
             if (json.getString("status").equalsIgnoreCase("ok")) {
                 JSONArray j = json.getJSONArray("results");
@@ -179,7 +180,10 @@ public class LocationFactory {
                 JSONObject tmp;
                 while (!j.isNull(index) && index < 4) {
                     tmp = j.getJSONObject(index);
-                    toReturn.add(tmp.getString("name")); // Trimmed this off to just get place names.
+                    String name = tmp.getString("name");
+                    String address = tmp.getString("vicinity");
+                    Places p = new Places(name,address);
+                    toReturn.add(p);
                     index++;
                 }
                 loc.places.put(keyword, toReturn);
@@ -191,5 +195,48 @@ public class LocationFactory {
         	return false;
         }
         return false;
+    }
+    
+    public static String getDirections(Location loc, String dest){
+    	
+    	String directions = "";
+    	
+    	try {
+
+    		double[] geoOrigin = geocode(loc.origin);
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
+            geoOrigin[0] +","+ geoOrigin[1] + "&destination=" + dest +
+            "&sensor=false&key=AIzaSyB8uxek_r9kgGZvM4pJOI20R04Y8RsLxj0";
+            
+            Scanner scan = new Scanner(new URL(url).openStream());
+            String str = new String();
+            while (scan.hasNext()) {
+                str += scan.nextLine() + "\n";
+
+            }
+            scan.close();
+            JSONObject json = new JSONObject(str);
+
+            if (json.getString("status").equalsIgnoreCase("ok")) {
+            	JSONArray j = json.getJSONArray("routes");
+            	JSONArray legs = j.getJSONObject(0).getJSONArray("legs");
+            	JSONArray steps = legs.getJSONObject(0).getJSONArray("steps");
+            	JSONObject direct;
+            	int index = 0;
+            	
+                while (!steps.isNull(index) && index < steps.length()) {
+                    direct = steps.getJSONObject(index);
+                    directions += direct.get("html_instructions") + ". \n";
+                    index++;
+                }
+                System.out.println(directions);
+                return directions;
+            }
+    	} catch (IOException e) {
+            return null;
+        } catch (NullPointerException e){
+        	return null;
+        }
+    	return null;
     }
 }

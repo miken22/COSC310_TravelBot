@@ -14,7 +14,7 @@ public class Location {
     // Convert list into list of object that store places with name, address information
     public HashMap<String, ArrayList<Places>> places = new HashMap<>();
     public HashMap<String, String> placesAddress = new HashMap<>();
-    public String origin = "Kelowna";
+    public String origin = "UBC Okanagan, Kelowna, BC";
     public String destination;
     public double tempInCelcius;
     public String weatherDescription;

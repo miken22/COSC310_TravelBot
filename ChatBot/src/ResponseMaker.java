@@ -303,20 +303,11 @@ public final class ResponseMaker {
 			if(hotel.substring(0, 4)=="The "){
 				hotel = hotel.substring(4, hotel.length());
 			}
-			
+			place = hotel;
 			response += WinterResponses.getRandomResponse(WinterResponses.searchedAccom, "<hotel>", hotel);
 			return response + "$"+(amount-5)+" a night.";
-		} catch (NullPointerException e){}
+		} catch (NullPointerException e){return null;}
 		
-		
-        if (amount >= 130) {
-            response += WinterResponses.getRandomResponse(WinterResponses.niceAccom, "<Dest>", city);
-        } else if (amount > 90) {
-            response += WinterResponses.getRandomResponse(WinterResponses.medAccom, "<Dest>", city);
-        } else {
-            response += WinterResponses.getRandomResponse(WinterResponses.cheapAccom, "<Dest>", city);
-        }
-        return response;
 	}
 
 	public String getSearchResults(String search) {
@@ -337,7 +328,8 @@ public final class ResponseMaker {
 	}
 	
 	public String getDirections(){
-		String response = l.getDirections(place);
+		String response = "Here are the directions to " + place + ":\n";
+		response += l.getDirections(place);
 		return response;
 	}
 }

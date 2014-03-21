@@ -181,7 +181,8 @@ public class ChatBox{
 		String in = "";
 		String conversation = "";
 		String out = "";
-		
+        Document doc ;
+        
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			in = input.getText();
@@ -204,10 +205,8 @@ public class ChatBox{
 		}
 		
 		public void addText(){
-			StringBuilder output = new StringBuilder();
-			HTMLDocument doc = (HTMLDocument)convo.getDocument();
-			HTMLEditorKit editorKit = (HTMLEditorKit)convo.getEditorKit();
 			
+			doc = convo.getDocument();
 			input.setText("");
 			
 			StyleConstants.setForeground(userStyle, Color.red);
@@ -229,28 +228,21 @@ public class ChatBox{
 	        
 	        
 			StyleConstants.setForeground(chatStyle, Color.black);
-		    try {
-		    	editorKit.insertHTML(doc,doc.getLength(),out,0,0,null);
-		    } catch (BadLocationException e) {
-		    } catch (IOException e) {
-		    }
-		        
-	        convo.select(doc.getLength(), doc.getLength());
-
+			try { 
+	        	textarea.insertString(textarea.getLength(),out,chatStyle); 
+	        } catch (BadLocationException e1){}
+			convo.select(doc .getLength(), doc.getLength());
 		}
 	}
 	
 	private class MenuListener implements ActionListener {
-
 		private int id;
-		
 		public MenuListener(int a){
 			this.id = a;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-		
 			if (id==1){
 				String name = (String)JOptionPane.showInputDialog(null, "Save As:\n","Set File Name",JOptionPane.PLAIN_MESSAGE,null,null,"");
 				try {
@@ -258,10 +250,8 @@ public class ChatBox{
 				} catch (FileNotFoundException e) {System.exit(0);}
 			} else {
 				System.exit(0);
-			}
-			
+			}	
 		}
-
 	}
 	
 	public static void main(String[] args) throws InvalidFormatException, IOException, FontFormatException{

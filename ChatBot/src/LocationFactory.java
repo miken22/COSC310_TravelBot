@@ -178,7 +178,7 @@ public class LocationFactory {
                 JSONArray j = json.getJSONArray("results");
                 int index = 0;
                 JSONObject tmp;
-                while (!j.isNull(index) && index < 4) {
+                while (!j.isNull(index) && index < j.length()) {
                     tmp = j.getJSONObject(index);
                     String name = tmp.getString("name");
                     String address = tmp.getString("vicinity");
@@ -198,7 +198,6 @@ public class LocationFactory {
     }
     
     public static String getDirections(Location loc, String dest){
-    	
     	String directions = "";
     	
     	try {
@@ -220,19 +219,28 @@ public class LocationFactory {
             JSONObject json = new JSONObject(str);
 
             if (json.getString("status").equalsIgnoreCase("ok")) {
+            	
             	JSONArray j = json.getJSONArray("routes");
             	JSONArray legs = j.getJSONObject(0).getJSONArray("legs");
             	JSONArray steps = legs.getJSONObject(0).getJSONArray("steps");
-            	JSONObject direct;
-            	int index = 0;
             	
-                while (!steps.isNull(index) && index < steps.length()) {
+            	JSONObject direct;
+            	JSONObject dist;
+            	
+            	int index = 0;
+            	while (!steps.isNull(index) && index < steps.length()) {
                     direct = steps.getJSONObject(index);
-                    directions += direct.get("html_instructions") + "\n";
-                    // Modify to remove HTML tags they're just annoying.
+                    dist = direct.getJSONObject("distance");
+                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +"\n";
+                    step = step.replaceAll("\\<[^>]*>","");
+                    directions += step; 
                     index++;
                 }
-                System.out.println(directions);
+                directions += "Your destination is at " + dest + ".\n";
+                
+                // TODO: Extract total distance and travel time.
+//                dist = legs.getJSONObject(0).getJSONObject("distances");
+//                directions += "Total distance is " + dist.getString("text") + ".";
                 return directions;
             }
     	} catch (IOException e) {

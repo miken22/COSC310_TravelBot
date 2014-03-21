@@ -90,13 +90,7 @@ public class LocationFactory {
         return false;
     }
 
-    /**
-     * Had to comment out since it fails when the API has no information for the location.
-     *
-     * @param s
-     * @return
-     * @throws IOException
-     */
+    // OpenWeatherMap API
     private static boolean setWeather(Location loc) {
 		/*
 		 * Construct URL from paramters, open the stream, read it, and create a JSON object from it.
@@ -132,7 +126,8 @@ public class LocationFactory {
 		 */
         return false;
     }
-
+    
+    // Google Geocoding API
     public static double[] geocode(String s) throws IOException {
         String geocodeUrl = "http://maps.googleapis.com/maps/api/geocode/json?address=";
         geocodeUrl += URLEncoder.encode(s) + "&sensor=true";
@@ -157,6 +152,7 @@ public class LocationFactory {
         return new double[]{0, 0};
     }
 
+    // Google Places API
     public static boolean getPlaces(Location loc, String keyword) {
         ArrayList<Places> toReturn = new ArrayList<>();
 
@@ -197,6 +193,7 @@ public class LocationFactory {
         return false;
     }
     
+    // Google Directions API
     public static String getDirections(Location loc, String dest){
     	String directions = "";
     	
@@ -220,8 +217,8 @@ public class LocationFactory {
 
             if (json.getString("status").equalsIgnoreCase("ok")) {
             	
-            	JSONArray j = json.getJSONArray("routes");
-            	JSONArray legs = j.getJSONObject(0).getJSONArray("legs");
+            	JSONArray route = json.getJSONArray("routes");
+            	JSONArray legs = route.getJSONObject(0).getJSONArray("legs");
             	JSONArray steps = legs.getJSONObject(0).getJSONArray("steps");
             	
             	JSONObject direct;
@@ -231,16 +228,17 @@ public class LocationFactory {
             	while (!steps.isNull(index) && index < steps.length()) {
                     direct = steps.getJSONObject(index);
                     dist = direct.getJSONObject("distance");
-                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +"\n";
-                    step = step.replaceAll("\\<[^>]*>","");
+                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +".\n";
+                    step = step.replaceAll("\\<[^>]*>","");  // Remove HTML tags for clean formatting.
                     directions += step; 
                     index++;
                 }
                 directions += "Your destination is at " + dest + ".\n";
                 
-                // TODO: Extract total distance and travel time.
-//                dist = legs.getJSONObject(0).getJSONObject("distances");
-//                directions += "Total distance is " + dist.getString("text") + ".";
+                System.out.println(legs.toString());
+                dist = legs.getJSONObject(0).getJSONObject("duration");
+                directions += "Total distance is " +legs.getJSONObject(0).getJSONObject("distance").getString("text") +
+                		" and will take "+ dist.getString("text") + " to drive there.";
                 return directions;
             }
     	} catch (IOException e) {

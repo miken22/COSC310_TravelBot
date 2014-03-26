@@ -84,7 +84,7 @@ public class ChatBox{
 		frame = new JFrame("TravelBot Chat Agency");
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(580, 475);
+		frame.setSize(540, 475);
 		frame.setResizable(false);
 		frame.setJMenuBar(menu);
 		frame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("plane.jpg")).getImage());
@@ -104,12 +104,12 @@ public class ChatBox{
 		
 		convo.setEditable(false);
 		convo.setContentType("text/html");
-		convo.setBounds(2,2,frame.getWidth()-150,320);
+		convo.setBounds(2,4,frame.getWidth()-10,320);
 		font = font.deriveFont(Font.PLAIN,14);
 		convo.setFont(font);
 		convo.setBorder(b);	
 		convo.setBackground(new Color(252,252,252));
-		scroll1.setBounds(2,2,frame.getWidth()-150,320);
+		scroll1.setBounds(2,4,frame.getWidth()-10,320);
 		scroll1.setBackground(new Color(240,240,240));
 		scroll1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1,true), "Chat History"));
 		c.add(scroll1);

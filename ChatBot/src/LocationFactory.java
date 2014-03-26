@@ -16,6 +16,18 @@ import org.json.JSONObject;
  *
  */
 
+/**
+ * I would have removed every single one of these methods if I would have known
+ * that I can no longer get marks for them. The whole point was to reduce the
+ * amount of work needed for the final project by slowly chipping away at these
+ * parts (isn't that the point of software development?). They have no impact on 
+ * the results for A2 or A3 other than making things more interesting. Now I need
+ * to scrape away marks from less relevant APIs.
+ * 
+ * 
+ * @author
+ *
+ */
 @SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {
@@ -226,19 +238,16 @@ public class LocationFactory {
             	
             	int index = 0;
             	while (!steps.isNull(index) && index < steps.length()) {
-                    direct = steps.getJSONObject(index);
-                    dist = direct.getJSONObject("distance");
-                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +".\n";
+                    direct = steps.getJSONObject(index);	// Extract directions for each step
+                    dist = direct.getJSONObject("distance");// Extract distance information for each step.
+                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +".\n"; // Build sentence with extracted information
                     step = step.replaceAll("\\<[^>]*>","");  // Remove HTML tags for clean formatting.
-                    directions += step; 
+                    directions += step; // Build response string to return to the user.
                     index++;
                 }
                 directions += "Your destination is at " + dest + ".\n";
-                
-                System.out.println(legs.toString());
-                dist = legs.getJSONObject(0).getJSONObject("duration");
                 directions += "Total distance is " +legs.getJSONObject(0).getJSONObject("distance").getString("text") +
-                		" and will take "+ dist.getString("text") + " to drive there.";
+                		" and will take "+ legs.getJSONObject(0).getJSONObject("duration").getString("text") + " to drive there.";
                 return directions;
             }
     	} catch (IOException e) {

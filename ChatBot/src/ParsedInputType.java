@@ -30,7 +30,8 @@ public enum ParsedInputType {
     NotEnoughInfo, 
     GreetingUser, 
     FarewellUser, 
-    Directions;
+    Directions,
+    Wiki;
 
     public boolean isWellFormed() {
         return (this != ParsedInputType.None) &&

@@ -237,6 +237,8 @@ public final class ResponseMaker {
     	case "calgary,ab":
     		response = "While you're in Calgary you have to stop by Olympic Park. The resort was host to the winter Olympics and you can still tour many of the buildings from then.";
     		break;
+    	case "penticton,bc":
+    		response = "Penticton is near a great local resort called Crystal Mountain. It's a great place for families to enjoy skiing and other activities as well!";
     	}
     	return response;
     }
@@ -331,5 +333,14 @@ public final class ResponseMaker {
 		String response = "Here are the directions to " + place + ":\n";
 		response += l.getDirections(place);
 		return response;
+	}
+
+	public String getWikiQuery(String place, boolean tropicDestination) {
+		if(tropicDestination){
+			return WikiInfo.getInfo(place);
+		} else {
+			place = place.substring(0, place.length()-3);
+			return WikiInfo.getInfo(place);
+		}	
 	}
 }

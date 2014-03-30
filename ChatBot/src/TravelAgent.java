@@ -85,6 +85,16 @@ public class TravelAgent {
                 response = greeting();
                 break;
                 
+//            case Wiki:
+//            	try{
+//            		System.out.println(savedInputs.getValue("city"));
+//            		response = responseMaker.getWikiQuery(savedInputs.getValue("city"),tropicDestination);
+//            		break;
+//            	} catch (NullPointerException e){
+//            		response = "Sorry, you need to tell me where you'd like to go before I can get you information about there.";
+//            	}
+//                break;
+                
             case Query:
             	String search = "";
             	try{
@@ -92,11 +102,15 @@ public class TravelAgent {
             	} catch (NullPointerException e){}
             	response = responseMaker.getSearchResults(search);
             	break;
+            
+            case Directions:
+            	response = responseMaker.getDirections();
+            	break;
             	
             case Food:
             	String place = "";
             	try{
-            		place = l.getPlaces("food").get(0);
+            		place = l.getPlaces("food");
             		savedInputs.addInput("food",place);
             	} catch (NullPointerException e){}
                 response = responseMaker.getLocalFood(place);
@@ -127,10 +141,7 @@ public class TravelAgent {
             		response = responseMaker.getNoDestinationSet(CustomParser.getUserMessage());
             	}
             	break;
-            	
-            case GetKeyword:
-                response = responseMaker.getKeywordPlaces(savedInputs.getValue("keyword"));
-
+            
             case ListCities:
             	if(tropicDestination){
             		response = responseMaker.getCities();

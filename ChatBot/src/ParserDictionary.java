@@ -13,8 +13,8 @@ public class ParserDictionary {
     public static List<String> comeBack = Arrays.asList("please help", "come back", "please come back", "i need help", "that's rude");
     public static List<String> tropicdest = Arrays.asList("Mexico");
     public static List<String> colddest = Arrays.asList("Canada");
-    public static List<String> tropiccities = Arrays.asList("Mexico City", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Chichen Itza");
-    public static List<String> bccities = Arrays.asList("Revelstoke","Kamloops","Golden","Kelowna");
+    public static List<String> tropiccities = Arrays.asList( "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua", "Chichen Itza");
+    public static List<String> bccities = Arrays.asList("Revelstoke","Kamloops","Golden","Kelowna","Penticton");
     public static List<String> albertacities = Arrays.asList("Canmore","Calgary","Banff");
     public static List<String> askForCities = Arrays.asList("cities", "places", "towns", "destinations");
     public static List<String> thanks = Arrays.asList("thanks", "thank you", "appreciated");
@@ -30,9 +30,13 @@ public class ParserDictionary {
     public static List<String> weather = Arrays.asList("weather", "temperature", "rain", "sun", "warm", "cool", "time of year");
     public static List<String> seasons = Arrays.asList("spring", "summer", "fall", "winter");
     public static List<String> searchKeys = Arrays.asList("airport", "amusement_park", "aquarium", "bar", "café", "campground", "casino", "clothing_store", "convenience_store", "department_store", "grocery_or_supermarket", "hospital", "library", "liquor_store", "lodging", "movie_theater", "museum", "night_club", "park", "parking", "restaurant", "shopping_mall", "spa", "stadium", "travel_agency", "university", "zoo");
-    
+	public static List<String> Directions = Arrays.asList("directions","get there");
+//	public static List<String> wiki = Arrays.asList("tell","about","information");
+	
+	
   // Stores the phrase lists as a list of phrases, each phrase being a list of words in the phrase
     private static HashMap<List<String>, List<List<String>>> cachedLists = new HashMap<>();
+
 
     public static List<List<String>> getTokenizedPhraseList(List<String> phraseList) {
         List<List<String>> tokenizedPhraseList;

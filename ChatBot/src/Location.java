@@ -11,8 +11,10 @@ import java.util.HashMap;
  */
 public class Location {
     LocationFactory lf = new LocationFactory();
-    public HashMap<String, ArrayList<String>> places = new HashMap<>();
-    public String origin = "Kelowna";
+    // Convert list into list of object that store places with name, address information
+    public HashMap<String, ArrayList<Places>> places = new HashMap<>();
+    public HashMap<String, String> placesAddress = new HashMap<>();
+    public String origin = "UBC Okanagan, Kelowna, BC";
     public String destination;
     public double tempInCelcius;
     public String weatherDescription;
@@ -39,12 +41,29 @@ public class Location {
 
     @SuppressWarnings("static-access")
 	// Query Google for nearby locations, such as shopping_centers, restaurants, lodging, etc
-    public ArrayList<String> getPlaces(String keyword) {
+    public String getPlaces(String keyword) {
         if (!places.containsKey(keyword)) {
             if (!lf.getPlaces(this, keyword))
                 return null;
         } 
-        ArrayList<String> pl = places.get(keyword);
-        return pl;
+        ArrayList<Places> pl = places.get(keyword);
+        // Build a record of directions to each place found for later use.
+        for(Places p : pl){
+        	placesAddress.put(p.getName(), p.getAddress());
+        }
+        int r = new java.util.Random().nextInt(pl.size());
+        String name = pl.get(r).getName();
+        return name;
+    }
+    
+    public String getDirections(String name){
+    	try{
+    		if(placesAddress.containsKey(name)){
+    			return lf.getDirections(this, placesAddress.get(name));	
+    		}
+    	} catch (NullPointerException e){
+    		return "I have no record of " + name + ".";
+    	}
+    	return "I have no record of " + name + ".";
     }
 }

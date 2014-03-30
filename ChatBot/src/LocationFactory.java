@@ -16,6 +16,18 @@ import org.json.JSONObject;
  *
  */
 
+/**
+ * I would have removed every single one of these methods if I would have known
+ * that I can no longer get marks for them. The whole point was to reduce the
+ * amount of work needed for the final project by slowly chipping away at these
+ * parts (isn't that the point of software development?). They have no impact on 
+ * the results for A2 or A3 other than making things more interesting. Now I need
+ * to scrape away marks from less relevant APIs.
+ * 
+ * 
+ * @author
+ *
+ */
 @SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {
@@ -90,13 +102,7 @@ public class LocationFactory {
         return false;
     }
 
-    /**
-     * Had to comment out since it fails when the API has no information for the location.
-     *
-     * @param s
-     * @return
-     * @throws IOException
-     */
+    // OpenWeatherMap API
     private static boolean setWeather(Location loc) {
 		/*
 		 * Construct URL from paramters, open the stream, read it, and create a JSON object from it.
@@ -132,7 +138,8 @@ public class LocationFactory {
 		 */
         return false;
     }
-
+    
+    // Google Geocoding API
     public static double[] geocode(String s) throws IOException {
         String geocodeUrl = "http://maps.googleapis.com/maps/api/geocode/json?address=";
         geocodeUrl += URLEncoder.encode(s) + "&sensor=true";
@@ -157,8 +164,9 @@ public class LocationFactory {
         return new double[]{0, 0};
     }
 
+    // Google Places API
     public static boolean getPlaces(Location loc, String keyword) {
-        ArrayList<String> toReturn = new ArrayList<>();
+        ArrayList<Places> toReturn = new ArrayList<>();
 
         try {
             double[] geo = geocode(loc.destination);
@@ -172,14 +180,18 @@ public class LocationFactory {
 
             }
             scan.close();
+//            System.out.println(str);
             JSONObject json = new JSONObject(str);
             if (json.getString("status").equalsIgnoreCase("ok")) {
                 JSONArray j = json.getJSONArray("results");
                 int index = 0;
                 JSONObject tmp;
-                while (!j.isNull(index) && index < 4) {
+                while (!j.isNull(index) && index < j.length()) {
                     tmp = j.getJSONObject(index);
-                    toReturn.add(tmp.getString("name")); // Trimmed this off to just get place names.
+                    String name = tmp.getString("name");
+                    String address = tmp.getString("vicinity");
+                    Places p = new Places(name,address);
+                    toReturn.add(p);
                     index++;
                 }
                 loc.places.put(keyword, toReturn);
@@ -191,5 +203,58 @@ public class LocationFactory {
         	return false;
         }
         return false;
+    }
+    
+    // Google Directions API
+    public static String getDirections(Location loc, String dest){
+    	String directions = "";
+    	
+    	try {
+
+    		double[] geoOrigin = geocode(loc.origin);
+    		double[] geoDest = geocode(dest);
+    		
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
+            geoOrigin[0] +","+ geoOrigin[1] + "&destination=" + geoDest[0] + "," + geoDest[1] +
+            "&sensor=false&key=AIzaSyB8uxek_r9kgGZvM4pJOI20R04Y8RsLxj0";
+            
+            Scanner scan = new Scanner(new URL(url).openStream());
+            String str = new String();
+            while (scan.hasNext()) {
+                str += scan.nextLine() + "\n";
+
+            }
+            scan.close();
+            JSONObject json = new JSONObject(str);
+
+            if (json.getString("status").equalsIgnoreCase("ok")) {
+            	
+            	JSONArray route = json.getJSONArray("routes");
+            	JSONArray legs = route.getJSONObject(0).getJSONArray("legs");
+            	JSONArray steps = legs.getJSONObject(0).getJSONArray("steps");
+            	
+            	JSONObject direct;
+            	JSONObject dist;
+            	
+            	int index = 0;
+            	while (!steps.isNull(index) && index < steps.length()) {
+                    direct = steps.getJSONObject(index);	// Extract directions for each step
+                    dist = direct.getJSONObject("distance");// Extract distance information for each step.
+                    String step = direct.get("html_instructions") + " for "+ dist.get("text") +".\n"; // Build sentence with extracted information
+                    step = step.replaceAll("\\<[^>]*>","");  // Remove HTML tags for clean formatting.
+                    directions += step; // Build response string to return to the user.
+                    index++;
+                }
+                directions += "Your destination is at " + dest + ".\n";
+                directions += "Total distance is " +legs.getJSONObject(0).getJSONObject("distance").getString("text") +
+                		" and will take "+ legs.getJSONObject(0).getJSONObject("duration").getString("text") + " to drive there.";
+                return directions;
+            }
+    	} catch (IOException e) {
+            return null;
+        } catch (NullPointerException e){
+        	return null;
+        }
+    	return null;
     }
 }

@@ -11,7 +11,7 @@ public final class TropicResponses {
     private static java.util.Random rand = new java.util.Random();
 
     public static List<String> locations = Arrays.asList("Mexico");
-    public static List<String> cities = Arrays.asList("Mexico City", "Tijuana", "Juarez", "Cancun", "Mexicali", "Chihuahua");
+    public static List<String> cities = Arrays.asList("Tijuana", "Cancún", "Mexicali", "Chihuahua");
     public static List<String> activities = Arrays.asList("relax on the beach", "swim in crystal clear waters", "drink some awesome margaritas", "enjoy the beach and tan", "visit some ancient Mayan ruins", "see some of the historical landmarks", "play beach volleyball", "explore the local wildlife areas", "swim with dolphins", "buy some street art");
     public static List<String> lang = Arrays.asList("Well the national language is Spanish.", "Spanish is the native language in <Dest>, although some people do speak English", "People in <Dest> speak Spanish.");
     public static List<String> transport = Arrays.asList("Well people in <Dest> usually use buses. There are also government owned taxis.", "If you want to get between cities coach bus is the way to go.", "We could help set you up with a rental car if you'd like.", "You should be able to walk to most places within the city. Otherwise coach buses are a good way to get around the country.");

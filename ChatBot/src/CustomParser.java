@@ -52,7 +52,9 @@ public final class CustomParser {
             // In order, check for
             parseDestination(parsedInput);
             parseCities(parsedInput);
+//            parseWikiSearch(parsedInput);
             parseSearchWords(parsedInput);
+            parsedDirections(parsedInput);
             parsePleaseComeBack(parsedInput);
             parseBookHotel(parsedInput);
             parseWeather(parsedInput);
@@ -65,10 +67,23 @@ public final class CustomParser {
             parseGoSkiing(parsedInput);
             parseGreetingOrFarewell(parsedInput);
             parseThanks(parsedInput);
+            
         }
         return parsedInput;
     }
    
+
+//	private static void parseWikiSearch(ParsedInput parsedInput) {
+//		if (parsedInput.containsAnyPhrase(ParserDictionary.wiki)) {
+//            parsedInput.type = ParsedInputType.Wiki;
+//        }
+//	}
+
+	private static void parsedDirections(ParsedInput parsedInput) {
+        if (parsedInput.containsAnyPhrase(ParserDictionary.Directions)) {
+            parsedInput.type = ParsedInputType.Directions;
+        }
+	}
 
 	public static String getUserMessage(){
     	return p.getUserMessage();

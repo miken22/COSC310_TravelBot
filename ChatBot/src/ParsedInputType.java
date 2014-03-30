@@ -29,7 +29,9 @@ public enum ParsedInputType {
     BadDestination, 
     NotEnoughInfo, 
     GreetingUser, 
-    FarewellUser;
+    FarewellUser, 
+    Directions,
+    Wiki;
 
     public boolean isWellFormed() {
         return (this != ParsedInputType.None) &&

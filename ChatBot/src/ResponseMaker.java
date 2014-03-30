@@ -335,12 +335,12 @@ public final class ResponseMaker {
 		return response;
 	}
 
-	public String getWikiQuery(String place, boolean tropicDestination) {
-		if(tropicDestination){
-			return WikiInfo.getInfo(place);
-		} else {
-			place = place.substring(0, place.length()-3);
-			return WikiInfo.getInfo(place);
-		}	
-	}
+//	public String getWikiQuery(String place, boolean tropicDestination) {
+//		if(tropicDestination){
+//			return WikiInfo.getInfo(place);
+//		} else {
+//			place = place.substring(0, place.length()-3);
+//			return WikiInfo.getInfo(place);
+//		}	
+//	}
 }

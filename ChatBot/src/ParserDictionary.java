@@ -31,7 +31,7 @@ public class ParserDictionary {
     public static List<String> seasons = Arrays.asList("spring", "summer", "fall", "winter");
     public static List<String> searchKeys = Arrays.asList("airport", "amusement_park", "aquarium", "bar", "café", "campground", "casino", "clothing_store", "convenience_store", "department_store", "grocery_or_supermarket", "hospital", "library", "liquor_store", "lodging", "movie_theater", "museum", "night_club", "park", "parking", "restaurant", "shopping_mall", "spa", "stadium", "travel_agency", "university", "zoo");
 	public static List<String> Directions = Arrays.asList("directions","get there");
-//	public static List<String> wiki = Arrays.asList("tell","about","information");
+	public static List<String> wiki = Arrays.asList("tell","about","information");
 	
 	
   // Stores the phrase lists as a list of phrases, each phrase being a list of words in the phrase

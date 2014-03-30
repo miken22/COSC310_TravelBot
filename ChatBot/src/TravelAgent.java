@@ -85,15 +85,15 @@ public class TravelAgent {
                 response = greeting();
                 break;
                 
-//            case Wiki:
-//            	try{
-//            		System.out.println(savedInputs.getValue("city"));
-//            		response = responseMaker.getWikiQuery(savedInputs.getValue("city"),tropicDestination);
-//            		break;
-//            	} catch (NullPointerException e){
-//            		response = "Sorry, you need to tell me where you'd like to go before I can get you information about there.";
-//            	}
-//                break;
+            case Wiki:
+            	try{
+            		System.out.println(savedInputs.getValue("city"));
+            		response = responseMaker.getWikiQuery(savedInputs.getValue("city"),tropicDestination);
+            		break;
+            	} catch (NullPointerException e){
+            		response = "Sorry, you need to tell me where you'd like to go before I can get you information about there.";
+            	}
+                break;
                 
             case Query:
             	String search = "";

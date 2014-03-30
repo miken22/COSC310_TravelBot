@@ -336,11 +336,9 @@ public final class ResponseMaker {
 	}
 
 	public String getWikiQuery(String place, boolean tropicDestination) {
-		if(tropicDestination){
-			return WikiInfo.getInfo(place);
-		} else {
+		if(!tropicDestination){
 			place = place.substring(0, place.length()-3);
-			return WikiInfo.getInfo(place);
 		}	
+		return WikiInfo.getInfo(place) + "\nSource: Wikipedia";
 	}
 }

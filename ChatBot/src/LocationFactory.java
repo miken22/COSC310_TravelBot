@@ -120,7 +120,6 @@ public class LocationFactory {
         } catch (IOException e) {
         } catch (NullPointerException e) {
         }
-	 
 		/*
 		 * Return 0 in error case;
 		 */

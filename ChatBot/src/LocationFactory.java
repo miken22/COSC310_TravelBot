@@ -16,18 +16,6 @@ import org.json.JSONObject;
  *
  */
 
-/**
- * I would have removed every single one of these methods if I would have known
- * that I can no longer get marks for them. The whole point was to reduce the
- * amount of work needed for the final project by slowly chipping away at these
- * parts (isn't that the point of software development?). They have no impact on 
- * the results for A2 or A3 other than making things more interesting. Now I need
- * to scrape away marks from less relevant APIs.
- * 
- * 
- * @author
- *
- */
 @SuppressWarnings("deprecation")
 public class LocationFactory {
     public void build(Location loc) {
@@ -132,7 +120,6 @@ public class LocationFactory {
         } catch (IOException e) {
         } catch (NullPointerException e) {
         }
-	 
 		/*
 		 * Return 0 in error case;
 		 */

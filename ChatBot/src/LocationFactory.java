@@ -9,15 +9,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Build location information, interact with Google
- * API's using the JSON library.
+ * Build location information, interact with Google API's using the JSON library.
+ * You must have the JSON source files in another package called org.json
  * 
- * @author Brett Dupree
+ * @author Brett Dupree, Mike Nowicki
  *
  */
 
 @SuppressWarnings("deprecation")
 public class LocationFactory {
+	/**
+	 * 
+	 * @param loc
+	 */
     public void build(Location loc) {
         setWeather(loc);
         setDistance(loc);

@@ -195,9 +195,7 @@ public class LocationFactory {
     // Google Directions API
     public static String getDirections(Location loc, String dest){
     	String directions = "";
-    	
     	try {
-
     		double[] geoOrigin = geocode(loc.origin);
     		double[] geoDest = geocode(dest);
     		

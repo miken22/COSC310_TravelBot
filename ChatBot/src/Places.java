@@ -8,23 +8,37 @@
  *
  */
 public class Places {
+	/**
+	 * Place name
+	 */
 	private final String name;
+	/**
+	 * Place address
+	 */
 	private final String address;
 	
-	public Places(){
-		name = "";
-		address = "";
-	}
-	
+	/**
+	 * Set the place information
+	 * @param name Name of the place
+	 * @param address Complete address of the place
+	 */
 	public Places(String name, String address){
 		this.name = name;
 		this.address = address;
 	}
 	
+	/**
+	 * Get the place name
+	 * @return Place name
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/**
+	 * Get the place address
+	 * @return Place address
+	 */
 	public String getAddress(){
 		return address;
 	}

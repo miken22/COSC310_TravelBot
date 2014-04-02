@@ -9,27 +9,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Build location information, interact with Google
- * API's using the JSON library.
+ * Build location information, interact with Google API's using the JSON library.
+ * You must have the JSON source files in another package called org.json
  * 
- * @author Brett Dupree
+ * @author Brett Dupree, Mike Nowicki
  *
  */
 
-/**
- * I would have removed every single one of these methods if I would have known
- * that I can no longer get marks for them. The whole point was to reduce the
- * amount of work needed for the final project by slowly chipping away at these
- * parts (isn't that the point of software development?). They have no impact on 
- * the results for A2 or A3 other than making things more interesting. Now I need
- * to scrape away marks from less relevant APIs.
- * 
- * 
- * @author
- *
- */
 @SuppressWarnings("deprecation")
 public class LocationFactory {
+	/**
+	 * 
+	 * @param loc
+	 */
     public void build(Location loc) {
         setWeather(loc);
         setDistance(loc);
@@ -132,7 +124,6 @@ public class LocationFactory {
         } catch (IOException e) {
         } catch (NullPointerException e) {
         }
-	 
 		/*
 		 * Return 0 in error case;
 		 */
@@ -208,9 +199,7 @@ public class LocationFactory {
     // Google Directions API
     public static String getDirections(Location loc, String dest){
     	String directions = "";
-    	
     	try {
-
     		double[] geoOrigin = geocode(loc.origin);
     		double[] geoDest = geocode(dest);
     		

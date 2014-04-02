@@ -243,13 +243,18 @@ public class TravelAgent {
 
     private String getSentenceToTranslate(String input) {
     	int index = -1;
+    	int length = 9;
     	index = input.indexOf("translate");
     	if(index == -1){
     		index = input.indexOf("say");
+    		length = 3;
         }
     	String sentence = "";
+    	// Trims the sentence to just get the phrase to translate
+    	// Example String input: How you you translate I like this project
+    	// will trim the String to: I like this project
     	if(index != -1){
-    		sentence = input.substring(index+1,input.length());
+    		sentence = input.substring(index+length+1,input.length());
     	}
     	return sentence;
 	}

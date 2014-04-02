@@ -4,7 +4,7 @@
  * Location class to be referenced later when the user asks for directions between locations.
  * 
  * 
- * @author Mike-Laptop
+ * @author Mike Nowicki
  *
  */
 public class Places {

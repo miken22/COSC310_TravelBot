@@ -65,8 +65,8 @@ public final class CustomParser {
             parseGetAround(parsedInput);
             parseGetFood(parsedInput);
             parseGoSkiing(parsedInput);
-            parseGreetingOrFarewell(parsedInput);
             parseTranslate(parsedInput);
+            parseGreetingOrFarewell(parsedInput);
             parseThanks(parsedInput);
             
         }
@@ -75,7 +75,9 @@ public final class CustomParser {
    
 
 	private static void parseTranslate(ParsedInput parsedInput) {
-	
+		if (parsedInput.containsAnyPhrase(ParserDictionary.translate)) {
+            parsedInput.type = ParsedInputType.Translate;
+        }
 	}
 
 	private static void parseWikiSearch(ParsedInput parsedInput) {

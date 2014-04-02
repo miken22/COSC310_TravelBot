@@ -6,7 +6,7 @@ import java.util.HashMap;
  * queries Google for general information, such as distances,
  * weather, and nearby searches.
  * 
- * @author Brett Dupree
+ * @author Brett Dupree, Michael Nowicki
  *
  */
 public class Location {
@@ -56,13 +56,14 @@ public class Location {
         return name;
     }
     
-    public String getDirections(String name){
+    @SuppressWarnings("static-access")
+	public String getDirections(String name){
     	try{
     		if(placesAddress.containsKey(name)){
     			return lf.getDirections(this, placesAddress.get(name));	
     		}
     	} catch (NullPointerException e){
-    		return "I have no record of " + name + ".";
+    		return "You need to tell me where you would like to go before I can find you any directions.";
     	}
     	return "I have no record of " + name + ".";
     }

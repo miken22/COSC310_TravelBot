@@ -341,4 +341,9 @@ public final class ResponseMaker {
 		}	
 		return WikiInfo.getInfo(place) + "\nSource: Wikipedia";
 	}
+
+	public String getTranslation(String sentence, boolean tropicDestination) {
+		
+		return Translator.translate(sentence, tropicDestination);
+	}
 }

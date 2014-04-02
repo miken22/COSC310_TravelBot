@@ -66,12 +66,17 @@ public final class CustomParser {
             parseGetFood(parsedInput);
             parseGoSkiing(parsedInput);
             parseGreetingOrFarewell(parsedInput);
+            parseTranslate(parsedInput);
             parseThanks(parsedInput);
             
         }
         return parsedInput;
     }
    
+
+	private static void parseTranslate(ParsedInput parsedInput) {
+	
+	}
 
 	private static void parseWikiSearch(ParsedInput parsedInput) {
 		if (parsedInput.containsAnyPhrase(ParserDictionary.wiki)) {

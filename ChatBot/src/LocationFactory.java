@@ -171,7 +171,7 @@ public class LocationFactory {
 
             }
             scan.close();
-//            System.out.println(str);
+            
             JSONObject json = new JSONObject(str);
             if (json.getString("status").equalsIgnoreCase("ok")) {
                 JSONArray j = json.getJSONArray("results");

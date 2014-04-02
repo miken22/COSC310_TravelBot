@@ -23,13 +23,13 @@ public class TravelAgent {
     private boolean userHasGreeted = false;
     private boolean userHasSaidFarewell = false;
     private boolean tropicDestination = true;
+    private String input = "";
     
     // Gets user input and sends it to the parser.
     public String buildResponse(String input) {
-
+    	this.input = input;
  		String message = getResponse(CustomParser.parseUserMessage(input));
-       	// Write out our response with header & footer
-   		String response = message;
+       	String response = message;
        	return response;
     }
     
@@ -141,7 +141,12 @@ public class TravelAgent {
             		response = responseMaker.getNoDestinationSet(CustomParser.getUserMessage());
             	}
             	break;
-            
+            	
+            case Translate:
+            	String sentence = getSentenceToTranslate(input);
+            	response = responseMaker.getTranslation(sentence,tropicDestination);
+            	break;
+            	
             case ListCities:
             	if(tropicDestination){
             		response = responseMaker.getCities();
@@ -236,7 +241,20 @@ public class TravelAgent {
         return response;
     }
 
-    private String getDebugStats() {
+    private String getSentenceToTranslate(String input) {
+    	int index = -1;
+    	index = input.indexOf("translate");
+    	if(index == -1){
+    		index = input.indexOf("say");
+        }
+    	String sentence = "";
+    	if(index != -1){
+    		sentence = input.substring(index+1,input.length());
+    	}
+    	return sentence;
+	}
+
+	private String getDebugStats() {
         String stats = "";
         for (Map.Entry<String, String> entry : savedInputs.getEntrySet()) {
             stats += entry.getKey() + " = " + entry.getValue() + "\r\n";

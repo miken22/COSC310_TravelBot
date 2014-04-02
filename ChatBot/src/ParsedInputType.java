@@ -31,6 +31,7 @@ public enum ParsedInputType {
     GreetingUser, 
     FarewellUser, 
     Directions,
+    Translate,
     Wiki;
 
     public boolean isWellFormed() {

@@ -20,7 +20,7 @@ public class Translator {
         String translatedText = "";
         if(tropicDest){
         	try {
-        		translatedText = "The spanish translation is: ";
+        		translatedText = "The Spanish translation is: ";
 				translatedText += Translate.execute(input, Language.ENGLISH, Language.SPANISH);
 			} catch (Exception e) {}
         } else {

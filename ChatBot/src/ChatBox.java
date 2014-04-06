@@ -5,9 +5,6 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.*;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-
 import opennlp.tools.util.InvalidFormatException;
 
 /**

@@ -88,3 +88,64 @@ TravelBot: Sorry, I could not find anything matching 'library', would you like t
 This example demonstrates the agent handling a question that is not related to being in the interior.
 User: can i go on a cruise?
 Travel Bot: It's a little hard to go on a cruise when you're in Canada's Interior. I can redirect you to our Alaskan Cruise Line Partners if you'd like.
+
+=================================================================================================
+Final Project - Michael Nowicki
+
+Added APIs:
+Google Geocoding:
+The API is used to encode addresses and cities as latitude and longitude coordinates. The API is not directly used in the conversation, however it provides all the functionality for the Google Places and Google Directions APIs.
+
+Google Directions:
+This API is used to help guide the user to different places in the destination the conversation is about. After the user gets a location from the Google Nearby Search API the address and place are stored. The user may then ask about how to get to that place, and along with the Geocoding API the agent is able to provide a complete list of directions to that destination.
+Example:
+Travel Bot: Hi! Welcome to our travel center. We help arrange trips to Mexico and ski resorts in BC and Alberta. How can I help you today?
+User: I want to go to Revelstoke.
+...
+User: is there a library?
+TravelBot: You could try 'Okanagan Regional Library Revelstoke Branch', it looks perfect for you.
+User: how can i get there?
+TravelBot: Here are the directions to Okanagan Regional Library Revelstoke Branch:
+Head east on University Way toward Alumni Ave for 0.5 km.
+At the roundabout, continue straight to stay on University Way for 0.2 km.
+Turn left onto BC-97 N for 45.8 km.
+Continue straight to stay on BC-97 N for 3.6 km.
+Continue onto Vernon-Sicamous Hwy/BC-97A N for 65.5 km.
+Turn right onto BC-1 E/Trans-Canada Hwy for 70.5 km.
+Turn right onto Victoria Rd (signs for City Centre) for 1.8 km.
+Turn right onto Campbell Ave for 0.3 km.
+Your destination is at 605 Campbell Ave, Revelstoke.
+Total distance is 188 km and will take 2 hours 35 mins to drive there.
+
+Bing Translate:
+This API is used to help the user learn simple sentences before going to their destination. If the conversation is about a vacation to Mexico the agent can help the user learn key phrases in Spanish. If the destination is in Canada the agent can perform the same help but in French. 
+Example:
+Travel Bot: Hi! Welcome to our travel center. We help arrange trips to Mexico and ski resorts in BC and Alberta. How can I help you today?
+User: I want to go to Revelstoke.
+...
+User: how do I say where is the restaurant?
+TravelBot: The French translation is: où se trouve le restaurant ?
+
+User: I want to go to tijuana
+TravelBot: Tijuana is a wonderful place!
+...
+User: how do I say where is the bathroom?
+TravelBot: The spanish translation is: ¿Dónde está el baño?
+
+Wikipedia API:
+This API is used to help provide the user with more information about there destination. The agent can query Wikipedia for some general information about the destination and returns a cleaned summary of their information.
+Example:
+User: I want to go to Juarez
+TravelBot: Juarez is very nice!
+User: what can you tell me about juarez?
+TravelBot: Ciudad Juárez (Spanish pronunciation: [sjuˈðad ˈxwaɾes]), known in the past as Paso del Norte (Northern Pass), and commonly referred to by locals as simply Juárez, is a city and seat of the municipality of Juárez in the Mexican state of Chihuahua. Juárez's estimated population is 1.5 million people. The city lies on the Rio Grande (Río Bravo del Norte), south of El Paso, Texas. Ciudad Juárez and El Paso comprise the second largest bi-national metropolitan area on the Mexico-United States border (after San Diego–Tijuana), with a combined population of over 2.7 million people.
+Source: Wikipedia
+
+Shared APIs:
+Location API - Performs Google Nearby Searches, Geocoding, and Directions. Parses the returned JSON object so you work with cleaned String object instead that are formatted for printing to the user.
+
+Fuzzy Matching - Algorithm for performing spell checking. Compares each word against a stored dictionary to help catch user spelling mistakes.
+
+Save Conversations - Save the text history to a text file on the users computer. Can be used to store conversations to use later, or if the user wants to keep a record of the conversations with the agent.
+
+Regular Expressions - Provides you with the ability to parse the input sentences against regular expressions. Allows for simple tokenizing of the sentences, with the ability to look for specific patterns within the input.

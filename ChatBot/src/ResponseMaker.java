@@ -343,7 +343,6 @@ public final class ResponseMaker {
 	}
 
 	public String getTranslation(String sentence, boolean tropicDestination) {
-		
 		return Translator.translate(sentence, tropicDestination);
 	}
 }
